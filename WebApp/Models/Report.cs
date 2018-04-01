@@ -13,5 +13,7 @@ namespace WebApp.Models
         public DateTime ReportDate { get; set; }
         public double CompletionStatus { get; set; }
         public string Notes { get; set; }
+        public ICollection<QuestionReply> QuestionReply { get; set; }
+
     }
 }

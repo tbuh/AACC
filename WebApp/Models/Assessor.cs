@@ -20,6 +20,5 @@ namespace WebApp.Models
         public string Company { get; set; }
         public string Position { get; set; }
         public ICollection<Report> Reports { get; set; }
-        public ICollection<AgedCareCenter> AgedCareCenters { get; set; }
     }
 }

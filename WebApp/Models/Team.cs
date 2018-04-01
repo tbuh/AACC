@@ -11,5 +11,6 @@ namespace WebApp.Models
         public int TeamId { get; set; }
         [Required]
         public string Name { get; set; }
+        public ICollection<Assessor> Assessors { get; set; }
     }
 }

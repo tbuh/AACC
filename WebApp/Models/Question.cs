@@ -5,11 +5,10 @@ using System.Threading.Tasks;
 
 namespace WebApp.Models
 {
-    public class QuestionsL1
+    public class Question
     {
-        public int QuestionsL1Id { get; set; }
-        public string Question { get; set; }
-        public string Response { get; set; }
+        public int QuestionId { get; set; }
+        public string Title { get; set; }
         public string Notes { get; set; }
     }
 }
