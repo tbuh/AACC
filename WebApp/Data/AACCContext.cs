@@ -7,6 +7,9 @@ namespace WebApp.Models
         public AACCContext(DbContextOptions<AACCContext> options)
             : base(options)
         {
+            
+
+
         }
 
         public DbSet<Team> Teams { get; set; }

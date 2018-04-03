@@ -6,7 +6,7 @@
     Layout = "~/Pages/_Layout.cshtml";
 }
 
-<h4>AccreditationStandart</h4>
+<h4>Create Accreditation Standart</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -24,7 +24,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="AccreditationStandart.StandartType" class="control-label"></label>
-                <select asp-for="AccreditationStandart.StandartType" class="form-control"></select>
+                <select asp-for="AccreditationStandart.StandartType" asp-items="@Model.StandartType" class="form-control"></select>
                 <span asp-validation-for="AccreditationStandart.StandartType" class="text-danger"></span>
             </div>
             <div class="form-group">
