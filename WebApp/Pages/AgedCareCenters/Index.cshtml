@@ -1,0 +1,81 @@
+﻿@page
+@model WebApp.Pages.AgedCareCenters.IndexModel
+
+<p>
+    <div style="margin-top:10px;margin-bottom:10px;">
+
+        <a asp-page="./Create">Create new ACC</a>
+
+    </div>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.AgedCareCenter[0].Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AgedCareCenter[0].Location)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AgedCareCenter[0].Logo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AgedCareCenter[0].ContactPerson1)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AgedCareCenter[0].ContactEmail1)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AgedCareCenter[0].ContactPerson2)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AgedCareCenter[0].ContactEmail2)
+            </th>
+            <th>
+
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.AgedCareCenter)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Location)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Logo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ContactPerson1)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ContactEmail1)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ContactPerson2)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ContactEmail2)
+                </td>
+             
+                <td>
+                    <a asp-page="./Edit" asp-route-id="@item.AgedCareCenterId">Edit</a> |
+                    <a asp-page="./Details" asp-route-id="@item.AgedCareCenterId">Details</a> |
+                    <a asp-page="./Delete" asp-route-id="@item.AgedCareCenterId">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        </div>
+    </div>
+</div>

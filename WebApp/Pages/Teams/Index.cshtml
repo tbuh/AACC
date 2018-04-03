@@ -1,0 +1,38 @@
+﻿@page
+@model WebApp.Pages.Teams.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Pages/_Layout.cshtml";
+}
+
+
+<div style="margin-top:10px;margin-bottom:10px;">
+
+    <a asp-page="Create">Create New Team</a>
+</div>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Team[0].Name)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Team)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    <a asp-page="./Edit" asp-route-id="@item.TeamId">Edit</a> |
+                    <a asp-page="./Details" asp-route-id="@item.TeamId">Details</a> |
+                    <a asp-page="./Delete" asp-route-id="@item.TeamId">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

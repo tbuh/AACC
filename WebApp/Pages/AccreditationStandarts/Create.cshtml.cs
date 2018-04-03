@@ -7,13 +7,13 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using WebApp.Models;
 
-namespace WebApp.Pages
+namespace WebApp.Pages.AccreditationStandarts
 {
-    public class AssessorCreateModel : PageModel
+    public class CreateModel : PageModel
     {
-        private readonly AACCContext _context;
+        private readonly WebApp.Models.AACCContext _context;
 
-        public AssessorCreateModel(AACCContext context)
+        public CreateModel(WebApp.Models.AACCContext context)
         {
             _context = context;
         }
@@ -24,7 +24,7 @@ namespace WebApp.Pages
         }
 
         [BindProperty]
-        public Assessor Assessor { get; set; }
+        public AccreditationStandart AccreditationStandart { get; set; }
 
         public async Task<IActionResult> OnPostAsync()
         {
@@ -33,7 +33,7 @@ namespace WebApp.Pages
                 return Page();
             }
 
-            _context.Assessors.Add(Assessor);
+            _context.AccreditationStandarts.Add(AccreditationStandart);
             await _context.SaveChangesAsync();
 
             return RedirectToPage("./Index");

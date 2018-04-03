@@ -9,7 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using WebApp.Models;
 
-namespace AACC
+namespace WebApp
 {
     public class Startup
     {

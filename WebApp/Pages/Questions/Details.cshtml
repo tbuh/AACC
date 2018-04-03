@@ -1,0 +1,55 @@
+﻿@page
+@model WebApp.Pages.Questions.DetailsModel
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Pages/_Layout.cshtml";
+}
+
+<h4>Questions Details for Standart @Model.StandartId</h4>
+
+<div>
+
+    <div style="margin-top:10px;margin-bottom:10px;">
+
+        <a asp-page="./Create" asp-route-id="@Model.StandartId">Add new Question</a>
+
+    </div>
+
+    <table class="table">
+
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Questions[0].Title)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Questions[0].Notes)
+                </th>
+
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Questions)
+            {
+                <tr>
+                    <td width="30%;">
+                        @Html.DisplayFor(modelItem => item.Title)
+                    </td>
+                    <td width="50%;">
+                        @Html.DisplayFor(modelItem => item.Notes)
+                    </td>
+                    <td>
+                        <a asp-page="./Edit" asp-route-id="@item.QuestionId">Edit</a> |
+                        <a asp-page="./Delete" asp-route-id="@item.QuestionId">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>
+<div>
+    <a asp-page="/AccreditationStandarts/Index">Back to Accreditation Standarts Details</a>
+</div>

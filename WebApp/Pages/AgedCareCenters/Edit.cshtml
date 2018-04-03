@@ -1,0 +1,89 @@
+﻿@page
+@model WebApp.Pages.AgedCareCenters.EditModel
+
+<h4>Aged Care Center Edit</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="AgedCareCenter.AgedCareCenterId" />
+            <div class="form-group">
+                <label asp-for="AgedCareCenter.Name" class="control-label"></label>
+                <input asp-for="AgedCareCenter.Name" class="form-control" />
+                <span asp-validation-for="AgedCareCenter.Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AgedCareCenter.Location" class="control-label"></label>
+                <input asp-for="AgedCareCenter.Location" class="form-control" />
+                <span asp-validation-for="AgedCareCenter.Location" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AgedCareCenter.Logo" class="control-label"></label>
+                <input asp-for="AgedCareCenter.Logo" class="form-control" />
+                <span asp-validation-for="AgedCareCenter.Logo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AgedCareCenter.ContactPerson1" class="control-label"></label>
+                <input asp-for="AgedCareCenter.ContactPerson1" class="form-control" />
+                <span asp-validation-for="AgedCareCenter.ContactPerson1" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AgedCareCenter.ContactEmail1" class="control-label"></label>
+                <input asp-for="AgedCareCenter.ContactEmail1" class="form-control" />
+                <span asp-validation-for="AgedCareCenter.ContactEmail1" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AgedCareCenter.ContactPerson2" class="control-label"></label>
+                <input asp-for="AgedCareCenter.ContactPerson2" class="form-control" />
+                <span asp-validation-for="AgedCareCenter.ContactPerson2" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AgedCareCenter.ContactEmail2" class="control-label"></label>
+                <input asp-for="AgedCareCenter.ContactEmail2" class="form-control" />
+                <span asp-validation-for="AgedCareCenter.ContactEmail2" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AgedCareCenter.ContactPerson3" class="control-label"></label>
+                <input asp-for="AgedCareCenter.ContactPerson3" class="form-control" />
+                <span asp-validation-for="AgedCareCenter.ContactPerson3" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AgedCareCenter.ContactEmail3" class="control-label"></label>
+                <input asp-for="AgedCareCenter.ContactEmail3" class="form-control" />
+                <span asp-validation-for="AgedCareCenter.ContactEmail3" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AgedCareCenter.ContactPerson4" class="control-label"></label>
+                <input asp-for="AgedCareCenter.ContactPerson4" class="form-control" />
+                <span asp-validation-for="AgedCareCenter.ContactPerson4" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AgedCareCenter.ContactEmail4" class="control-label"></label>
+                <input asp-for="AgedCareCenter.ContactEmail4" class="form-control" />
+                <span asp-validation-for="AgedCareCenter.ContactEmail4" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AgedCareCenter.ContactPerson5" class="control-label"></label>
+                <input asp-for="AgedCareCenter.ContactPerson5" class="form-control" />
+                <span asp-validation-for="AgedCareCenter.ContactPerson5" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AgedCareCenter.ContactEmail5" class="control-label"></label>
+                <input asp-for="AgedCareCenter.ContactEmail5" class="form-control" />
+                <span asp-validation-for="AgedCareCenter.ContactEmail5" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="./Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

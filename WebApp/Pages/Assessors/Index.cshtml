@@ -1,0 +1,75 @@
+﻿@page
+@model WebApp.Pages.Assessors.IndexModel
+
+@{
+    ViewData["Title"] = "Assessors";
+    Layout = "~/Pages/_Layout.cshtml";
+}
+
+
+<div style="margin-top:10px;margin-bottom:10px;">
+    <a asp-page="./Create">Create new Assessor</a>
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                IsAdmin
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Assessor[0].Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Assessor[0].Login)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Assessor[0].Password)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Assessor[0].Company)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Assessor[0].Position)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Assessor)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsAdmin)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Login)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Password)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Company)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Position)
+                </td>
+                <td>
+                    <a asp-page="./Edit" asp-route-id="@item.AssessorId">Edit</a> |
+                    <a asp-page="./Details" asp-route-id="@item.AssessorId">Details</a> |
+                    <a asp-page="./Delete" asp-route-id="@item.AssessorId">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        </div>
+    </div>
+</div>

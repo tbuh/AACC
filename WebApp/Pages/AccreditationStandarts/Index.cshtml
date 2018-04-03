@@ -1,0 +1,50 @@
+﻿@page
+@model WebApp.Pages.AccreditationStandarts.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Pages/_Layout.cshtml";
+}
+
+<h4>Accreditation Standarts Details</h4>
+
+<table class="table">
+
+    <thead>
+        <tr>
+
+            <th>
+                @Html.DisplayNameFor(model => model.AccreditationStandart[0].Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AccreditationStandart[0].Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AccreditationStandart[0].StandartType)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.AccreditationStandart)
+        {
+            <tr>
+                <td width="33%">
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td width="40%;">
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+
+                <td width="5%">
+                    @Html.DisplayFor(modelItem => item.StandartType)
+                </td>
+                <td>
+                    <a asp-page="./Edit" asp-route-id="@item.AccreditationStandartId">Edit</a> |
+                    <a asp-page="./Delete" asp-route-id="@item.AccreditationStandartId">Delete</a>|
+                    <a asp-page="/Questions/Details" asp-route-id="@item.AccreditationStandartId">Questions List</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
