@@ -10,59 +10,57 @@ using WebApp.Models;
 namespace WebApp.Api
 {
     [Produces("application/json")]
-    [Route("api/Assessors")]
-    public class AssessorsController : Controller
+    [Route("api/Teams")]
+    public class TeamsController : Controller
     {
         private readonly AACCContext _context;
 
-        public AssessorsController(AACCContext context)
+        public TeamsController(AACCContext context)
         {
             _context = context;
-            //Db Initializer
-            // _context.Database.EnsureCreated();
         }
 
-        // GET: api/Assessors
+        // GET: api/Teams
         [HttpGet]
-        public IEnumerable<Assessor> GetAssessor()
+        public IEnumerable<Team> GetTeams()
         {
-            return _context.Assessors.ToList();
+            return _context.Teams;
         }
 
-        // GET: api/Assessors/5
+        // GET: api/Teams/5
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetAssessor([FromRoute] int id)
+        public async Task<IActionResult> GetTeam([FromRoute] int id)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var assessor = await _context.Assessors.SingleOrDefaultAsync(m => m.AssessorId == id);
+            var team = await _context.Teams.SingleOrDefaultAsync(m => m.TeamId == id);
 
-            if (assessor == null)
+            if (team == null)
             {
                 return NotFound();
             }
 
-            return Ok(assessor);
+            return Ok(team);
         }
 
-        // PUT: api/Assessors/5
+        // PUT: api/Teams/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutAssessor([FromRoute] int id, [FromBody] Assessor assessor)
+        public async Task<IActionResult> PutTeam([FromRoute] int id, [FromBody] Team team)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != assessor.AssessorId)
+            if (id != team.TeamId)
             {
                 return BadRequest();
             }
 
-            _context.Entry(assessor).State = EntityState.Modified;
+            _context.Entry(team).State = EntityState.Modified;
 
             try
             {
@@ -70,7 +68,7 @@ namespace WebApp.Api
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!AssessorExists(id))
+                if (!TeamExists(id))
                 {
                     return NotFound();
                 }
@@ -83,45 +81,45 @@ namespace WebApp.Api
             return NoContent();
         }
 
-        // POST: api/Assessors
+        // POST: api/Teams
         [HttpPost]
-        public async Task<IActionResult> PostAssessor([FromBody] Assessor assessor)
+        public async Task<IActionResult> PostTeam([FromBody] Team team)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            _context.Assessors.Add(assessor);
+            _context.Teams.Add(team);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetAssessor", new { id = assessor.AssessorId }, assessor);
+            return CreatedAtAction("GetTeam", new { id = team.TeamId }, team);
         }
 
-        // DELETE: api/Assessors/5
+        // DELETE: api/Teams/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteAssessor([FromRoute] int id)
+        public async Task<IActionResult> DeleteTeam([FromRoute] int id)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var assessor = await _context.Assessors.SingleOrDefaultAsync(m => m.AssessorId == id);
-            if (assessor == null)
+            var team = await _context.Teams.SingleOrDefaultAsync(m => m.TeamId == id);
+            if (team == null)
             {
                 return NotFound();
             }
 
-            _context.Assessors.Remove(assessor);
+            _context.Teams.Remove(team);
             await _context.SaveChangesAsync();
 
-            return Ok(assessor);
+            return Ok(team);
         }
 
-        private bool AssessorExists(int id)
+        private bool TeamExists(int id)
         {
-            return _context.Assessors.Any(e => e.AssessorId == id);
+            return _context.Teams.Any(e => e.TeamId == id);
         }
     }
 }

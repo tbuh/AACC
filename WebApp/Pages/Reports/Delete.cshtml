@@ -1,0 +1,47 @@
+﻿@page
+@model WebApp.Pages.Reports.DeleteModel
+
+@{
+    ViewData["Title"] = "Delete";
+    Layout = "~/Pages/_Layout.cshtml";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Report</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Report.AgedCareCenterId)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Report.AgedCareCenterId)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Report.ReportDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Report.ReportDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Report.CompletionStatus)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Report.CompletionStatus)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Report.Notes)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Report.Notes)
+        </dd>
+    </dl>
+    
+    <form method="post">
+        <input type="hidden" asp-for="Report.ReportId" />
+        <input type="submit" value="Delete" class="btn btn-default" /> |
+        <a asp-page="./Index">Back to List</a>
+    </form>
+</div>

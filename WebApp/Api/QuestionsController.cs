@@ -10,59 +10,57 @@ using WebApp.Models;
 namespace WebApp.Api
 {
     [Produces("application/json")]
-    [Route("api/Assessors")]
-    public class AssessorsController : Controller
+    [Route("api/Questions")]
+    public class QuestionsController : Controller
     {
         private readonly AACCContext _context;
 
-        public AssessorsController(AACCContext context)
+        public QuestionsController(AACCContext context)
         {
             _context = context;
-            //Db Initializer
-            // _context.Database.EnsureCreated();
         }
 
-        // GET: api/Assessors
+        // GET: api/Questions
         [HttpGet]
-        public IEnumerable<Assessor> GetAssessor()
+        public IEnumerable<Question> GetQuestions()
         {
-            return _context.Assessors.ToList();
+            return _context.Questions;
         }
 
-        // GET: api/Assessors/5
+        // GET: api/Questions/5
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetAssessor([FromRoute] int id)
+        public async Task<IActionResult> GetQuestion([FromRoute] int id)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var assessor = await _context.Assessors.SingleOrDefaultAsync(m => m.AssessorId == id);
+            var question = await _context.Questions.SingleOrDefaultAsync(m => m.QuestionId == id);
 
-            if (assessor == null)
+            if (question == null)
             {
                 return NotFound();
             }
 
-            return Ok(assessor);
+            return Ok(question);
         }
 
-        // PUT: api/Assessors/5
+        // PUT: api/Questions/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutAssessor([FromRoute] int id, [FromBody] Assessor assessor)
+        public async Task<IActionResult> PutQuestion([FromRoute] int id, [FromBody] Question question)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != assessor.AssessorId)
+            if (id != question.QuestionId)
             {
                 return BadRequest();
             }
 
-            _context.Entry(assessor).State = EntityState.Modified;
+            _context.Entry(question).State = EntityState.Modified;
 
             try
             {
@@ -70,7 +68,7 @@ namespace WebApp.Api
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!AssessorExists(id))
+                if (!QuestionExists(id))
                 {
                     return NotFound();
                 }
@@ -83,45 +81,45 @@ namespace WebApp.Api
             return NoContent();
         }
 
-        // POST: api/Assessors
+        // POST: api/Questions
         [HttpPost]
-        public async Task<IActionResult> PostAssessor([FromBody] Assessor assessor)
+        public async Task<IActionResult> PostQuestion([FromBody] Question question)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            _context.Assessors.Add(assessor);
+            _context.Questions.Add(question);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetAssessor", new { id = assessor.AssessorId }, assessor);
+            return CreatedAtAction("GetQuestion", new { id = question.QuestionId }, question);
         }
 
-        // DELETE: api/Assessors/5
+        // DELETE: api/Questions/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteAssessor([FromRoute] int id)
+        public async Task<IActionResult> DeleteQuestion([FromRoute] int id)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var assessor = await _context.Assessors.SingleOrDefaultAsync(m => m.AssessorId == id);
-            if (assessor == null)
+            var question = await _context.Questions.SingleOrDefaultAsync(m => m.QuestionId == id);
+            if (question == null)
             {
                 return NotFound();
             }
 
-            _context.Assessors.Remove(assessor);
+            _context.Questions.Remove(question);
             await _context.SaveChangesAsync();
 
-            return Ok(assessor);
+            return Ok(question);
         }
 
-        private bool AssessorExists(int id)
+        private bool QuestionExists(int id)
         {
-            return _context.Assessors.Any(e => e.AssessorId == id);
+            return _context.Questions.Any(e => e.QuestionId == id);
         }
     }
 }

@@ -10,59 +10,57 @@ using WebApp.Models;
 namespace WebApp.Api
 {
     [Produces("application/json")]
-    [Route("api/Assessors")]
-    public class AssessorsController : Controller
+    [Route("api/Reports")]
+    public class ReportsController : Controller
     {
         private readonly AACCContext _context;
 
-        public AssessorsController(AACCContext context)
+        public ReportsController(AACCContext context)
         {
             _context = context;
-            //Db Initializer
-            // _context.Database.EnsureCreated();
         }
 
-        // GET: api/Assessors
+        // GET: api/Reports
         [HttpGet]
-        public IEnumerable<Assessor> GetAssessor()
+        public IEnumerable<Report> GetReports()
         {
-            return _context.Assessors.ToList();
+            return _context.Reports;
         }
 
-        // GET: api/Assessors/5
+        // GET: api/Reports/5
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetAssessor([FromRoute] int id)
+        public async Task<IActionResult> GetReport([FromRoute] int id)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var assessor = await _context.Assessors.SingleOrDefaultAsync(m => m.AssessorId == id);
+            var report = await _context.Reports.SingleOrDefaultAsync(m => m.ReportId == id);
 
-            if (assessor == null)
+            if (report == null)
             {
                 return NotFound();
             }
 
-            return Ok(assessor);
+            return Ok(report);
         }
 
-        // PUT: api/Assessors/5
+        // PUT: api/Reports/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutAssessor([FromRoute] int id, [FromBody] Assessor assessor)
+        public async Task<IActionResult> PutReport([FromRoute] int id, [FromBody] Report report)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != assessor.AssessorId)
+            if (id != report.ReportId)
             {
                 return BadRequest();
             }
 
-            _context.Entry(assessor).State = EntityState.Modified;
+            _context.Entry(report).State = EntityState.Modified;
 
             try
             {
@@ -70,7 +68,7 @@ namespace WebApp.Api
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!AssessorExists(id))
+                if (!ReportExists(id))
                 {
                     return NotFound();
                 }
@@ -83,45 +81,45 @@ namespace WebApp.Api
             return NoContent();
         }
 
-        // POST: api/Assessors
+        // POST: api/Reports
         [HttpPost]
-        public async Task<IActionResult> PostAssessor([FromBody] Assessor assessor)
+        public async Task<IActionResult> PostReport([FromBody] Report report)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            _context.Assessors.Add(assessor);
+            _context.Reports.Add(report);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetAssessor", new { id = assessor.AssessorId }, assessor);
+            return CreatedAtAction("GetReport", new { id = report.ReportId }, report);
         }
 
-        // DELETE: api/Assessors/5
+        // DELETE: api/Reports/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteAssessor([FromRoute] int id)
+        public async Task<IActionResult> DeleteReport([FromRoute] int id)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var assessor = await _context.Assessors.SingleOrDefaultAsync(m => m.AssessorId == id);
-            if (assessor == null)
+            var report = await _context.Reports.SingleOrDefaultAsync(m => m.ReportId == id);
+            if (report == null)
             {
                 return NotFound();
             }
 
-            _context.Assessors.Remove(assessor);
+            _context.Reports.Remove(report);
             await _context.SaveChangesAsync();
 
-            return Ok(assessor);
+            return Ok(report);
         }
 
-        private bool AssessorExists(int id)
+        private bool ReportExists(int id)
         {
-            return _context.Assessors.Any(e => e.AssessorId == id);
+            return _context.Reports.Any(e => e.ReportId == id);
         }
     }
 }
