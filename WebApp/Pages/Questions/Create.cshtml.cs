@@ -37,7 +37,7 @@ namespace WebApp.Pages.Questions
             _context.Questions.Add(Question);
             await _context.SaveChangesAsync();
 
-            return RedirectToPage("./Index");
+            return RedirectToPage("Details", new { id });
         }
     }
 }
