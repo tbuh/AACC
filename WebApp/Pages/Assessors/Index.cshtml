@@ -32,6 +32,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.Assessor[0].Position)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Assessor[0].Team)
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -56,6 +59,9 @@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Position)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Team.Name)
                 </td>
                 <td>
                     <a asp-page="./Edit" asp-route-id="@item.AssessorId">Edit</a> |

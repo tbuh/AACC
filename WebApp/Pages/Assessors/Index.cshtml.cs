@@ -18,11 +18,12 @@ namespace WebApp.Pages.Assessors
             _context = context;
         }
 
-        public IList<Assessor> Assessor { get;set; }
+        public IList<Assessor> Assessor { get; set; }
 
         public async Task OnGetAsync()
         {
-            Assessor = await _context.Assessors.ToListAsync();
+
+            Assessor = await _context.Assessors.Include(a => a.Team).ToListAsync();
         }
     }
 }

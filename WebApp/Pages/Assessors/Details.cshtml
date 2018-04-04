@@ -6,10 +6,8 @@
     Layout = "~/Pages/_Layout.cshtml";
 }
 
-<h2>Details</h2>
-
 <div>
-    <h4>Assessor</h4>
+    <h4>Assessor Details</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -47,6 +45,12 @@
         </dt>
         <dd>
             @Html.DisplayFor(model => model.Assessor.Position)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Assessor.Team.Name)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Assessor.Team.Name)
         </dd>
     </dl>
 </div>

@@ -27,7 +27,7 @@ namespace WebApp.Pages.Assessors
                 return NotFound();
             }
 
-            Assessor = await _context.Assessors.SingleOrDefaultAsync(m => m.AssessorId == id);
+            Assessor = await _context.Assessors.Include(a => a.Team).SingleOrDefaultAsync(m => m.AssessorId == id);
 
             if (Assessor == null)
             {

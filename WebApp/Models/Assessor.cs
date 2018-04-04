@@ -11,6 +11,7 @@ namespace WebApp.Models
         public int AssessorId { get; set; }
         public bool IsAdmin { get; set; }
         public int TeamId { get; set; }
+        public Team Team { get; set; }
         [Required]
         public string Name { get; set; }
         [Required]
