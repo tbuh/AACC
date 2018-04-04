@@ -19,17 +19,24 @@ namespace WebApp.Pages.Reports
             _context = context;
         }
 
-        [BindProperty]
         public Report Report { get; set; }
+        public List<AccreditationStandart> AccreditationStandartList { get; set; }
+        public AgedCareCenter AgedCareCenter { get; set; }
+        public Assessor Assessor { get; set; }
 
         public async Task<IActionResult> OnGet(int id)
         {
-            Report = await _context.Reports.SingleOrDefaultAsync(m => m.ReportId == id);
+            Report = await _context.Reports.Include(r => r.QuestionReply).SingleOrDefaultAsync(m => m.ReportId == id);
 
             if (Report == null)
             {
                 return NotFound();
             }
+
+            AgedCareCenter = await _context.AgedCareCenters.SingleAsync(a => a.AgedCareCenterId == Report.AgedCareCenterId);
+            Assessor = await _context.Assessors.SingleAsync(a => a.AssessorId == Report.AssessorId);
+            AccreditationStandartList = await _context.AccreditationStandarts.Include(acs => acs.Questions).OrderBy(acs => acs.StandartType).ToListAsync();
+
             return Page();
         }
     }
