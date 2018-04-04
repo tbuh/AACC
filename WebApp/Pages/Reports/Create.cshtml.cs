@@ -16,15 +16,28 @@ namespace WebApp.Pages.Reports
         public CreateModel(AACCContext context)
         {
             _context = context;
+            QuestionReplyList = new List<QuestionReply>();
         }
 
+        [BindProperty]
         public List<IGrouping<int, QuestionReplyVM>> Questions { get; set; }
         public List<Report> Reports { get; set; }
+        public List<AccreditationStandart> AccreditationStandarts { get; set; }
+        public IEnumerable<SelectListItem> AgedCareCenters { get; set; }
+        public IEnumerable<SelectListItem> Assessors { get; set; }
 
         public IActionResult OnGet()
         {
-            Questions = _context.Questions.Select(q=>new QuestionReplyVM(q)).OrderBy(q => q.Question.AccreditationStandartId).GroupBy(q => q.Question.AccreditationStandartId).ToList();
+            InitModel();
             return Page();
+        }
+
+        private void InitModel()
+        {
+            Assessors = _context.Assessors.Select(a => new SelectListItem { Text = a.Name, Value = a.AssessorId.ToString() });
+            AgedCareCenters = _context.AgedCareCenters.Select(a => new SelectListItem { Text = a.Name, Value = a.AgedCareCenterId.ToString() });
+            Questions = _context.Questions.Select(q => new QuestionReplyVM(q)).OrderBy(q => q.Question.AccreditationStandartId).GroupBy(q => q.Question.AccreditationStandartId).ToList();
+            AccreditationStandarts = _context.AccreditationStandarts.ToList();
         }
 
         [BindProperty]
@@ -36,8 +49,11 @@ namespace WebApp.Pages.Reports
         {
             if (!ModelState.IsValid)
             {
+                InitModel();
                 return Page();
             }
+            Report.ReportDate = DateTime.Now;
+            Report.QuestionReply = QuestionReplyList;
 
             _context.Reports.Add(Report);
             await _context.UpdateReport(Report);
@@ -51,8 +67,8 @@ namespace WebApp.Pages.Reports
     {
         public QuestionReplyVM(Question q)
         {
-            //Question = q;
-            //QuestionReply = new QuestionReply { Question = q, QuestionId = q.QuestionId };
+            Question = q;
+            QuestionReply = new QuestionReply { QuestionId = q.QuestionId };
         }
         public QuestionReply QuestionReply { get; set; }
         public Question Question { get; set; }
