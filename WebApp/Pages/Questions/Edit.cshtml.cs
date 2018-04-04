@@ -63,7 +63,7 @@ namespace WebApp.Pages.Questions
                 }
             }
 
-            return RedirectToPage("./Index");
+            return RedirectToPage("Details", new { id = Question.AccreditationStandartId });
         }
 
         private bool QuestionExists(int id)

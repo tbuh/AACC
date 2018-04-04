@@ -6,50 +6,53 @@
     Layout = "~/Pages/_Layout.cshtml";
 }
 
-<h2>Index</h2>
-
 <p>
-    <a asp-page="Create">Create New</a>
+    <div style="margin-top:10px;margin-bottom:10px;">
+
+        <a asp-page="./Create">Create new Report</a>
+
+    </div>
 </p>
 <table class="table">
     <thead>
         <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.Report[0].AgedCareCenterId)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Report[0].ReportDate)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Report[0].CompletionStatus)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Report[0].Notes)
-                </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Report[0].AgedCareCenterId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Report[0].ReportDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Report[0].CompletionStatus)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Report[0].Notes)
+            </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.Report) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.AgedCareCenterId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ReportDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CompletionStatus)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Notes)
-            </td>
-            <td>
-                <a asp-page="./Edit" asp-route-id="@item.ReportId">Edit</a> |
-                <a asp-page="./Details" asp-route-id="@item.ReportId">Details</a> |
-                <a asp-page="./Delete" asp-route-id="@item.ReportId">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model.Report)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AgedCareCenterId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ReportDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CompletionStatus)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Notes)
+                </td>
+                <td>
+                    <a asp-page="./Edit" asp-route-id="@item.ReportId">Edit</a> |
+                    <a asp-page="./Details" asp-route-id="@item.ReportId">Details</a> |
+                    <a asp-page="./Delete" asp-route-id="@item.ReportId">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -20,6 +21,7 @@ namespace WebApp.Models
         public string Password { get; set; }
         public string Company { get; set; }
         public string Position { get; set; }
+        [JsonIgnore]
         public ICollection<Report> Reports { get; set; }
     }
 }
