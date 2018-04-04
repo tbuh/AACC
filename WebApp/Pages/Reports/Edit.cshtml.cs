@@ -21,6 +21,7 @@ namespace WebApp.Pages.Reports
 
         [BindProperty]
         public Report Report { get; set; }
+        public List<AccreditationStandart> AccreditationStandarts { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -28,8 +29,9 @@ namespace WebApp.Pages.Reports
             {
                 return NotFound();
             }
-
-            Report = await _context.Reports.SingleOrDefaultAsync(m => m.ReportId == id);
+            
+            Report = await _context.Reports.Include(r => r.QuestionReply).SingleOrDefaultAsync(m => m.ReportId == id);
+            AccreditationStandarts = _context.AccreditationStandarts.Include(acs => acs.Questions).OrderBy(acs=>acs.StandartType).ToList();
 
             if (Report == null)
             {
@@ -70,5 +72,15 @@ namespace WebApp.Pages.Reports
         {
             return _context.Reports.Any(e => e.ReportId == id);
         }
+    }
+    public class QuestionReplyVMEdit
+    {
+        public QuestionReplyVMEdit(Question q)
+        {
+            Question = q;
+            QuestionReply = new QuestionReply { QuestionId = q.QuestionId };
+        }
+        public QuestionReply QuestionReply { get; set; }
+        public Question Question { get; set; }
     }
 }
