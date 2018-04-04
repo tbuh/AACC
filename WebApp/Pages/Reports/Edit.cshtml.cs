@@ -47,6 +47,7 @@ namespace WebApp.Pages.Reports
                 return Page();
             }
 
+            await _context.UpdateReport(Report);
             _context.Attach(Report).State = EntityState.Modified;
 
             try

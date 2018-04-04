@@ -24,7 +24,7 @@ namespace WebApp.Api
         [HttpGet]
         public IEnumerable<AccreditationStandart> GetAccreditationStandarts()
         {
-            return _context.AccreditationStandarts;
+            return _context.AccreditationStandarts.Include(ass => ass.Questions);
         }
 
         // GET: api/AccreditationStandarts/5
@@ -36,7 +36,7 @@ namespace WebApp.Api
                 return BadRequest(ModelState);
             }
 
-            var accreditationStandart = await _context.AccreditationStandarts.SingleOrDefaultAsync(m => m.AccreditationStandartId == id);
+            var accreditationStandart = await _context.AccreditationStandarts.Include(ass => ass.Questions).SingleOrDefaultAsync(m => m.AccreditationStandartId == id);
 
             if (accreditationStandart == null)
             {

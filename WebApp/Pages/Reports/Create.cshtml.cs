@@ -56,10 +56,7 @@ namespace WebApp.Pages.Reports
             Report.QuestionReply = QuestionReplyList;
 
             _context.Reports.Add(Report);
-            //foreach (var qr in QuestionReplyList)
-            //{
-
-            //}
+            await _context.UpdateReport(Report);
             await _context.SaveChangesAsync();
 
             return RedirectToPage("./Index");

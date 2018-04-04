@@ -12,20 +12,16 @@
         <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="AccreditationStandart.AccreditationStandartId" />
+            <div class="form-group" contenteditable="true">
+                <label asp-for="AccreditationStandart.Title" class="control-label"></label>
+                <input asp-for="AccreditationStandart.Title" class="form-control" />
+                <span asp-validation-for="AccreditationStandart.Title" class="text-danger"></span>
+            </div>
             <div class="form-group">
                 <label asp-for="AccreditationStandart.Description" class="control-label"></label>
                 <textarea asp-for="AccreditationStandart.Description" class="form-control" style="resize:vertical;min-height:150px;max-height:250px;"></textarea>
                 <span asp-validation-for="AccreditationStandart.Description" class="text-danger"></span>
             </div>
-
-            <div class="form-group" contenteditable="true">
-                <label asp-for="AccreditationStandart.Title" class="control-label"></label>
-                <textarea asp-for="AccreditationStandart.Title" class="form-control" style="resize:vertical;min-height:100px;max-height:250px;"></textarea>
-
-                <span asp-validation-for="AccreditationStandart.Title" class="text-danger"></span>
-            </div>
-
-
             <div class="form-group">
                 <label asp-for="AccreditationStandart.StandartType" class="control-label"></label>
                 <select asp-for="AccreditationStandart.StandartType" asp-items="@Model.StandartType" class="form-control" style="max-width:150px;"></select>
