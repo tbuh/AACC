@@ -21,13 +21,13 @@ namespace WebApp.Pages.Assessors
 
         public async Task<IActionResult> OnGet()
         {
-            TeamIds = await _context.Teams.Select(t => new SelectListItem { Text = t.Name, Value = t.TeamId.ToString() }).ToListAsync();
+            Teams = await _context.Teams.Select(t => new SelectListItem { Text = t.Name, Value = t.TeamId.ToString() }).ToListAsync();
             return Page();
         }
 
         [BindProperty]
         public Assessor Assessor { get; set; }
-        public IEnumerable<SelectListItem> TeamIds { get; set; }
+        public IEnumerable<SelectListItem> Teams { get; set; }
 
         public async Task<IActionResult> OnPostAsync()
         {

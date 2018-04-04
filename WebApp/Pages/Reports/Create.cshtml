@@ -5,43 +5,90 @@
     ViewData["Title"] = "Create";
     Layout = "~/Pages/_Layout.cshtml";
 }
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
-<h2>Create</h2>
 
 <h4>Report</h4>
 <hr />
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-10">
         <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Report.AgedCareCenterId" class="control-label"></label>
-                <input asp-for="Report.AgedCareCenterId" class="form-control" />
+            <div class="form-group" style="max-width:360px;">
+                <label asp-for="Report.AgedCareCenterId" class="control-label">Aged Care Center</label>
+                <select asp-for="Report.AgedCareCenterId" class="form-control" asp-items="@Model.AgedCareCenters"></select>
                 <span asp-validation-for="Report.AgedCareCenterId" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Report.AssessorId" class="control-label"></label>
-                <select asp-for="Report.AssessorId" class ="form-control" asp-items="ViewBag.AssessorId"></select>
+            <div class="form-group" style="max-width:360px;">
+                <label asp-for="Report.AssessorId" class="control-label">Assessor</label>
+                <select asp-for="Report.AssessorId" class="form-control" asp-items="@Model.Assessors"></select>
+                <span asp-validation-for="Report.AssessorId" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Report.ReportDate" class="control-label"></label>
-                <input asp-for="Report.ReportDate" class="form-control" />
-                <span asp-validation-for="Report.ReportDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Report.CompletionStatus" class="control-label"></label>
-                <input asp-for="Report.CompletionStatus" class="form-control" />
-                <span asp-validation-for="Report.CompletionStatus" class="text-danger"></span>
-            </div>
-            <div class="form-group">
+            <div class="form-group" style="max-width:360px;">
                 <label asp-for="Report.Notes" class="control-label"></label>
                 <input asp-for="Report.Notes" class="form-control" />
                 <span asp-validation-for="Report.Notes" class="text-danger"></span>
             </div>
-            @foreach (var item in Model.Questions)
-            {
 
-            }
+            <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                @foreach (var item in Model.Questions)
+                {
+                    var astd = Model.AccreditationStandarts.Single(acs => acs.AccreditationStandartId == item.Key);
+                    var classname = "collapse";
+                    var ariaexp = "false";
+                    @if (item.Key == 1)
+                    {
+                        classname = classname + " show";
+                        ariaexp = "true";
+                    }
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading" role="tab" id="heading@(item.Key)">
+                            <h4 class="panel-title">
+                                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse@(item.Key)" aria-expanded="true" aria-controls="collapse@(item.Key)">
+                                    Standard @(item.Key)
+                                </a>
+                            </h4>
+                        </div>
+                        @*<div class="card">
+                            <div class="card-header" id="heading@(item.Key)">
+                                <h5 class="mb-0">
+                                    <a class="btn btn-link" data-toggle="collapse" data-target="#collapse@(item.Key)" aria-expanded="true" aria-controls="collapse@(item.Key)">
+                                        Standart @(item.Key)
+                                    </a>
+                                </h5>
+                            </div>*@
+
+
+                        <div id="collapse@(item.Key)" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading@(item.Key)">
+                            <div class="panel-body">
+
+                                @*<div id="collapse@(item.Key)" class="@(classname)" aria-labelledby="heading@(item.Key)" data-parent="#accordion">
+                                    <div class="card-body">
+                                        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                                    </div>*@
+
+
+                                @foreach (var Groupeditem in item)
+                                {
+                                    var groupKey = Groupeditem.Question.AccreditationStandartId;
+
+                                    Model.QuestionReplyList.Add(Groupeditem.QuestionReply);
+                                    <label class="control-label">@Groupeditem.Question.Title</label> <br/>   
+                                    <label class="control-label" style="font-weight:400;">@Groupeditem.Question.Notes</label>
+                                    <input type="checkbox" asp-for="@Model.QuestionReplyList[Model.QuestionReplyList.Count-1].Response" style="display:block;margin-bottom:5px;" />
+                                    <input asp-for="@Model.QuestionReplyList[Model.QuestionReplyList.Count-1].QuestionId" class="form-control" type="hidden" />
+                                    <input asp-for="@Model.QuestionReplyList[Model.QuestionReplyList.Count-1].Notes" class="form-control" />
+                                    <span asp-validation-for="@Model.QuestionReplyList[Model.QuestionReplyList.Count-1].Notes" class="text-danger"></span>
+
+                                }
+                            </div>
+                        </div>
+                    </div>
+
+                }
+            </div>
+
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-default" />
             </div>
