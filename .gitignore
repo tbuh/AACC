@@ -6,3 +6,5 @@
 /WebApp/bin/Debug/netcoreapp2.0
 /.vs
 /_PublishedWebsites
+/WebApp/bin/Release/netcoreapp2.0
+/WebApp/Properties/PublishProfiles

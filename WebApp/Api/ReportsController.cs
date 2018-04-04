@@ -24,7 +24,7 @@ namespace WebApp.Api
         [HttpGet]
         public IEnumerable<Report> GetReports()
         {
-            return _context.Reports;
+            return _context.Reports.Include(r => r.QuestionReply);
         }
 
         // GET: api/Reports/5
@@ -36,7 +36,7 @@ namespace WebApp.Api
                 return BadRequest(ModelState);
             }
 
-            var report = await _context.Reports.SingleOrDefaultAsync(m => m.ReportId == id);
+            var report = await _context.Reports.Include(r => r.QuestionReply).SingleOrDefaultAsync(m => m.ReportId == id);
 
             if (report == null)
             {
@@ -44,6 +44,29 @@ namespace WebApp.Api
             }
 
             return Ok(report);
+        }
+
+        [HttpGet("/NewReport/{agedCareCenterId}/{assessorId}")]
+        public async Task<IActionResult> GetNewReport([FromRoute] int assessorId, [FromRoute] int agedCareCenterId)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var report = new Report
+            {
+                AgedCareCenterId = agedCareCenterId,
+                AssessorId = assessorId,
+                ReportDate = DateTime.Now,                
+            };
+
+            report.QuestionReply = _context.Questions.Select(q=>new QuestionReply { QuestionId = q.QuestionId, Response = false}).ToList();
+
+            _context.Reports.Add(report);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction("GetNewReport", new { id = report.ReportId }, report);
         }
 
         // PUT: api/Reports/5
@@ -59,7 +82,14 @@ namespace WebApp.Api
             {
                 return BadRequest();
             }
-
+            await _context.UpdateReport(report);
+            if (report.QuestionReply != null)
+            {
+                foreach (var item in report.QuestionReply)
+                {
+                    _context.Entry(item).State = EntityState.Modified;
+                }
+            }
             _context.Entry(report).State = EntityState.Modified;
 
             try

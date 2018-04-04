@@ -39,9 +39,8 @@ namespace WebApp.Pages.Reports
                 return Page();
             }
 
-
-
             _context.Reports.Add(Report);
+            await _context.UpdateReport(Report);
             await _context.SaveChangesAsync();
 
             return RedirectToPage("./Index");

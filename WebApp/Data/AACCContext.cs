@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace WebApp.Models
 {
@@ -7,7 +8,7 @@ namespace WebApp.Models
         public AACCContext(DbContextOptions<AACCContext> options)
             : base(options)
         {
-            
+
 
 
         }
@@ -19,5 +20,16 @@ namespace WebApp.Models
         public DbSet<QuestionReply> QuestionReplies { get; set; }
         public DbSet<AgedCareCenter> AgedCareCenters { get; set; }
         public DbSet<AccreditationStandart> AccreditationStandarts { get; set; }
+
+
+        public async System.Threading.Tasks.Task UpdateReport(Report report)
+        {
+            int cntQ = await Questions.CountAsync();
+            int cntR = 0;
+            if (report.QuestionReply != null)
+                cntR = report.QuestionReply.Count(qr => qr.Response && qr.ReportId == report.ReportId);
+
+            report.CompletionStatus = System.Math.Round((double)100 * cntR / cntQ);
+        }
     }
 }

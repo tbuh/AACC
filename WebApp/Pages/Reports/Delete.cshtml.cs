@@ -44,10 +44,14 @@ namespace WebApp.Pages.Reports
                 return NotFound();
             }
 
-            Report = await _context.Reports.FindAsync(id);
+            Report = await _context.Reports.Include(r => r.QuestionReply).SingleAsync(r=>r.ReportId == id.Value);
 
             if (Report != null)
             {
+                if (Report.QuestionReply != null)
+                {
+                    _context.QuestionReplies.RemoveRange(Report.QuestionReply);
+                }
                 _context.Reports.Remove(Report);
                 await _context.SaveChangesAsync();
             }
