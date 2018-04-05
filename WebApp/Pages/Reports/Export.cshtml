@@ -32,1035 +32,150 @@
     </style>
 </head>
 <body style="text-align:center;">
-    <page size="A4">
-        <img src="../wwwroot/images/AACCLogo.jpg" />
-        <h2>
-            Helping Hand Aged Care - Rotary House
-        </h2>
-        <div style="line-height:1px;">
-            <h4 style="font-weight:normal;margin-bottom: -6px;">RACS ID @Model.AgedCareCenter.AgedCareCenterId</h4>
-            <h4 style="font-weight:normal;margin-bottom: -6px;">@Model.AgedCareCenter.Location</h4>
-            @*<h4 style="font-weight:normal;margin-bottom: -6px;">NORTH ADELAIDE SA 5006</h4>*@
-        </div>
+
+    <img src="~/images/AACCLogo.jpg" />
+    <h2>
+        Helping Hand Aged Care - Rotary House
+    </h2>
+    <div style="line-height:1px;">
+        <h4 style="font-weight:normal;margin-bottom: -6px;">RACS ID @Model.AgedCareCenter.AgedCareCenterId</h4>
+        <h4 style="font-weight:normal;margin-bottom: -6px;">@Model.AgedCareCenter.Location</h4>
+        @*<h4 style="font-weight:normal;margin-bottom: -6px;">NORTH ADELAIDE SA 5006</h4>*@
+    </div>
 
 
-        <h4>Approved provider: Helping Hand Aged Care Inc</h4>
+    <h4>Approved provider: Helping Hand Aged Care Inc</h4>
 
-        <div style="display: inline-block;   margin: 0 auto;   text-align: left;">
-            Following an audit we decided that this home met 44 of the 44 expected outcomes of the<br />
+    <div style="display: inline-block;   margin: 0 auto;   text-align: left;">
+        Following an audit we decided that this home met 44 of the 44 expected outcomes of the<br />
 
-            Accreditation Standards and would be accredited for five years until 30 August 2020.<br />
-            <br />
+        Accreditation Standards and would be accredited for five years until 30 August 2020.<br />
+        <br />
 
-            We made our decision on 03 July 2015.<br /><br />
+        We made our decision on 03 July 2015.<br /><br />
 
-            The audit was conducted on @Model.Report.ReportDate. The assessment team’s report is
-            attached.<br /><br />
+        The audit was conducted on @Model.Report.ReportDate.ToLongDateString(). The assessment team’s report is
+        attached.<br /><br />
 
-            We will continue to monitor the performance of the home including through unannounced
-            visits.
+        We will continue to monitor the performance of the home including through unannounced
+        visits.
 
-            <h3>
-                Most recent decision concerning performance against the
-                Accreditation Standards
-            </h3>
+        <h3>
+            Most recent decision concerning performance against the
+            Accreditation Standards
+        </h3>
 
-            
+        @for (int i = 0; i < Model.AccreditationStandartList.Count; i++)
+        {
+            var acs = Model.AccreditationStandartList[i];
+            var questions = acs.Questions != null ? acs.Questions.ToList() : new List<WebApp.Models.Question>();
             <h4>
-                Standard 1: Management systems, staffing and organisational
-                development
+                Standard @((1 + i).ToString()): @acs.Title
             </h4>
-
-            <h5>Principle:</h5>
             <div>
-                Within the philosophy and level of care offered in the residential care service, management
-                systems are responsive to the needs of residents, their representatives, staff and
-                stakeholders, and the changing environment in which the service operates.
+                @acs.Description
             </div>
             <table class="table" style="text-align: left;">
                 <tr>
                     <th>Expected outcome</th>
                     <th>Quality Agency decision</th>
                 </tr>
-                <tr><td>1.1 Continuous improvement</td><td></td></tr>
-                <tr><td>1.2 Regulatory compliance</td><td></td></tr>
-                <tr><td>1.3 Education and staff development</td><td></td></tr>
-                <tr><td>1.4 Comments and complaints</td><td></td></tr>
-                <tr><td>1.5 Planning and leadership</td><td></td></tr>
-                <tr><td>1.6 Human resource management</td><td></td></tr>
-                <tr><td>1.7 Inventory and equipment</td><td></td></tr>
-                <tr><td>1.8 Information systems</td><td></td></tr>
-                <tr><td>1.9 External services</td><td></td></tr>
+
+                @for (int j = 0; j < questions.Count; j++)
+                {
+                    var q = questions.ToList()[j];
+                    <tr>
+                        <td>@string.Format("{0}.{1} {2}", i + 1, j + 1, q)</td>
+                        <td>@Model.GetAnswer(q)</td>
+                    </tr>
+                }
             </table>
+        }
+    </div>
 
 
-
-
-
-
-        </div>
-
-    </page>
-
-    <page size="A4">
-        <div style="display: inline-block;   margin: 0 auto;   text-align: left;">
-            <h4>
-                Standard 2: Health and personal care
-            </h4>
-
-            <h5>Principle:</h5>
-            <div>
-                Residents' physical and mental health will be promoted and achieved at the optimum level in
-                partnership between each resident (or his or her representative) and the health careteam.
-            </div>
-            <table class="table" style="text-align: left;">
-                <tr>
-                    <th>Expected outcome</th>
-                    <th>Quality Agency decision</th>
-                </tr>
-                <tr><td>2.1 Continuous improvement</td><td></td></tr>
-                <tr><td>2.2 Regulatory compliance</td><td></td></tr>
-                <tr><td>2.3 Education and staff development</td><td></td></tr>
-                <tr><td>2.4 Clinical care</td><td></td></tr>
-                <tr><td>2.5 Specialised nursing care needs</td><td></td></tr>
-                <tr><td>2.6 Other health and related services</td><td></td></tr>
-                <tr><td>2.7 Medication management</td><td></td></tr>
-                <tr><td>2.8 Pain management</td><td></td></tr>
-                <tr><td>2.9 Palliative care</td><td></td></tr>
-                <tr><td>2.10 Nutrition and hydration/td><td></td></tr>
-                <tr><td>2.11 Skin care</td><td></td></tr>
-                <tr><td>2.12 Continence management</td><td></td></tr>
-                <tr><td>2.13 Behavioural management</td><td></td></tr>
-                <tr><td>2.14 Mobility, dexterity and rehabilitation</td><td></td></tr>
-                <tr><td>2.15 Oral and dental care</td><td></td></tr>
-                <tr><td>2.16 Sensory loss</td><td></td></tr>
-                <tr><td>2.17 Sleep</td><td></td></tr>
-            </table>
-
-
-        </div>
-    </page>
-    <page size="A4">
-        <div style="display: inline-block;   margin: 0 auto;   text-align: left;">
-            <h4>
-                Standard 3: Resident lifestyle
-            </h4>
-
-            <h5>Principle:</h5>
-            <div>
-                Residents retain their personal, civic, legal and consumer rights, and are assisted to achieve
-                active control of their own lives within the residential care service and in the community.
-            </div>
-            <table class="table" style="text-align: left;">
-                <tr>
-                    <th>Expected outcome</th>
-                    <th>Quality Agency decision</th>
-                </tr>
-                <tr><td>3.1 Continuous improvement</td><td></td></tr>
-                <tr><td>3.2 Regulatory compliance</td><td></td></tr>
-                <tr><td>3.3 Education and staff development</td><td></td></tr>
-                <tr><td>3.4 Emotional support</td><td></td></tr>
-                <tr><td>3.5 Independence</td><td></td></tr>
-                <tr><td>3.6 Privacy and dignity</td><td></td></tr>
-                <tr><td>3.7 Leisure interests and activities</td><td></td></tr>
-                <tr><td>3.8 Cultural and spiritual life</td><td></td></tr>
-                <tr><td>3.9 Choice and decision-making</td><td></td></tr>
-                <tr><td>3.10 Resident security of tenure and responsibilities</td><td></td></tr>
-            </table>
-
-            <h4>
-                Standard 4: Physical environment and safe systems
-            </h4>
-
-            <h5>Principle:</h5>
-            <div>
-                Residents live in a safe and comfortable environment that ensures the quality of life and
-                welfare of residents, staff and visitors.
-            </div>
-            <table class="table" style="text-align: left;">
-                <tr>
-                    <th>Expected outcome</th>
-                    <th>Quality Agency decision</th>
-                </tr>
-                <tr><td>4.1 Continuous improvement</td><td></td></tr>
-                <tr><td>4.2 Regulatory compliance</td><td></td></tr>
-                <tr><td>4.3 Education and staff development</td><td></td></tr>
-                <tr><td>4.4 Living environment</td><td></td></tr>
-                <tr><td>4.5 Occupational health and safety</td><td></td></tr>
-                <tr><td>4.6 Fire, security and other emergencies</td><td></td></tr>
-                <tr><td>4.7 Infection control</td><td></td></tr>
-                <tr><td>4.8 Catering, cleaning and laundry services</td><td></td></tr>
-                <tr><td>3.9 Choice and decision-making</td><td></td></tr>
-                <tr><td>3.10 Resident security of tenure and responsibilities</td><td></td></tr>
-            </table>
-        </div>
-    </page>
-    <page size="A4">
-        <div style="display: inline-block;   margin: 0 auto;  text-align: left;" ">
-            <div style="text-align: center;">
-                <img src="../wwwroot/images/AACCLogo.jpg" />
-                <h2>
-                    Audit Report
-                </h2>
-
-                <h3>Helping Hand Aged Care - Rotary House 6051</h3>
-
-                <h3>Approved provider: Helping Hand Aged Care Inc</h3>
-            </div>
-            <h4>Introduction</h4>
-            This is the report of a re-accreditation audit from 25 May 2015 to 27 May 2015 submitted to the
-            Quality Agency.<br /><br />
-            Accredited residential aged care homes receive Australian Government subsidies to provide
-            quality care and services to care recipients in accordance with the AccreditationStandards.<br /><br />
-            To remain accredited and continue to receive the subsidy, each home must demonstrate that it
-            meets the Standards.<br /><br />
-            There are four Standards covering management systems, health and personal care, care
-            recipient lifestyle, and the physical environment and there are 44 expected outcomes such as
-            human resource management, clinical care, medication management, privacy and dignity,
-            leisure interests, cultural and spiritual life, choice and decision-making and the living
-            environment.<br /><br />
-            Each home applies for re-accreditation before its accreditation period expires and an
-            assessment team visits the home to conduct an audit. The team assesses the quality of care
-            and services at the home and reports its findings about whether the home meets or does not
-            meet the Standards. The Quality Agency then decides whether the home has met the
-            Standards and whether to re-accredit or not to re-accredit the home.<br /><br />
-            <h4>
-                Assessment team’s findings regarding performance against the
-                Accreditation Standards
-            </h4>
-            The information obtained through the audit of the home indicates the home meets:<br /><br />
-
-            -44 expected outcomes
-        </div>
-    </page>
-
-
-    <!--Standard 1-->
-    <page size="A4">
-        <div style="display:inline-block;margin: 0 auto;text-align: left;">
-
+    <div style="display: inline-block;   margin: 0 auto;  text-align: left;">
+        <div style="text-align: center;">
+            <img src="~/images/AACCLogo.jpg" />
             <h2>
-                Assessment team
+                Audit Report
             </h2>
-            <table class="table" style="text-align: left;">
-                <tr>
-                    <td>Expected outcome</td>
-                    <td>ssssssssssssssssss</td>
 
-                </tr>
-                <tr>
-                    <td>Quality Agency decision</td>
-                    <td>sssssssssss</td>
-                </tr>
+            <h3>Helping Hand Aged Care - Rotary House 6051</h3>
 
-
-            </table>
-
-            <h2>Standard 1 – Management systems, staffing and organisationaldevelopment</h2>
-            <div>
-                Principle: Within the philosophy and level of care offered in the residential care service,
-                management systems are responsive to the needs of care recipients, theirrepresentatives,
-                staff and stakeholders, and the changing environment in which the service operates.
-            </div>
-            <h3>1.1 Continuous improvement</h3>
-
-
-            <i>
-                This expected outcome requires that “the organisation actively pursues continuous
-                improvement”.
-            </i>
-            <h3><i>Team’s findings</i></h3>
-            <div>
-                The home meets this expected outcome
-                The organisation’s overarching continuous improvement systems are imbedded into the
-                culture of the home. The home’s plan for continuous identifies opportunities forimprovement
-                across the Accreditation Standards with goals set, strategies developed and monitoring of
-                outcomes. Opous improvement project they are involved
-                in to the Safety Quality and Risk Committee meetings. Project reports reflect regular
-                monitoring and evaluation occurring throughout the process. Management monitors the
-                effectiveness of improvement strategies using a range of mechanisms. Regular review of a
-                range of data occurs with feedback of results provided to stakeholders. Care recipients,
-                representatives and staff are satisfied the home actively pursues continuous improvement.
-            </div></br>
-            <div>
-                Examples of recent improvements in relation to Standard 1 Management systems, staffing and
-                organisational development include:
-                Corporate services identified an opportunity to centralise asset information. All of the
-                home’s assets have been bar coded and monthly reports are generated and tabled at
-                the monthly Safety, Quality and Risk Committee meeting. Management said these
-                reports enable timely oversight of the status of inventory and equipment and enable
-                them to determine and plan future inventory and equipment requirements.
-                Following senior staff attendance at a dementia workshop the home was successful in
-                applying for a minor university fellowship to support the rollout of an educational program
-                for all staff to facilitate the provision of person centred care. Staff were surveyed prior to
-                undertaking the training to determine their understanding and a post course survey is in
-                train. Staff spoke of the knowledge they had gained from completing the training and
-                how this was enabling them to provide a person centred care approach.
-                Senior staff identified inefficiencies in nursing and care staff recruitment processes.
-                Activities undertaken to address this included development of a pre-interview checklist
-                and standardisation of interview proformas for each designation. Newly recruited staff
-                conducted self-evaluation of their suitability for the role in conjunction with feedback from
-                existing staff. All participants have rated the process 100% effective and staff reported
-                positively on the skills mix of newly recruited staff.
-            </div>
-            <h3>1.2 Regulatory compliance</h3>
-
-
-            <i>
-                This expected outcome requires that “the organisation’s management has systems in place to
-                identify and ensure compliance with all relevant legislation, regulatory requirements,
-                professional standards and guidelines”.
-            </i>
-            <h3><i>Team’s findings</i></h3>
-            <div>
-                The home meets this expected outcome
-                The organisation has systems and processes to identify and ensure compliance withrelevant
-                legislation, regulatory requirements, professional standards and guidelines. Management
-                receives legislative updates through corporate office procedures which utilise a central
-
-                Examples of how the home ensures compliance in relation to Standard 1Management
-                systems, staffing and organisational development include:
-                Notification in writing of re-accreditation audit sent to care recipients and representatives
-                Police clearances are current for staff and volunteers
-                Registrations are monitored for professional and allied health staff.
-            </div>
+            <h3>Approved provider: Helping Hand Aged Care Inc</h3>
         </div>
-    </page>
-    <page size="A4">
-        <div style="display:inline-block;margin: 0 auto;text-align: left;">
+        <h4>Introduction</h4>
+        This is the report of a re-accreditation audit from @Model.Report.ReportDate.ToLongDateString() submitted to the
+        Quality Agency.<br /><br />
+        Accredited residential aged care homes receive Australian Government subsidies to provide
+        quality care and services to care recipients in accordance with the AccreditationStandards.<br /><br />
+        To remain accredited and continue to receive the subsidy, each home must demonstrate that it
+        meets the Standards.<br /><br />
+        There are four Standards covering management systems, health and personal care, care
+        recipient lifestyle, and the physical environment and there are 44 expected outcomes such as
+        human resource management, clinical care, medication management, privacy and dignity,
+        leisure interests, cultural and spiritual life, choice and decision-making and the living
+        environment.<br /><br />
+        Each home applies for re-accreditation before its accreditation period expires and an
+        assessment team visits the home to conduct an audit. The team assesses the quality of care
+        and services at the home and reports its findings about whether the home meets or does not
+        meet the Standards. The Quality Agency then decides whether the home has met the
+        Standards and whether to re-accredit or not to re-accredit the home.<br /><br />
+        <h4>
+            Assessment team’s findings regarding performance against the
+            Accreditation Standards
+        </h4>
+        The information obtained through the audit of the home indicates the home meets:<br /><br />
 
-            <h3>1.3 Education and staff development:</h3>
+        -44 expected outcomes
+    </div>
 
 
-            <i>
-                This expected outcome requires that “the organisation actively pursues continuous
-                improvement”.
-            </i>
-            <h3><i>Team’s findings</i></h3>
+    <div style="display:inline-block;margin: 0 auto;text-align: left;">
+
+        <h2>
+            Assessment team
+        </h2>
+        <table class="table" style="text-align: left;">
+            <tr>
+                <td>Expected outcome</td>
+                <td>ssssssssssssssssss</td>
+
+            </tr>
+            <tr>
+                <td>Quality Agency decision</td>
+                <td>sssssssssss</td>
+            </tr>
+
+
+        </table>
+
+        @for (int i = 0; i < Model.AccreditationStandartList.Count; i++)
+        {
+            var acs = Model.AccreditationStandartList[i];
+            var questions = acs.Questions != null ? acs.Questions.ToList() : new List<WebApp.Models.Question>();
+            <h2>
+                Standard @((1 + i).ToString()): @acs.Title
+            </h2>
             <div>
-                The home meets this expected outcome
-                The organisation’s overarching continuous improvement systems are imbedded into the
-                culture of the home. The home’s plan for continuous identifies opportunities forimprovement
-                across the Accreditation Standards with goals set, strategies developed and monitoring of
-                outcomes. Opous improvement project they are involved
-                in to the Safety Quality and Risk Committee meetings. Project reports reflect regular
-                monitoring and evaluation occurring throughout the process. Management monitors the
-                effectiveness of improvement strategies using a range of mechanisms. Regular review of a
-                range of data occurs with feedback of results provided to stakeholders. Care recipients,
-                representatives and staff are satisfied the home actively pursues continuous improvement.
-            </div></br>
-            <div>
-                Examples of recent improvements in relation to Standard 1 Management systems, staffing and
-                organisational development include:
-                Corporate services identified an opportunity to centralise asset information. All of the
-                home’s assets have been baronjunction with feedback from
-                existing staff. All participants have rated the process 100% effective and staff reported
-                positively on the skills mix of newly recruited staff.
-            </div>
-            <h3>1.4 Comments and complaints</h3>
-
-
-            <i>
-                This expected outcome requires that “the organisation’s management has systems in place to
-                identify and ensure compliance with all relevant legislation, regulatory requirements,
-                professional standards and guidelines”.
-            </i>
-            <h3><i>Team’s findings</i></h3>
-            <div>
-                The home meets this expected outcome
-                The organisation has systems and processes to identify and ensure compliance withrelevant
-                legislation, regulatory requirements, professional standards and guidelines. Management
-                receives legislative updates through corporate office procedures which utilise a central
-
-                Examples of how the home ensures compliance in relation to Standard 1Management
-                systems, staffing and organisational development include:
-                Notification in writing of re-accreditation audit sent to care recipients and representatives
-                Police clearances are current for staff and volunteers
-                Registrations are monitored for professional and allied health staff.
-            </div>
-        </div>
-    </page>
-    <page size="A4">
-        <div style="display:inline-block;margin: 0 auto;text-align: left;">
-
-            <h3>1.5 Planning and leadership</h3>
-
-
-            <i>
-                This expected outcome requires that “the organisation actively pursues continuous
-                improvement”.
-            </i>
-            <h3><i>Team’s findings</i></h3>
-            <div>
-                The home meets this expected outcome
-                The organisation’s overarching continuous improvement systems are imbedded into the
-                culture of the home. The home’s plan for continuous identifies opportunities forimprovement
-                across the Accreditation Standards with goals set, strategies developed and monitoring of
-                outcomes. Opous improvement project they are involved
-                in to the Safety Quality and Risk Committee meetings. Project reports reflect regular
-                monitoring and evaluation occurring throughout the process. Management monitors the
-                effectiveness of improvement strategies using a range of mechanisms. Regular review of a
-                range of data occurs with feedback of results provided to stakeholders. Care recipients,
-                representatives and staff are satisfied the home actively pursues continuous improvement.
-            </div></br>
-            <div>
-                Examples of recent improvements in relation to Standard 1 Management systems, staffing and
-                organisational development include:
-                Corporate services identified an opportunity to centralise asset information. All of the
-                home’s assets have been baronjunction with feedback from
-                existing staff. All participants have rated the process 100% effective and staff reported
-                positively on the skills mix of newly recruited staff.
-            </div>
-            <h3>1.6 Human resource management</h3>
-
-
-            <i>
-                This expected outcome requires that “the organisation’s management has systems in place to
-                identify and ensure compliance with all relevant legislation, regulatory requirements,
-                professional standards and guidelines”.
-            </i>
-            <h3><i>Team’s findings</i></h3>
-            <div>
-                The home meets this expected outcome
-                The organisation has systems and processes to identify and ensure compliance withrelevant
-                legislation, regulatory requirements, professional standards and guidelines. Management
-                receives legislative updates through corporate office procedures which utilise a central
-
-                Examples of how the home ensures compliance in relation to Standard 1Management
-                systems, staffing and organisational development include:
-                Notification in writing of re-accreditation audit sent to care recipients and representatives
-                Police clearances are current for staff and volunteers
-                Registrations are monitored for professional and allied health staff.
+                @acs.Description
             </div>
 
-            <h3>1.7 Inventory and equipment</h3>
 
-
-            <i>
-                This expected outcome requires that “the organisation’s management has systems in place to
-                identify and ensure compliance with all relevant legislation, regulatory requirements,
-                professional standards and guidelines”.
-            </i>
-            <h3><i>Team’s findings</i></h3>
-            <div>
-                The home meets this expected outcome
-                The organisation has systems and processes to identify and ensure compliance withrelevant
-                legislation, regulatory requirements, professional standards and guidelines. Management
-                receives legislative updates through corporate office procedures which utilise a central
-
-                Examples of how the home ensures compliance in relation to Standard 1Management
-                systems, staffing and organisational development include:
-                Notification in writing of re-accreditation audit sent to care recipients and representatives
-                Police clearances are current for staff and volunteers
-                Registrations are monitored for professional and allied health staff.
-            </div>
-        </div>
-    </page>
-
-    <page size="A4">
-        <div style="display:inline-block;margin: 0 auto;text-align: left;">
-
-            <h3>1.8 Information systems</h3>
-
-
-            <i>
-                This expected outcome requires that “the organisation actively pursues continuous
-                improvement”.
-            </i>
-            <h3><i>Team’s findings</i></h3>
-            <div>
-                The home meets this expected outcome
-                The organisation’s overarching continuous improvement systems are imbedded into the
-                culture of the home. The home’s plan for continuous identifies opportunities forimprovement
-                across the Accreditation Standards with goals set, strategies developed and monitoring of
-                outcomes. Opous improvement project they are involved
-                in to the Safety Quality and Risk Committee meetings. Project reports reflect regular
-                monitoring and evaluation occurring throughout the process. Management monitors the
-                effectiveness of improvement strategies using a range of mechanisms. Regular review of a
-                range of data occurs with feedback of results provided to stakeholders. Care recipients,
-                representatives and staff are satisfied the home actively pursues continuous improvement.
-            </div></br>
-            <div>
-                Examples of recent improvements in relation to Standard 1 Management systems, staffing and
-                organisational development include:
-                Corporate services identified an opportunity to centralise asset information. All of the
-                home’s assets have been baronjunction with feedback from
-                existing staff. All participants have rated the process 100% effective and staff reported
-                positively on the skills mix of newly recruited staff.
-            </div>
-            <h3>1.9 External services</h3>
-
-
-            <i>
-                This expected outcome requires that “the organisation’s management has systems in place to
-                identify and ensure compliance with all relevant legislation, regulatory requirements,
-                professional standards and guidelines”.
-            </i>
-            <h3><i>Team’s findings</i></h3>
-            <div>
-                The home meets this expected outcome
-                The organisation has systems and processes to identify and ensure compliance withrelevant
-                legislation, regulatory requirements, professional standards and guidelines. Management
-                receives legislative updates through corporate office procedures which utilise a central
-
-                Examples of how the home ensures compliance in relation to Standard 1Management
-                systems, staffing and organisational development include:
-                Notification in writing of re-accreditation audit sent to care recipients and representatives
-                Police clearances are current for staff and volunteers
-                Registrations are monitored for professional and allied health staff.
-            </div>
-
-            <h3>1.7 Inventory and equipment</h3>
-
-
-            <i>
-                This expected outcome requires that “the organisation’s management has systems in place to
-                identify and ensure compliance with all relevant legislation, regulatory requirements,
-                professional standards and guidelines”.
-            </i>
-            <h3><i>Team’s findings</i></h3>
-            <div>
-                The home meets this expected outcome
-                The organisation has systems and processes to identify and ensure compliance withrelevant
-                legislation, regulatory requirements, professional standards and guidelines. Management
-                receives legislative updates through corporate office procedures which utilise a central
-
-                Examples of how the home ensures compliance in relation to Standard 1Management
-                systems, staffing and organisational development include:
-                Notification in writing of re-accreditation audit sent to care recipients and representatives
-                Police clearances are current for staff and volunteers
-                Registrations are monitored for professional and allied health staff.
-            </div>
-        </div>
-    </page>
-    <!--Standard 2-->
-    <page size="A4">
-        <div style="display:inline-block;margin: 0 auto;text-align: left;">
-
-            <h2>Standard 2 – Health and personal care</h2>
-            <div>
-                Principle: Within the philosophy and level of care offered in the residential care service,
-                management systems are responsive to the needs of care recipients, theirrepresentatives,
-                staff and stakeholders, and the changing environment in which the service operates.
-            </div>
-            <h3>2.1 Continuous improvement</h3>
-
-            <i>
-                This expected outcome requires that “the organisation actively pursues continuous
-                improvement”.
-            </i>
-            <h3><i>Team’s findings</i></h3>
-            <div>
-                The home meets this expected outcome
-                The organisation’s overarching continuous improvement systems are imbedded into the
-                culture of the home. The home’s plan for continuous identifies opportunities forimprovement
-                across the Accreditation Standards with goals set, strategies developed and monitoring of
-                outcomes. Opous improvement project they are involved
-                in to the Safety Quality and Risk Committee meetings. Project reports reflect regular
-                monitoring and evaluation occurring throughout the process. Management monitors the
-                effectiveness of improvement strategies using a range of mechanisms. Regular review of a
-                range of data occurs with feedback of results provided to stakeholders. Care recipients,
-                representatives and staff are satisfied the home actively pursues continuous improvement.
-            </div></br>
-            <div>
-                Examples of recent improvements in relation to Standard 1 Management systems, staffing and
-                organisational development include:
-                Corporate services identified an opportunity to centralise asset information. All of the
-                home’s assets have been baronjunction with feedback from
-                existing staff. All participants have rated the process 100% effective and staff reported
-                positively on the skills mix of newly recruited staff.
-            </div>
-            <h3>2.2 Regulatory compliance</h3>
-
-
-            <i>
-                This expected outcome requires that “the organisation’s management has systems in place to
-                identify and ensure compliance with all relevant legislation, regulatory requirements,
-                professional standards and guidelines”.
-            </i>
-            <h3><i>Team’s findings</i></h3>
-            <div>
-                The home meets this expected outcome
-                The organisation has systems and processes to identify and ensure compliance withrelevant
-                legislation, regulatory requirements, professional standards and guidelines. Management
-                receives legislative updates through corporate office procedures which utilise a central
-
-                Examples of how the home ensures compliance in relation to Standard 1Management
-                systems, staffing and organisational development include:
-                Notification in writing of re-accreditation audit sent to care recipients and representatives
-                Police clearances are current for staff and volunteers
-                Registrations are monitored for professional and allied health staff.
-            </div>
-
-            <h3>2.3 Education and staff development</h3>
-
-
-            <i>
-                This expected outcome requires that “the organisation’s management has systems in place to
-                identify and ensure compliance with all relevant legislation, regulatory requirements,
-                professional standards and guidelines”.
-            </i>
-            <h3><i>Team’s findings</i></h3>
-            <div>
-                The home meets this expected outcome
-                The organisation has systems and processes to identify and ensure compliance withrelevant
-                legislation, regulatory requirements, professional standards and guidelines. Management
-                receives legislative updates through corporate office procedures which utilise a central
-
-                Examples of how the home ensures compliance in relation to Standard 1Management
-                systems, staffing and organisational development include:
-                Notification in writing of re-accreditation audit sent to care recipients and representatives
-                Police clearances are current for staff and volunteers
-                Registrations are monitored for professional and allied health staff.
-            </div>
-
-            <h3>2.4 Clinical care</h3>
-
-
-            <i>
-                This expected outcome requires that “the organisation’s management has systems in place to
-                identify and ensure compliance with all relevant legislation, regulatory requirements,
-                professional standards and guidelines”.
-            </i>
-            <h3><i>Team’s findings</i></h3>
-            <div>
-                The home meets this expected outcome
-                The organisation has systems and processes to identify and ensure compliance withrelevant
-                legislation, regulatory requirements, professional standards and guidelines. Management
-                receives legislative updates through corporate office procedures which utilise a central
-
-                Examples of how the home ensures compliance in relation to Standard 1Management
-                systems, staffing and organisational development include:
-                Notification in writing of re-accreditation audit sent to care recipients and representatives
-                Police clearances are current for staff and volunteers
-                Registrations are monitored for professional and allied health staff.
-            </div>
-        </div>
-    </page>
-
-
-    <page size="A4">
-        <div style="display:inline-block;margin: 0 auto;text-align: left;">
-
-            <h3>2.5 Specialised nursing care needs</h3>
-
-            <i>
-                This expected outcome requires that “the organisation actively pursues continuous
-                improvement”.
-            </i>
-            <h3><i>Team’s findings</i></h3>
-            <div>
-                The home meets this expected outcome
-                The organisation’s overarching continuous improvement systems are imbedded into the
-                culture of the home. The home’s plan for continuous identifies opportunities forimprovement
-                across the Accreditation Standards with goals set, strategies developed and monitoring of
-                outcomes. Opous improvement project they are involved
-                in to the Safety Quality and Risk Committee meetings. Project reports reflect regular
-                monitoring and evaluation occurring throughout the process. Management monitors the
-                effectiveness of improvement strategies using a range of mechanisms. Regular review of a
-                range of data occurs with feedback of results provided to stakeholders. Care recipients,
-                representatives and staff are satisfied the home actively pursues continuous improvement.
-            </div></br>
-            <div>
-                Examples of recent improvements in relation to Standard 1 Management systems, staffing and
-                organisational development include:
-                Corporate services identified an opportunity to centralise asset information. All of the
-                home’s assets have been baronjunction with feedback from
-                existing staff. All participants have rated the process 100% effective and staff reported
-                positively on the skills mix of newly recruited staff.
-            </div>
-            <h3>2.6 Other health and related services</h3>
-
-
-            <i>
-                This expected outcome requires that “the organisation’s management has systems in place to
-                identify and ensure compliance with all relevant legislation, regulatory requirements,
-                professional standards and guidelines”.
-            </i>
-            <h3><i>Team’s findings</i></h3>
-            <div>
-                The home meets this expected outcome
-                The organisation has systems and processes to identify and ensure compliance withrelevant
-                legislation, regulatory requirements, professional standards and guidelines. Management
-                receives legislative updates through corporate office procedures which utilise a central
-
-                Examples of how the home ensures compliance in relation to Standard 1Management
-                systems, staffing and organisational development include:
-                Notification in writing of re-accreditation audit sent to care recipients and representatives
-                Police clearances are current for staff and volunteers
-                Registrations are monitored for professional and allied health staff.
-            </div>
-
-            <h3>2.7 Medication management</h3>
-
-
-            <i>
-                This expected outcome requires that “the organisation’s management has systems in place to
-                identify and ensure compliance with all relevant legislation, regulatory requirements,
-                professional standards and guidelines”.
-            </i>
-            <h3><i>Team’s findings</i></h3>
-            <div>
-                The home meets this expected outcome
-                The organisation has systems and processes to identify and ensure compliance withrelevant
-                legislation, regulatory requirements, professional standards and guidelines. Management
-                receives legislative updates through corporate office procedures which utilise a central
-
-                Examples of how the home ensures compliance in relation to Standard 1Management
-                systems, staffing and organisational development include:
-                Notification in writing of re-accreditation audit sent to care recipients and representatives
-                Police clearances are current for staff and volunteers
-                Registrations are monitored for professional and allied health staff.
-            </div>
-
-            <h3>2.8 Pain management</h3>
-
-
-            <i>
-                This expected outcome requires that “the organisation’s management has systems in place to
-                identify and ensure compliance with all relevant legislation, regulatory requirements,
-                professional standards and guidelines”.
-            </i>
-            <h3><i>Team’s findings</i></h3>
-            <div>
-                The home meets this expected outcome
-                The organisation has systems and processes to identify and ensure compliance withrelevant
-                legislation, regulatory requirements, professional standards and guidelines. Management
-                receives legislative updates through corporate office procedures which utilise a central
-
-                Examples of how the home ensures compliance in relation to Standard 1Management
-                systems, staffing and organisational development include:
-                Notification in writing of re-accreditation audit sent to care recipients and representatives
-                Police clearances are current for staff and volunteers
-                Registrations are monitored for professional and allied health staff.
-            </div>
-        </div>
-    </page>
-
-
-    <page size="A4">
-        <div style="display:inline-block;margin: 0 auto;text-align: left;">
-
-            <h3>2.9 Palliative care</h3>
-
-            <i>
-                This expected outcome requires that “the organisation actively pursues continuous
-                improvement”.
-            </i>
-            <h3><i>Team’s findings</i></h3>
-            <div>
-                The home meets this expected outcome
-                The organisation’s overarching continuous improvement systems are imbedded into the
-                culture of the home. The home’s plan for continuous identifies opportunities forimprovement
-                across the Accreditation Standards with goals set, strategies developed and monitoring of
-                outcomes. Opous improvement project they are involved
-                in to the Safety Quality and Risk Committee meetings. Project reports reflect regular
-                monitoring and evaluation occurring throughout the process. Management monitors the
-                effectiveness of improvement strategies using a range of mechanisms. Regular review of a
-                range of data occurs with feedback of results provided to stakeholders. Care recipients,
-                representatives and staff are satisfied the home actively pursues continuous improvement.
-            </div></br>
-            <div>
-                Examples of recent improvements in relation to Standard 1 Management systems, staffing and
-                organisational development include:
-                Corporate services identified an opportunity to centralise asset information. All of the
-                home’s assets have been baronjunction with feedback from
-                existing staff. All participants have rated the process 100% effective and staff reported
-                positively on the skills mix of newly recruited staff.
-            </div>
-            <h3>2.10 Nutrition and hydration</h3>
-
-
-            <i>
-                This expected outcome requires that “the organisation’s management has systems in place to
-                identify and ensure compliance with all relevant legislation, regulatory requirements,
-                professional standards and guidelines”.
-            </i>
-            <h3><i>Team’s findings</i></h3>
-            <div>
-                The home meets this expected outcome
-                The organisation has systems and processes to identify and ensure compliance withrelevant
-                legislation, regulatory requirements, professional standards and guidelines. Management
-                receives legislative updates through corporate office procedures which utilise a central
-
-                Examples of how the home ensures compliance in relation to Standard 1Management
-                systems, staffing and organisational development include:
-                Notification in writing of re-accreditation audit sent to care recipients and representatives
-                Police clearances are current for staff and volunteers
-                Registrations are monitored for professional and allied health staff.
-            </div>
-
-            <h3>2.11 Skin care</h3>
-
-
-            <i>
-                This expected outcome requires that “the organisation’s management has systems in place to
-                identify and ensure compliance with all relevant legislation, regulatory requirements,
-                professional standards and guidelines”.
-            </i>
-            <h3><i>Team’s findings</i></h3>
-            <div>
-                The home meets this expected outcome
-                The organisation has systems and processes to identify and ensure compliance withrelevant
-                legislation, regulatory requirements, professional standards and guidelines. Management
-                receives legislative updates through corporate office procedures which utilise a central
-
-                Examples of how the home ensures compliance in relation to Standard 1Management
-                systems, staffing and organisational development include:
-                Notification in writing of re-accreditation audit sent to care recipients and representatives
-                Police clearances are current for staff and volunteers
-                Registrations are monitored for professional and allied health staff.
-            </div>
-
-            <h3>2.12 Continence management</h3>
-
-
-            <i>
-                This expected outcome requires that “the organisation’s management has systems in place to
-                identify and ensure compliance with all relevant legislation, regulatory requirements,
-                professional standards and guidelines”.
-            </i>
-            <h3><i>Team’s findings</i></h3>
-            <div>
-                The home meets this expected outcome
-                The organisation has systems and processes to identify and ensure compliance withrelevant
-                legislation, regulatory requirements, professional standards and guidelines. Management
-                receives legislative updates through corporate office procedures which utilise a central
-
-                Examples of how the home ensures compliance in relation to Standard 1Management
-                systems, staffing and organisational development include:
-                Notification in writing of re-accreditation audit sent to care recipients and representatives
-                Police clearances are current for staff and volunteers
-                Registrations are monitored for professional and allied health staff.
-            </div>
-
-        </div>
-    </page>
-
-    <page size="A4">
-        <div style="display:inline-block;margin: 0 auto;text-align: left;">
-            <h3>2.13 Behavioural management</h3>
-
-
-            <i>
-                This expected outcome requires that “the organisation’s management has systems in place to
-                identify and ensure compliance with all relevant legislation, regulatory requirements,
-                professional standards and guidelines”.
-            </i>
-            <h3><i>Team’s findings</i></h3>
-            <div>
-                The home meets this expected outcome
-                The organisation has systems and processes to identify and ensure compliance withrelevant
-                legislation, regulatory requirements, professional standards and guidelines. Management
-                receives legislative updates through corporate office procedures which utilise a central
-
-                Examples of how the home ensures compliance in relation to Standard 1Management
-                systems, staffing and organisational development include:
-                Notification in writing of re-accreditation audit sent to care recipients and representatives
-                Police clearances are current for staff and volunteers
-                Registrations are monitored for professional and allied health staff.
-            </div>
-
-            <h3>2.14 Mobility, dexterity and rehabilitation</h3>
-
-            <i>
-                This expected outcome requires that “the organisation actively pursues continuous
-                improvement”.
-            </i>
-            <h3><i>Team’s findings</i></h3>
-            <div>
-                The home meets this expected outcome
-                The organisation’s overarching continuous improvement systems are imbedded into the
-                culture of the home. The home’s plan for continuous identifies opportunities forimprovement
-                across the Accreditation Standards with goals set, strategies developed and monitoring of
-                outcomes. Opous improvement project they are involved
-                in to the Safety Quality and Risk Committee meetings. Project reports reflect regular
-                monitoring and evaluation occurring throughout the process. Management monitors the
-                effectiveness of improvement strategies using a range of mechanisms. Regular review of a
-                range of data occurs with feedback of results provided to stakeholders. Care recipients,
-                representatives and staff are satisfied the home actively pursues continuous improvement.
-            </div></br>
-            <div>
-                Examples of recent improvements in relation to Standard 1 Management systems, staffing and
-                organisational development include:
-                Corporate services identified an opportunity to centralise asset information. All of the
-                home’s assets have been baronjunction with feedback from
-                existing staff. All participants have rated the process 100% effective and staff reported
-                positively on the skills mix of newly recruited staff.
-            </div>
-            <h3>2.15 Oral and dental care</h3>
-
-
-            <i>
-                This expected outcome requires that “the organisation’s management has systems in place to
-                identify and ensure compliance with all relevant legislation, regulatory requirements,
-                professional standards and guidelines”.
-            </i>
-            <h3><i>Team’s findings</i></h3>
-            <div>
-                The home meets this expected outcome
-                The organisation has systems and processes to identify and ensure compliance withrelevant
-                legislation, regulatory requirements, professional standards and guidelines. Management
-                receives legislative updates through corporate office procedures which utilise a central
-
-                Examples of how the home ensures compliance in relation to Standard 1Management
-                systems, staffing and organisational development include:
-                Notification in writing of re-accreditation audit sent to care recipients and representatives
-                Police clearances are current for staff and volunteers
-                Registrations are monitored for professional and allied health staff.
-            </div>
-
-            <h3>2.16 Sensory loss</h3>
-
-
-            <i>
-                This expected outcome requires that “the organisation’s management has systems in place to
-                identify and ensure compliance with all relevant legislation, regulatory requirements,
-                professional standards and guidelines”.
-            </i>
-            <h3><i>Team’s findings</i></h3>
-            <div>
-                The home meets this expected outcome
-                The organisation has systems and processes to identify and ensure compliance withrelevant
-                legislation, regulatory requirements, professional standards and guidelines. Management
-                receives legislative updates through corporate office procedures which utilise a central
-
-                Examples of how the home ensures compliance in relation to Standard 1Management
-                systems, staffing and organisational development include:
-                Notification in writing of re-accreditation audit sent to care recipients and representatives
-                Police clearances are current for staff and volunteers
-                Registrations are monitored for professional and allied health staff.
-            </div>
-
-            <h3>2.17 Sleep</h3>
-
-
-            <i>
-                This expected outcome requires that “the organisation’s management has systems in place to
-                identify and ensure compliance with all relevant legislation, regulatory requirements,
-                professional standards and guidelines”.
-            </i>
-            <h3><i>Team’s findings</i></h3>
-            <div>
-                The home meets this expected outcome
-                The organisation has systems and processes to identify and ensure compliance withrelevant
-                legislation, regulatory requirements, professional standards and guidelines. Management
-                receives legislative updates through corporate office procedures which utilise a central
-
-                Examples of how the home ensures compliance in relation to Standard 1Management
-                systems, staffing and organisational development include:
-                Notification in writing of re-accreditation audit sent to care recipients and representatives
-                Police clearances are current for staff and volunteers
-                Registrations are monitored for professional and allied health staff.
-            </div>
-
-        </div>
-    </page>
-
-    <!--Standard 3-->
-    <page size="A4">
-        <div style="display:inline-block;margin: 0 auto;text-align: left;">
-
-            <h2>Standard 3 – Care recipient lifestyle</h2>
-            <div>
-                Principle: Within the philosophy and level of care offered in the residential care service,
-                management systems are responsive to the needs of care recipients, theirrepresentatives,
-                staff and stakeholders, and the changing environment in which the service operates.
-            </div>
-            <h3>3.1 Continuous improvement</h3>
-
-            <i>
-                This expected outcome requires that “the organisation actively pursues continuous
-                improvement”.
-            </i>
-            <h3><i>Team’s findings</i></h3>
-            <div>
-                The home meets this expected outcome
-                The organisation’s overarching continuous improvement systems are imbedded into the
-                culture of the home. The home’s plan for continuous identifies opportunities forimprovement
-                across the Accreditation Standards with goals set, strategies developed and monitoring of
-                outcomes. Opous improvement project they are involved
-                in to the Safety Quality and Risk Committee meetings. Project reports reflect regular
-                monitoring and evaluation occurring throughout the process. Management monitors the
-                effectiveness of improvement strategies using a range of mechanisms. Regular review of a
-                range of data occurs with feedback of results provided to stakeholders. Care recipients,
-                representatives and staff are satisfied the home actively pursues continuous improvement.
-            </div></br>
-            <div>
-                Examples of recent improvements in relation to Standard 1 Management systems, staffing and
-                organisational development include:
-                Corporate services identified an opportunity to centralise asset information. All of the
-                home’s assets have been baronjunction with feedback from
-                existing staff. All participants have rated the process 100% effective and staff reported
-                positively on the skills mix of newly recruited staff.
-            </div>
-            <h3>2.2 Regulatory compliance</h3>
-
-
-            <i>
-                This expected outcome requires that “the organisation’s management has systems in place to
-                identify and ensure compliance with all relevant legislation, regulatory requirements,
-                professional standards and guidelines”.
-            </i>
-            <h3><i>Team’s findings</i></h3>
-            <div>
-                The home meets this expected outcome
-                The organisation has systems and processes to identify and ensure compliance withrelevant
-                legislation, regulatory requirements, professional standards and guidelines. Management
-                receives legislative updates through corporate office procedures which utilise a central
-
-                Examples of how the home ensures compliance in relation to Standard 1Management
-                systems, staffing and organisational development include:
-                Notification in writing of re-accreditation audit sent to care recipients and representatives
-                Police clearances are current for staff and volunteers
-                Registrations are monitored for professional and allied health staff.
-            </div>
-
-            <h3>2.3 Education and staff development</h3>
-
-
-            <i>
-                This expected outcome requires that “the organisation’s management has systems in place to
-                identify and ensure compliance with all relevant legislation, regulatory requirements,
-                professional standards and guidelines”.
-            </i>
-            <h3><i>Team’s findings</i></h3>
-            <div>
-                The home meets this expected outcome
-                The organisation has systems and processes to identify and ensure compliance withrelevant
-                legislation, regulatory requirements, professional standards and guidelines. Management
-                receives legislative updates through corporate office procedures which utilise a central
-
-                Examples of how the home ensures compliance in relation to Standard 1Management
-                systems, staffing and organisational development include:
-                Notification in writing of re-accreditation audit sent to care recipients and representatives
-                Police clearances are current for staff and volunteers
-                Registrations are monitored for professional and allied health staff.
-            </div>
-
-            <h3>2.4 Clinical care</h3>
-
-
-            <i>
-                This expected outcome requires that “the organisation’s management has systems in place to
-                identify and ensure compliance with all relevant legislation, regulatory requirements,
-                professional standards and guidelines”.
-            </i>
-            <h3><i>Team’s findings</i></h3>
-            <div>
-                The home meets this expected outcome
-                The organisation has systems and processes to identify and ensure compliance withrelevant
-                legislation, regulatory requirements, professional standards and guidelines. Management
-                receives legislative updates through corporate office procedures which utilise a central
-
-                Examples of how the home ensures compliance in relation to Standard 1Management
-                systems, staffing and organisational development include:
-                Notification in writing of re-accreditation audit sent to care recipients and representatives
-                Police clearances are current for staff and volunteers
-                Registrations are monitored for professional and allied health staff.
-            </div>
-        </div>
-    </page>
-
+            @for (int j = 0; j < questions.Count; j++)
+            {
+                var q = questions.ToList()[j];
+                <h3>
+                    @string.Format("{0}.{1} {2}", i + 1, j + 1, q)
+                </h3>
+                <h3><i>Team’s findings</i></h3>
+                <div>
+                    @Model.GetNotes(q)
+                </div>
+            }
+        }
+
+    </div>
 </body>
 </html>

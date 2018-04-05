@@ -19,10 +19,25 @@ namespace WebApp.Pages.Reports
             _context = context;
         }
 
+        private Dictionary<int, QuestionReply> QuestionReplyList;
         public Report Report { get; set; }
         public List<AccreditationStandart> AccreditationStandartList { get; set; }
         public AgedCareCenter AgedCareCenter { get; set; }
         public Assessor Assessor { get; set; }
+
+        public string GetAnswer(Question q)
+        {
+            if (Report.QuestionReply == null) return "";
+            var reply = Report.QuestionReply.FirstOrDefault(r => r.QuestionId == q.QuestionId);
+            return reply != null && reply.Response ? "Met" : "";
+        }
+
+        public string GetNotes(Question q)
+        {
+            if (Report.QuestionReply == null) return "";
+            var reply = Report.QuestionReply.FirstOrDefault(r => r.QuestionId == q.QuestionId);
+            return reply != null ? reply.Notes : "";
+        }
 
         public async Task<IActionResult> OnGet(int id)
         {
@@ -32,6 +47,11 @@ namespace WebApp.Pages.Reports
             {
                 return NotFound();
             }
+
+            //if (Report.QuestionReply != null)
+            //{
+            //    QuestionReplyList = Report.QuestionReply.ToDictionary(r=>)
+            //}
 
             AgedCareCenter = await _context.AgedCareCenters.SingleAsync(a => a.AgedCareCenterId == Report.AgedCareCenterId);
             Assessor = await _context.Assessors.SingleAsync(a => a.AssessorId == Report.AssessorId);

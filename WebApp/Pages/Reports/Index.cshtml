@@ -48,6 +48,7 @@
                     @Html.DisplayFor(modelItem => item.Notes)
                 </td>
                 <td>
+                    <a asp-page="./Export" asp-route-id="@item.ReportId">Export</a> |
                     <a asp-page="./Edit" asp-route-id="@item.ReportId">Edit</a> |
                     <a asp-page="./Details" asp-route-id="@item.ReportId">Details</a> |
                     <a asp-page="./Delete" asp-route-id="@item.ReportId">Delete</a>
