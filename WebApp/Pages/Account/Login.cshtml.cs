@@ -71,6 +71,7 @@ namespace WebApp.Pages.Account
                 {
                     new Claim(ClaimTypes.Name.ToString(), user.LoginName),
                     new Claim("FullName", user.FullName),
+                    new Claim("UserId", user.UserId.ToString()),
                 };
 
                 if (user.IsAdmin)
@@ -114,7 +115,8 @@ namespace WebApp.Pages.Account
                 {
                     IsAdmin = user.IsAdmin,
                     FullName = user.Name,
-                    LoginName = user.Login
+                    LoginName = user.Login,
+                    UserId = user.AssessorId
                 };
             }
             else
@@ -130,5 +132,6 @@ namespace WebApp.Pages.Account
         public string LoginName { get; set; }
         public bool IsAdmin { get; set; }
         public string FullName { get; set; }
+        public int UserId { get; set; }
     }
 }
