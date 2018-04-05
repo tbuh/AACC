@@ -29,13 +29,14 @@
                 <a asp-page="/Reports/Index" class="navbar-brand">Reports</a>
             </div>
             <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">                    
+                <ul class="nav navbar-nav">
                     <li><a href="/AccreditationStandarts">AccreditationStandarts</a></li>
                     <li><a href="/AgedCareCenters">AgedCareCenters</a></li>
                     <li><a href="/Assessors">Assessors</a></li>
                     <li><a href="/Teams">Teams</a></li>
                     <li><a target="_blank" href="/swagger/">API</a></li>
                 </ul>
+                @await Html.PartialAsync("_LoginPartial")
             </div>
         </div>
     </nav>
@@ -43,7 +44,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; 2017 - WebApp</p>
+            <p>&copy; 2018 - Auditing of Aged Care centers</p>
         </footer>
     </div>
 

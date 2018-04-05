@@ -9,3 +9,4 @@
 /WebApp/bin/Release/netcoreapp2.0
 /WebApp/Properties/PublishProfiles
 /WebApp/appsettings.Development.json
+/WebApp/_PublishedWebsites/NetCoreApp

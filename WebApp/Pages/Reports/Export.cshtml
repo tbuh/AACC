@@ -32,150 +32,151 @@
     </style>
 </head>
 <body style="text-align:center;">
+    <page size="A4">
+        <img src="~/images/AACCLogo.jpg" />
+        <h2>
+            Helping Hand Aged Care - Rotary House
+        </h2>
+        <div style="line-height:1px;">
+            <h4 style="font-weight:normal;margin-bottom: -6px;">RACS ID @Model.AgedCareCenter.AgedCareCenterId</h4>
+            <h4 style="font-weight:normal;margin-bottom: -6px;">@Model.AgedCareCenter.Location</h4>
+            @*<h4 style="font-weight:normal;margin-bottom: -6px;">NORTH ADELAIDE SA 5006</h4>*@
+        </div>
 
-    <img src="~/images/AACCLogo.jpg" />
-    <h2>
-        Helping Hand Aged Care - Rotary House
-    </h2>
-    <div style="line-height:1px;">
-        <h4 style="font-weight:normal;margin-bottom: -6px;">RACS ID @Model.AgedCareCenter.AgedCareCenterId</h4>
-        <h4 style="font-weight:normal;margin-bottom: -6px;">@Model.AgedCareCenter.Location</h4>
-        @*<h4 style="font-weight:normal;margin-bottom: -6px;">NORTH ADELAIDE SA 5006</h4>*@
-    </div>
 
+        <h4>Approved provider: Helping Hand Aged Care Inc</h4>
 
-    <h4>Approved provider: Helping Hand Aged Care Inc</h4>
+        <div style="display: inline-block;   margin: 0 auto;   text-align: left;">
+            Following an audit we decided that this home met 44 of the 44 expected outcomes of the<br />
 
-    <div style="display: inline-block;   margin: 0 auto;   text-align: left;">
-        Following an audit we decided that this home met 44 of the 44 expected outcomes of the<br />
+            Accreditation Standards and would be accredited for five years until 30 August 2020.<br />
+            <br />
 
-        Accreditation Standards and would be accredited for five years until 30 August 2020.<br />
-        <br />
+            We made our decision on 03 July 2015.<br /><br />
 
-        We made our decision on 03 July 2015.<br /><br />
+            The audit was conducted on @Model.Report.ReportDate.ToLongDateString(). The assessment team’s report is
+            attached.<br /><br />
 
-        The audit was conducted on @Model.Report.ReportDate.ToLongDateString(). The assessment team’s report is
-        attached.<br /><br />
+            We will continue to monitor the performance of the home including through unannounced
+            visits.
 
-        We will continue to monitor the performance of the home including through unannounced
-        visits.
+            <h3>
+                Most recent decision concerning performance against the
+                Accreditation Standards
+            </h3>
 
-        <h3>
-            Most recent decision concerning performance against the
-            Accreditation Standards
-        </h3>
+            @for (int i = 0; i < Model.AccreditationStandartList.Count; i++)
+            {
+                var acs = Model.AccreditationStandartList[i];
+                var questions = acs.Questions != null ? acs.Questions.ToList() : new List<WebApp.Models.Question>();
+                <h4>
+                    Standard @((1 + i).ToString()): @acs.Title
+                </h4>
+                <div>
+                    @acs.Description
+                </div>
+                <table class="table" style="text-align: left;">
+                    <tr>
+                        <th>Expected outcome</th>
+                        <th>Quality Agency decision</th>
+                    </tr>
 
-        @for (int i = 0; i < Model.AccreditationStandartList.Count; i++)
-        {
-            var acs = Model.AccreditationStandartList[i];
-            var questions = acs.Questions != null ? acs.Questions.ToList() : new List<WebApp.Models.Question>();
-            <h4>
-                Standard @((1 + i).ToString()): @acs.Title
-            </h4>
-            <div>
-                @acs.Description
+                    @for (int j = 0; j < questions.Count; j++)
+                    {
+                        var q = questions.ToList()[j];
+                        <tr>
+                            <td>@string.Format("{0}.{1} {2}", i + 1, j + 1, q)</td>
+                            <td>@Model.GetAnswer(q)</td>
+                        </tr>
+                    }
+                </table>
+            }
+        </div>
+    </page>
+    <page size="A4">
+        <div style="display: inline-block;   margin: 0 auto;  text-align: left;">
+            <div style="text-align: center;">
+                <img src="~/images/AACCLogo.jpg" />
+                <h2>
+                    Audit Report
+                </h2>
+
+                <h3>Helping Hand Aged Care - Rotary House 6051</h3>
+
+                <h3>Approved provider: Helping Hand Aged Care Inc</h3>
             </div>
+            <h4>Introduction</h4>
+            This is the report of a re-accreditation audit from @Model.Report.ReportDate.ToLongDateString() submitted to the
+            Quality Agency.<br /><br />
+            Accredited residential aged care homes receive Australian Government subsidies to provide
+            quality care and services to care recipients in accordance with the AccreditationStandards.<br /><br />
+            To remain accredited and continue to receive the subsidy, each home must demonstrate that it
+            meets the Standards.<br /><br />
+            There are four Standards covering management systems, health and personal care, care
+            recipient lifestyle, and the physical environment and there are 44 expected outcomes such as
+            human resource management, clinical care, medication management, privacy and dignity,
+            leisure interests, cultural and spiritual life, choice and decision-making and the living
+            environment.<br /><br />
+            Each home applies for re-accreditation before its accreditation period expires and an
+            assessment team visits the home to conduct an audit. The team assesses the quality of care
+            and services at the home and reports its findings about whether the home meets or does not
+            meet the Standards. The Quality Agency then decides whether the home has met the
+            Standards and whether to re-accredit or not to re-accredit the home.<br /><br />
+            <h4>
+                Assessment team’s findings regarding performance against the
+                Accreditation Standards
+            </h4>
+            The information obtained through the audit of the home indicates the home meets:<br /><br />
+
+            -44 expected outcomes
+        </div>
+    </page>
+    <page size="A4">
+        <div style="display:inline-block;margin: 0 auto;text-align: left;">
+
+            <h2>
+                Assessment team
+            </h2>
             <table class="table" style="text-align: left;">
                 <tr>
-                    <th>Expected outcome</th>
-                    <th>Quality Agency decision</th>
+                    <td>Expected outcome</td>
+                    <td>ssssssssssssssssss</td>
+
                 </tr>
+                <tr>
+                    <td>Quality Agency decision</td>
+                    <td>sssssssssss</td>
+                </tr>
+
+
+            </table>
+
+            @for (int i = 0; i < Model.AccreditationStandartList.Count; i++)
+            {
+                var acs = Model.AccreditationStandartList[i];
+                var questions = acs.Questions != null ? acs.Questions.ToList() : new List<WebApp.Models.Question>();
+                <h2>
+                    Standard @((1 + i).ToString()): @acs.Title
+                </h2>
+                <div>
+                    @acs.Description
+                </div>
+
 
                 @for (int j = 0; j < questions.Count; j++)
                 {
                     var q = questions.ToList()[j];
-                    <tr>
-                        <td>@string.Format("{0}.{1} {2}", i + 1, j + 1, q)</td>
-                        <td>@Model.GetAnswer(q)</td>
-                    </tr>
+                    <h3>
+                        @string.Format("{0}.{1} {2}", i + 1, j + 1, q)
+                    </h3>
+                    <h3><i>Team’s findings</i></h3>
+                    <div>
+                        @Model.GetNotes(q)
+                    </div>
                 }
-            </table>
-        }
-    </div>
-
-
-    <div style="display: inline-block;   margin: 0 auto;  text-align: left;">
-        <div style="text-align: center;">
-            <img src="~/images/AACCLogo.jpg" />
-            <h2>
-                Audit Report
-            </h2>
-
-            <h3>Helping Hand Aged Care - Rotary House 6051</h3>
-
-            <h3>Approved provider: Helping Hand Aged Care Inc</h3>
-        </div>
-        <h4>Introduction</h4>
-        This is the report of a re-accreditation audit from @Model.Report.ReportDate.ToLongDateString() submitted to the
-        Quality Agency.<br /><br />
-        Accredited residential aged care homes receive Australian Government subsidies to provide
-        quality care and services to care recipients in accordance with the AccreditationStandards.<br /><br />
-        To remain accredited and continue to receive the subsidy, each home must demonstrate that it
-        meets the Standards.<br /><br />
-        There are four Standards covering management systems, health and personal care, care
-        recipient lifestyle, and the physical environment and there are 44 expected outcomes such as
-        human resource management, clinical care, medication management, privacy and dignity,
-        leisure interests, cultural and spiritual life, choice and decision-making and the living
-        environment.<br /><br />
-        Each home applies for re-accreditation before its accreditation period expires and an
-        assessment team visits the home to conduct an audit. The team assesses the quality of care
-        and services at the home and reports its findings about whether the home meets or does not
-        meet the Standards. The Quality Agency then decides whether the home has met the
-        Standards and whether to re-accredit or not to re-accredit the home.<br /><br />
-        <h4>
-            Assessment team’s findings regarding performance against the
-            Accreditation Standards
-        </h4>
-        The information obtained through the audit of the home indicates the home meets:<br /><br />
-
-        -44 expected outcomes
-    </div>
-
-
-    <div style="display:inline-block;margin: 0 auto;text-align: left;">
-
-        <h2>
-            Assessment team
-        </h2>
-        <table class="table" style="text-align: left;">
-            <tr>
-                <td>Expected outcome</td>
-                <td>ssssssssssssssssss</td>
-
-            </tr>
-            <tr>
-                <td>Quality Agency decision</td>
-                <td>sssssssssss</td>
-            </tr>
-
-
-        </table>
-
-        @for (int i = 0; i < Model.AccreditationStandartList.Count; i++)
-        {
-            var acs = Model.AccreditationStandartList[i];
-            var questions = acs.Questions != null ? acs.Questions.ToList() : new List<WebApp.Models.Question>();
-            <h2>
-                Standard @((1 + i).ToString()): @acs.Title
-            </h2>
-            <div>
-                @acs.Description
-            </div>
-
-
-            @for (int j = 0; j < questions.Count; j++)
-            {
-                var q = questions.ToList()[j];
-                <h3>
-                    @string.Format("{0}.{1} {2}", i + 1, j + 1, q)
-                </h3>
-                <h3><i>Team’s findings</i></h3>
-                <div>
-                    @Model.GetNotes(q)
-                </div>
             }
-        }
 
-    </div>
+        </div>
+    </page>
 </body>
 </html>
