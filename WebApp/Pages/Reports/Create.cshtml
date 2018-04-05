@@ -24,7 +24,7 @@
                 <select asp-for="Report.AssessorId" class="form-control" asp-items="@Model.Assessors"></select>
                 <span asp-validation-for="Report.AssessorId" class="text-danger"></span>
             </div>
-            <div class="form-group" style="max-width:360px;">
+            <div class="form-group">
                 <label asp-for="Report.Notes" class="control-label"></label>
                 <textarea asp-for="Report.Notes" class="form-control" style="resize:vertical;min-height:150px;max-height:250px;"></textarea>
                 <span asp-validation-for="Report.Notes" class="text-danger"></span>
