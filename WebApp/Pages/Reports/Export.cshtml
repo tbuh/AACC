@@ -101,7 +101,7 @@
                     {
                         var q = questions.ToList()[j];
                         <tr>
-                            <td>@string.Format("{0}.{1} {2}", i + 1, j + 1, q)</td>
+                            <td>@string.Format("{0}.{1} {2}", i + 1, j + 1, q.Title)</td>
                             <td style="text-align:center;">@Model.GetAnswer(q)</td>
                         </tr>
                     }
