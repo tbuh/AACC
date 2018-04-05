@@ -76,12 +76,12 @@ namespace WebApp.Pages.Account
 
                 if (user.IsAdmin)
                 {
-                    claims.Add(new Claim("Admin", ""));
+                    claims.Add(new Claim("Admin", "Admin"));
                 }
                 else if (user.IsSuperAdmin)
                 {
-                    claims.Add(new Claim("Admin", ""));
-                    claims.Add(new Claim("SuperAdmin", ""));
+                    claims.Add(new Claim("Admin", "Admin"));
+                    claims.Add(new Claim("SuperAdmin", "SuperAdmin"));
                 }
 
                 var claimsIdentity = new ClaimsIdentity(
