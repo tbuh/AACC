@@ -6,26 +6,23 @@
     Layout = "~/Pages/_Layout.cshtml";
 }
 
-<h2>Details</h2>
-
-<div>
-    <h4>Report</h4>
+    <h4>Report Details</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Report.AgedCareCenterId)
+            Aged Care Center Id
         </dt>
         <dd>
             @Html.DisplayFor(model => model.Report.AgedCareCenterId)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.Report.ReportDate)
+           Report Date
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Report.ReportDate)
+            @Model.Report.ReportDate.ToLongDateString()
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.Report.CompletionStatus)
+            Completion Status,%
         </dt>
         <dd>
             @Html.DisplayFor(model => model.Report.CompletionStatus)
@@ -37,7 +34,7 @@
             @Html.DisplayFor(model => model.Report.Notes)
         </dd>
     </dl>
-</div>
+
 <div>
     <a asp-page="./Edit" asp-route-id="@Model.Report.ReportId">Edit</a> |
     <a asp-page="./Index">Back to List</a>

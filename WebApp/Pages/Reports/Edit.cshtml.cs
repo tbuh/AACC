@@ -24,6 +24,8 @@ namespace WebApp.Pages.Reports
         public List<AccreditationStandart> AccreditationStandarts { get; set; }
         public IEnumerable<SelectListItem> AgedCareCenters { get; set; }
         public IEnumerable<SelectListItem> Assessors { get; set; }
+        [BindProperty]
+        public Dictionary<int, ReplyVM> QuestionReplyList { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -31,15 +33,23 @@ namespace WebApp.Pages.Reports
             {
                 return NotFound();
             }
-            Assessors = _context.Assessors.Select(a => new SelectListItem { Text = a.Name, Value = a.AssessorId.ToString() });
-            AgedCareCenters = _context.AgedCareCenters.Select(a => new SelectListItem { Text = a.Name, Value = a.AgedCareCenterId.ToString() });
             Report = await _context.Reports.Include(r => r.QuestionReply).SingleOrDefaultAsync(m => m.ReportId == id);
-            AccreditationStandarts = _context.AccreditationStandarts.Include(acs => acs.Questions).OrderBy(acs => acs.AccreditationStandartId).ToList();
-
             if (Report == null)
             {
                 return NotFound();
             }
+
+            Assessors = _context.Assessors.Select(a => new SelectListItem { Text = a.Name, Value = a.AssessorId.ToString() });
+            AgedCareCenters = _context.AgedCareCenters.Select(a => new SelectListItem { Text = a.Name, Value = a.AgedCareCenterId.ToString() });
+            AccreditationStandarts = _context.AccreditationStandarts.Include(acs => acs.Questions).OrderBy(acs => acs.AccreditationStandartId).ToList();
+
+            QuestionReplyList =
+            (from acs in AccreditationStandarts
+             from q in acs.Questions
+             join r in Report.QuestionReply on q.QuestionId equals r.QuestionId into gj
+             from subr in gj.DefaultIfEmpty()
+             select new ReplyVM(q, subr, Report)).ToDictionary(rvm => rvm.Question.QuestionId);
+
             return Page();
         }
 
@@ -50,9 +60,14 @@ namespace WebApp.Pages.Reports
                 return Page();
             }
 
+            Report.QuestionReply = QuestionReplyList.Values.Select(rvm => rvm.Reply).ToList();
             await _context.UpdateReport(Report);
             _context.Attach(Report).State = EntityState.Modified;
 
+            foreach (var qr in Report.QuestionReply)
+            {            
+                if (qr.QuestionReplyId != 0) _context.Attach(qr).State = EntityState.Modified;
+            }
             try
             {
                 await _context.SaveChangesAsync();
@@ -76,6 +91,20 @@ namespace WebApp.Pages.Reports
         {
             return _context.Reports.Any(e => e.ReportId == id);
         }
+    }
+
+    public class ReplyVM
+    {
+        public ReplyVM()
+        {
+            Reply = new QuestionReply();
+        }
+        public ReplyVM(Question q, QuestionReply qr, Report r)
+        {
+            Question = q; Reply = qr ?? new QuestionReply { QuestionId = q.QuestionId, ReportId = r.ReportId };
+        }
+        public Question Question { get; set; }
+        public QuestionReply Reply { get; set; }
     }
 
 }
