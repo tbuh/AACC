@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -31,6 +32,15 @@ namespace WebApp
             services.AddMvc().AddRazorPagesOptions(options =>
             {
                 options.Conventions.AddPageRoute("/Reports/Index", "");
+                
+                options.Conventions.AuthorizeFolder("/Teams", "SuperAdminOnly");
+                options.Conventions.AuthorizeFolder("/Reports");
+                options.Conventions.AuthorizeFolder("/Questions", "AdminOnly");
+                options.Conventions.AuthorizeFolder("/Assessors", "AdminOnly");
+                options.Conventions.AuthorizeFolder("/AgedCareCenters", "AdminOnly");
+                options.Conventions.AuthorizeFolder("/AccreditationStandarts", "AdminOnly");
+                options.Conventions.AllowAnonymousToPage("/Reports/Index");
+
             });
 
             services.AddDbContext<AACCContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
@@ -39,6 +49,15 @@ namespace WebApp
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new Info { Title = "My API", Version = "v1" });
+            });
+
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                    .AddCookie();
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("SuperAdminOnly", policy => policy.RequireClaim("SuperAdmin"));
+                options.AddPolicy("AdminOnly", policy => policy.RequireClaim("Admin"));
             });
         }
 
@@ -55,7 +74,7 @@ namespace WebApp
                 app.UseExceptionHandler("/Error");
             }
             app.UseStaticFiles();
-
+            app.UseAuthentication();
             // Enable middleware to serve generated Swagger as a JSON endpoint.
             app.UseSwagger();
 

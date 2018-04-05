@@ -36,6 +36,7 @@
                     <li><a href="/Teams">Teams</a></li>
                     <li><a target="_blank" href="/swagger/">API</a></li>
                 </ul>
+                @await Html.PartialAsync("_LoginPartial")
             </div>
         </div>
     </nav>
@@ -43,7 +44,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; 2017 - Reports</p>
+            <p>&copy; 2018 - Auditing of Aged Care centers</p>
         </footer>
     </div>
 
