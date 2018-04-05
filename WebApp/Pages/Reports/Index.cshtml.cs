@@ -18,11 +18,47 @@ namespace WebApp.Pages.Reports
             _context = context;
         }
 
-        public IList<Report> Report { get;set; }
+        public IList<Report> Report { get; set; }
+        public bool CanModify(Report r)
+        {
+            if (!IsSuperAdmin && ReportsToModify == null) return false;
+            return IsSuperAdmin || ReportsToModify.Contains(r.ReportId);
+        }
+
+        private List<int> ReportsToModify { get; set; }
+        private bool IsSuperAdmin { get; set; }
 
         public async Task OnGetAsync()
         {
+            var userId = HttpContext.User.Claims.FirstOrDefault(x => x.Type == "UserId")?.Value;
+            var admin = HttpContext.User.Claims.FirstOrDefault(x => x.Type == "Admin")?.Value;
+            var superadmin = HttpContext.User.Claims.FirstOrDefault(x => x.Type == "SuperAdmin")?.Value;
+
+            IsSuperAdmin = !string.IsNullOrEmpty(superadmin);
             Report = await _context.Reports.ToListAsync();
+
+            if (!string.IsNullOrEmpty(userId) && userId != "0")
+            {
+                var user = await _context.Assessors.SingleAsync(a => a.AssessorId == int.Parse(userId));
+                if (user.IsAdmin)
+                {
+                    var team = await _context.Teams.SingleAsync(a => a.TeamId == user.TeamId);
+                    var sql = $@"
+select r.* from [dbo].[Reports] r
+where r.[AssessorId] in (select a.[AssessorId] from [dbo].[Assessors] a
+where a.[TeamId] = ${team.TeamId})";
+
+                    ReportsToModify = await _context.Reports.FromSql(sql)
+                        .Select(r => r.ReportId)
+                        .ToListAsync();
+                }
+                else
+                {
+                    ReportsToModify = await _context.Reports
+                        .Where(r => r.AssessorId == user.AssessorId)
+                        .Select(r => r.ReportId).ToListAsync();
+                }
+            }
         }
     }
 }
