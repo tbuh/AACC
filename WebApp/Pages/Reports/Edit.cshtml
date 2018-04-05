@@ -6,40 +6,59 @@
     Layout = "~/Pages/_Layout.cshtml";
 }
 
-<h2>Edit</h2>
-
-<h4>Report</h4>
+<h4>Report Edit</h4>
 <hr />
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-10">
         <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Report.ReportId" />
-            <div class="form-group">
-                <label asp-for="Report.AgedCareCenterId" class="control-label"></label>
-                <input asp-for="Report.AgedCareCenterId" class="form-control" />
+            <div class="form-group" style="max-width:360px;">
+                <label asp-for="Report.AgedCareCenterId" class="control-label">Aged Care Center</label>
+                <select asp-for="Report.AgedCareCenterId" asp-items="@Model.AgedCareCenters" class="form-control"></select>
                 <span asp-validation-for="Report.AgedCareCenterId" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Report.AssessorId" class="control-label"></label>
-                <select asp-for="Report.AssessorId" class="form-control" asp-items="ViewBag.AssessorId"></select>
+            <div class="form-group" style="max-width:360px;">
+                <label asp-for="Report.AssessorId" class="control-label">Assessor</label>
+                <select asp-for="Report.AssessorId" class="form-control" asp-items="@Model.Assessors"></select>
                 <span asp-validation-for="Report.AssessorId" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Report.ReportDate" class="control-label"></label>
-                <input asp-for="Report.ReportDate" class="form-control" />
+            <div class="form-group" style="max-width:360px;">
+                <label asp-for="Report.ReportDate" class="control-label">Report Date</label>
+                <input id="date" type="date" asp-for="Report.ReportDate" class="form-control" disabled />
                 <span asp-validation-for="Report.ReportDate" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Report.CompletionStatus" class="control-label"></label>
-                <input asp-for="Report.CompletionStatus" class="form-control" />
-                <span asp-validation-for="Report.CompletionStatus" class="text-danger"></span>
-            </div>
-            <div class="form-group">
+            <div class="form-group" style="max-width:360px;">
                 <label asp-for="Report.Notes" class="control-label"></label>
-                <input asp-for="Report.Notes" class="form-control" />
+                <textarea asp-for="Report.Notes" class="form-control" style="resize:vertical;min-height:150px;max-height:250px;"></textarea>
                 <span asp-validation-for="Report.Notes" class="text-danger"></span>
             </div>
+            <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                @foreach (var items in Model.AccreditationStandarts)
+                {
+                    var classname = "collapse";
+                    @if (items.AccreditationStandartId == 1)
+                    {
+                        classname += "collapse in";
+                    }
+                    <div class="panel panel-default">
+                        <div class="panel-heading" role="tab" id="heading@(items.AccreditationStandartId)">
+                            <h4 class="panel-title">
+                                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse@(items.AccreditationStandartId)" aria-expanded="true" aria-controls="collapse@(items.AccreditationStandartId)">
+                                    Standard @(items.AccreditationStandartId)
+                                </a>
+                            </h4>
+                        </div>
+
+                        <div id="collapse@(items.AccreditationStandartId)" class="panel-collapse @(classname)" role="tabpanel" aria-labelledby="heading@(items.AccreditationStandartId)">
+                            <div class="panel-body">
+                            </div>
+                        </div>
+
+                    </div>
+                }
+            </div>
+
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-default" />
             </div>

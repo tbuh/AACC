@@ -8,7 +8,7 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
 
-<h4>Report</h4>
+<h4>Report Create</h4>
 <hr />
 <div class="row">
     <div class="col-md-10">
@@ -34,12 +34,12 @@
                 @foreach (var item in Model.Questions)
                 {
                     var astd = Model.AccreditationStandarts.Single(acs => acs.AccreditationStandartId == item.Key);
+
+
                     var classname = "collapse";
-                    var ariaexp = "false";
-                    @if (item.Key == 1)
+                    @if (astd.AccreditationStandartId == 1)
                     {
-                        classname = classname + " show";
-                        ariaexp = "true";
+                        classname += "collapse in";
                     }
 
                     <div class="panel panel-default">
@@ -50,31 +50,16 @@
                                 </a>
                             </h4>
                         </div>
-                        @*<div class="card">
-                            <div class="card-header" id="heading@(item.Key)">
-                                <h5 class="mb-0">
-                                    <a class="btn btn-link" data-toggle="collapse" data-target="#collapse@(item.Key)" aria-expanded="true" aria-controls="collapse@(item.Key)">
-                                        Standart @(item.Key)
-                                    </a>
-                                </h5>
-                            </div>*@
 
-
-                        <div id="collapse@(item.Key)" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading@(item.Key)">
+                        <div id="collapse@(item.Key)" class="panel-collapse @(classname)" role="tabpanel" aria-labelledby="heading@(item.Key)">
                             <div class="panel-body">
-
-                                @*<div id="collapse@(item.Key)" class="@(classname)" aria-labelledby="heading@(item.Key)" data-parent="#accordion">
-                                    <div class="card-body">
-                                        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-                                    </div>*@
-
 
                                 @foreach (var Groupeditem in item)
                                 {
                                     var groupKey = Groupeditem.Question.AccreditationStandartId;
 
                                     Model.QuestionReplyList.Add(Groupeditem.QuestionReply);
-                                    <label class="control-label">@Groupeditem.Question.Title</label> <br/>   
+                                    <label class="control-label">@Groupeditem.Question.Title</label> <br />
                                     <label class="control-label" style="font-weight:400;">@Groupeditem.Question.Notes</label>
                                     <input type="checkbox" asp-for="@Model.QuestionReplyList[Model.QuestionReplyList.Count-1].Response" style="display:block;margin-bottom:5px;" />
                                     <input asp-for="@Model.QuestionReplyList[Model.QuestionReplyList.Count-1].QuestionId" class="form-control" type="hidden" />

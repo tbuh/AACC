@@ -22,6 +22,8 @@ namespace WebApp.Pages.Reports
         [BindProperty]
         public Report Report { get; set; }
         public List<AccreditationStandart> AccreditationStandarts { get; set; }
+        public IEnumerable<SelectListItem> AgedCareCenters { get; set; }
+        public IEnumerable<SelectListItem> Assessors { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -29,9 +31,10 @@ namespace WebApp.Pages.Reports
             {
                 return NotFound();
             }
-            
+            Assessors = _context.Assessors.Select(a => new SelectListItem { Text = a.Name, Value = a.AssessorId.ToString() });
+            AgedCareCenters = _context.AgedCareCenters.Select(a => new SelectListItem { Text = a.Name, Value = a.AgedCareCenterId.ToString() });
             Report = await _context.Reports.Include(r => r.QuestionReply).SingleOrDefaultAsync(m => m.ReportId == id);
-            AccreditationStandarts = _context.AccreditationStandarts.Include(acs => acs.Questions).OrderBy(acs=>acs.StandartType).ToList();
+            AccreditationStandarts = _context.AccreditationStandarts.Include(acs => acs.Questions).OrderBy(acs => acs.AccreditationStandartId).ToList();
 
             if (Report == null)
             {
@@ -74,14 +77,5 @@ namespace WebApp.Pages.Reports
             return _context.Reports.Any(e => e.ReportId == id);
         }
     }
-    public class QuestionReplyVMEdit
-    {
-        public QuestionReplyVMEdit(Question q)
-        {
-            Question = q;
-            QuestionReply = new QuestionReply { QuestionId = q.QuestionId };
-        }
-        public QuestionReply QuestionReply { get; set; }
-        public Question Question { get; set; }
-    }
+
 }
