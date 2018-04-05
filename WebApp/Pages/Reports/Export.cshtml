@@ -1,11 +1,18 @@
 ﻿@page
 @model WebApp.Pages.Reports.ExportModel
+
+@{
+    Layout = null;
+}
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
     <title></title>
     <style>
+        body {
+            font-family: Roboto,sans-serif;
+        }
 
         page {
             background: white;
@@ -17,17 +24,20 @@
 
             page[size="A4"] {
                 width: 21cm;
-                height: 29.7cm;
             }
 
         table {
             border-collapse: collapse;
         }
 
-        table, th, td {
+        table {
             border: 1px solid black;
             width: 100%;
             min-width: 100%;
+        }
+
+        th, td {
+            border: 1px solid black;
         }
     </style>
 </head>
@@ -75,18 +85,24 @@
                 <div>
                     @acs.Description
                 </div>
-                <table class="table" style="text-align: left;">
+                if (Model.AccreditationStandartList[i].Questions.Count == 0)
+                {
+                    continue;
+
+                }
+                <br />
+                <table style="width:100%;text-align: left;" class="table">
                     <tr>
-                        <th>Expected outcome</th>
-                        <th>Quality Agency decision</th>
+                        <th style="width:60%">Expected outcome</th>
+                        <th style="width:40%;text-align:center;">Quality Agency decision</th>
                     </tr>
 
                     @for (int j = 0; j < questions.Count; j++)
                     {
                         var q = questions.ToList()[j];
                         <tr>
-                            <td>@string.Format("{0}.{1} {2}", i + 1, j + 1, q)</td>
-                            <td>@Model.GetAnswer(q)</td>
+                            <td>@string.Format("{0}.{1} {2}", i + 1, j + 1, q.Title)</td>
+                            <td style="text-align:center;">@Model.GetAnswer(q)</td>
                         </tr>
                     }
                 </table>
@@ -134,22 +150,22 @@
     <page size="A4">
         <div style="display:inline-block;margin: 0 auto;text-align: left;">
 
-            <h2>
-                Assessment team
-            </h2>
-            <table class="table" style="text-align: left;">
-                <tr>
-                    <td>Expected outcome</td>
-                    <td>ssssssssssssssssss</td>
+            @*<h2>
+                    Assessment team
+                </h2>
+                <table class="table" style="text-align: left;">
+                    <tr>
+                        <td>Expected outcome</td>
+                        <td>ssssssssssssssssss</td>
 
-                </tr>
-                <tr>
-                    <td>Quality Agency decision</td>
-                    <td>sssssssssss</td>
-                </tr>
+                    </tr>
+                    <tr>
+                        <td>Quality Agency decision</td>
+                        <td>sssssssssss</td>
+                    </tr>
 
 
-            </table>
+                </table>*@
 
             @for (int i = 0; i < Model.AccreditationStandartList.Count; i++)
             {
@@ -167,7 +183,7 @@
                 {
                     var q = questions.ToList()[j];
                     <h3>
-                        @string.Format("{0}.{1} {2}", i + 1, j + 1, q)
+                        @string.Format("{0}.{1} {2}", i + 1, j + 1, q.Title)
                     </h3>
                     <h3><i>Team’s findings</i></h3>
                     <div>
