@@ -9,7 +9,7 @@
 <p>
     <div style="margin-top:10px;margin-bottom:10px;">
 
-        <a asp-page="./Create">Create new Report</a>
+        <a class="btn btn-success" asp-page="./Create">Create new Report</a>
 
     </div>
 </p>
@@ -17,17 +17,17 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Report[0].AgedCareCenterId)
+                Aged Care Center
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Report[0].ReportDate)
+                Report Date
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Report[0].CompletionStatus)
+                Completion Status
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Report[0].Notes)
-            </th>
+            @*<th>
+                Notes
+            </th>*@
             <th></th>
         </tr>
     </thead>
@@ -39,19 +39,19 @@
                     @Html.DisplayFor(modelItem => item.AgedCareCenterId)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.ReportDate)
+                    @item.ReportDate.ToLongDateString()
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.CompletionStatus)
                 </td>
-                <td>
+                @*<td>
                     @Html.DisplayFor(modelItem => item.Notes)
-                </td>
+                </td>*@
                 <td>
-                    <a asp-page="./Export" asp-route-id="@item.ReportId">Export</a> |
-                    <a asp-page="./Edit" asp-route-id="@item.ReportId">Edit</a> |
-                    <a asp-page="./Details" asp-route-id="@item.ReportId">Details</a> |
-                    <a asp-page="./Delete" asp-route-id="@item.ReportId">Delete</a>
+                    <a class="btn btn-info btn-xs" asp-page="./Export" asp-route-id="@item.ReportId">Details</a>
+                    <a class="btn btn-success btn-xs" asp-page="./Edit" asp-route-id="@item.ReportId">Edit</a>
+                    @*<a class="btn btn-info btn-xs" asp-page="./Details" asp-route-id="@item.ReportId">Details</a>*@
+                    <a class="btn btn-danger btn-xs" asp-page="./Delete" asp-route-id="@item.ReportId">Delete</a>
                 </td>
             </tr>
         }

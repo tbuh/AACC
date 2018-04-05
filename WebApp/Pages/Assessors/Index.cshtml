@@ -8,7 +8,7 @@
 
 
 <div style="margin-top:10px;margin-bottom:10px;">
-    <a asp-page="./Create">Create new Assessor</a>
+    <a class="btn btn-success" asp-page="./Create">Create new Assessor</a>
 </div>
 
 <table class="table">
@@ -64,9 +64,9 @@
                     @Html.DisplayFor(modelItem => item.Team.Name)
                 </td>
                 <td>
-                    <a asp-page="./Edit" asp-route-id="@item.AssessorId">Edit</a> |
-                    <a asp-page="./Details" asp-route-id="@item.AssessorId">Details</a> |
-                    <a asp-page="./Delete" asp-route-id="@item.AssessorId">Delete</a>
+                    <a class="btn-success btn-xs" asp-page="./Edit" asp-route-id="@item.AssessorId">Edit</a>
+                    <a class="btn-info btn-xs" asp-page="./Details" asp-route-id="@item.AssessorId">Details</a>
+                    <a class="btn-danger btn-xs" asp-page="./Delete" asp-route-id="@item.AssessorId">Delete</a>
                 </td>
             </tr>
         }

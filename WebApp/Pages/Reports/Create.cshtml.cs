@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using WebApp.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace WebApp.Pages.Reports
 {
@@ -16,12 +17,8 @@ namespace WebApp.Pages.Reports
         public CreateModel(AACCContext context)
         {
             _context = context;
-            QuestionReplyList = new List<QuestionReply>();
         }
 
-        [BindProperty]
-        public List<IGrouping<int, QuestionReplyVM>> Questions { get; set; }
-        public List<Report> Reports { get; set; }
         public List<AccreditationStandart> AccreditationStandarts { get; set; }
         public IEnumerable<SelectListItem> AgedCareCenters { get; set; }
         public IEnumerable<SelectListItem> Assessors { get; set; }
@@ -32,16 +29,25 @@ namespace WebApp.Pages.Reports
             return Page();
         }
 
-        private void InitModel()
+        private void InitModel(bool isNew = true)
         {
             Assessors = _context.Assessors.Select(a => new SelectListItem { Text = a.Name, Value = a.AssessorId.ToString() });
             AgedCareCenters = _context.AgedCareCenters.Select(a => new SelectListItem { Text = a.Name, Value = a.AgedCareCenterId.ToString() });
-            Questions = _context.Questions.Select(q => new QuestionReplyVM(q)).OrderBy(q => q.Question.AccreditationStandartId).GroupBy(q => q.Question.AccreditationStandartId).ToList();
-            AccreditationStandarts = _context.AccreditationStandarts.ToList();
+            AccreditationStandarts = _context.AccreditationStandarts.Include(ass => ass.Questions).ToList();
+            if (isNew)
+                QuestionReplyList = (
+                    from asst in AccreditationStandarts
+                    from q in asst.Questions
+                    select new QuestionReply
+                    {
+                        QuestionId = q.QuestionId
+                    }).ToDictionary(qr => qr.QuestionId);
+
+
         }
 
         [BindProperty]
-        public List<QuestionReply> QuestionReplyList { get; set; }
+        public Dictionary<int, QuestionReply> QuestionReplyList { get; set; }
         [BindProperty]
         public Report Report { get; set; }
 
@@ -49,11 +55,11 @@ namespace WebApp.Pages.Reports
         {
             if (!ModelState.IsValid)
             {
-                InitModel();
+                InitModel(false);
                 return Page();
             }
             Report.ReportDate = DateTime.Now;
-            Report.QuestionReply = QuestionReplyList;
+            Report.QuestionReply = QuestionReplyList.Values;
 
             _context.Reports.Add(Report);
             await _context.UpdateReport(Report);
@@ -61,16 +67,5 @@ namespace WebApp.Pages.Reports
 
             return RedirectToPage("./Index");
         }
-    }
-
-    public class QuestionReplyVM
-    {
-        public QuestionReplyVM(Question q)
-        {
-            Question = q;
-            QuestionReply = new QuestionReply { QuestionId = q.QuestionId };
-        }
-        public QuestionReply QuestionReply { get; set; }
-        public Question Question { get; set; }
     }
 }

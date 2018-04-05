@@ -34,24 +34,38 @@
                 <span asp-validation-for="Report.Notes" class="text-danger"></span>
             </div>
             <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-                @foreach (var items in Model.AccreditationStandarts)
+                @foreach (var item in Model.AccreditationStandarts)
                 {
                     var classname = "collapse";
-                    @if (items.AccreditationStandartId == 1)
+                    @if (item.AccreditationStandartId == 1)
                     {
                         classname += "collapse in";
                     }
                     <div class="panel panel-default">
-                        <div class="panel-heading" role="tab" id="heading@(items.AccreditationStandartId)">
+                        <div class="panel-heading" role="tab" id="heading@(item.AccreditationStandartId)">
                             <h4 class="panel-title">
-                                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse@(items.AccreditationStandartId)" aria-expanded="true" aria-controls="collapse@(items.AccreditationStandartId)">
-                                    Standard @(items.AccreditationStandartId)
+                                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse@(item.AccreditationStandartId)" aria-expanded="true" aria-controls="collapse@(item.AccreditationStandartId)">
+                                    Standard @(item.AccreditationStandartId)
                                 </a>
                             </h4>
                         </div>
 
-                        <div id="collapse@(items.AccreditationStandartId)" class="panel-collapse @(classname)" role="tabpanel" aria-labelledby="heading@(items.AccreditationStandartId)">
+                        <div id="collapse@(item.AccreditationStandartId)" class="panel-collapse @(classname)" role="tabpanel" aria-labelledby="heading@(item.AccreditationStandartId)">
                             <div class="panel-body">
+                                @foreach (var question in item.Questions)
+                                {
+                                    <label class="control-label">@question.Title</label> <br />
+
+                                    <label class="control-label" style="font-weight:400;">@question.Notes</label>
+
+                                    <input type="checkbox" asp-for="@Model.QuestionReplyList[question.QuestionId].Reply.Response" style="display:block;margin-bottom:5px;" />
+                                    <input asp-for="@Model.QuestionReplyList[question.QuestionId].Reply.Notes" class="form-control" />
+                                    <input asp-for="@Model.QuestionReplyList[question.QuestionId].Reply.QuestionId" class="form-control" type="hidden" />
+                                    <input asp-for="@Model.QuestionReplyList[question.QuestionId].Reply.QuestionReplyId" class="form-control" type="hidden" />
+                                    <input asp-for="@Model.QuestionReplyList[question.QuestionId].Reply.ReportId" class="form-control" type="hidden" />
+                                }
+
+
                             </div>
                         </div>
 
@@ -60,7 +74,7 @@
             </div>
 
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-default" />
+                <input type="submit" value="Save" class="btn btn-success" />
             </div>
         </form>
     </div>

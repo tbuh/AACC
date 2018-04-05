@@ -4,7 +4,7 @@
 <p>
     <div style="margin-top:10px;margin-bottom:10px;">
 
-        <a asp-page="./Create">Create new ACC</a>
+        <a class="btn btn-success" asp-page="./Create">Create new ACC</a>
 
     </div>
 </p>
@@ -62,20 +62,13 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.ContactEmail2)
                 </td>
-             
+
                 <td>
-                    <a asp-page="./Edit" asp-route-id="@item.AgedCareCenterId">Edit</a> |
-                    <a asp-page="./Details" asp-route-id="@item.AgedCareCenterId">Details</a> |
-                    <a asp-page="./Delete" asp-route-id="@item.AgedCareCenterId">Delete</a>
+                    <a class="btn btn-success btn-xs" asp-page="./Edit" asp-route-id="@item.AgedCareCenterId">Edit</a>
+                    <a class="btn btn-info btn-xs" asp-page="./Details" asp-route-id="@item.AgedCareCenterId">Details</a>
+                    <a class="btn btn-danger btn-xs" asp-page="./Delete" asp-route-id="@item.AgedCareCenterId">Delete</a>
                 </td>
             </tr>
         }
     </tbody>
 </table>
-
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-        </div>
-    </div>
-</div>
