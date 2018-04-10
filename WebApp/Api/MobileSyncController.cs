@@ -56,7 +56,6 @@ namespace WebApp.Api
                 var Questions = await _context.Questions.GroupBy(q => q.AccreditationStandartId).ToListAsync();
                 model.ReportList = await _context.Reports.Include(r => r.QuestionReply).ToListAsync();
 
-
                 var report = new Report
                 {
                     AgedCareCenterId = -1,
@@ -72,6 +71,7 @@ namespace WebApp.Api
                     Question = q
                 })).ToList();
                 model.NewReport = report;
+                model.ReportList.ForEach(r => r.QuestionReply.Select((qr, i) => qr.QuestionNumber = $"{qr.Question.AccreditationStandartId}.{i + 1}").ToList());
             }
             catch (Exception ex)
             {
