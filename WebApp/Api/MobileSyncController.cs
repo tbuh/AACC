@@ -53,7 +53,7 @@ namespace WebApp.Api
             {
                 model.AgedCareCenterList = await _context.AgedCareCenters.ToListAsync();
                 model.AssessorList = await _context.Assessors.ToListAsync();
-                var Questions = await _context.Questions.ToListAsync();
+                var Questions = await _context.Questions.GroupBy(q => q.AccreditationStandartId).ToListAsync();
                 model.ReportList = await _context.Reports.Include(r => r.QuestionReply).ToListAsync();
 
 
@@ -64,7 +64,13 @@ namespace WebApp.Api
                     ReportDate = DateTime.Now,
                 };
 
-                report.QuestionReply = Questions.Select(q => new QuestionReply { QuestionId = q.QuestionId, Response = false, Question = q }).ToList();
+                report.QuestionReply = Questions.SelectMany(g => g.Select((q, index) => new QuestionReply
+                {
+                    QuestionId = q.QuestionId,
+                    QuestionNumber = $"{g.Key}.{index + 1}",
+                    Response = false,
+                    Question = q
+                })).ToList();
                 model.NewReport = report;
             }
             catch (Exception ex)
