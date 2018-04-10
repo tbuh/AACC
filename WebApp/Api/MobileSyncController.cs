@@ -41,7 +41,7 @@ namespace WebApp.Api
                 {
                     await _context.UpdateReport(report);
                 }
-                else
+                else if (report.IsNew)
                 {
                     await _context.SaveReport(report);
                 }
@@ -61,6 +61,7 @@ namespace WebApp.Api
                     AgedCareCenterId = -1,
                     AssessorId = -1,
                     ReportDate = DateTime.Now,
+                    IsNew = true
                 };
 
                 report.QuestionReply = Questions.SelectMany(g => g.Select((q, index) => new QuestionReply

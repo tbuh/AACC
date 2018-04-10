@@ -22,5 +22,7 @@ namespace WebApp.Models
         public bool IsDeleted { get; set; }
         [NotMapped]
         public bool IsChanged { get; set; }
+        [NotMapped]
+        public bool IsNew { get; set; }
     }
 }
