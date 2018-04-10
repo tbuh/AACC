@@ -22,7 +22,7 @@ namespace WebApp.Models
         public DbSet<AccreditationStandart> AccreditationStandarts { get; set; }
 
 
-        public async System.Threading.Tasks.Task UpdateReport(Report report)
+        public async System.Threading.Tasks.Task UpdateCompletionStatus(Report report)
         {
             int cntQ = await Questions.CountAsync();
             int cntR = 0;
@@ -30,6 +30,24 @@ namespace WebApp.Models
                 cntR = report.QuestionReply.Count(qr => qr.Response && qr.ReportId == report.ReportId);
 
             report.CompletionStatus = System.Math.Round((double)100 * cntR / cntQ);
+        }
+
+        public async System.Threading.Tasks.Task SaveReport(Report report)
+        {
+            Reports.Add(report);
+            await UpdateCompletionStatus(report);
+            await SaveChangesAsync();
+        }
+
+        public async System.Threading.Tasks.Task UpdateReport(Report report)
+        {
+            await UpdateCompletionStatus(report);
+            Attach(report).State = EntityState.Modified;
+
+            foreach (var qr in report.QuestionReply)
+            {
+                if (qr.QuestionReplyId != 0) Attach(qr).State = EntityState.Modified;
+            }
         }
     }
 }

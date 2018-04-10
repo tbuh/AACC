@@ -62,12 +62,6 @@ namespace WebApp.Pages.Reports
 
             Report.QuestionReply = QuestionReplyList.Values.Select(rvm => rvm.Reply).ToList();
             await _context.UpdateReport(Report);
-            _context.Attach(Report).State = EntityState.Modified;
-
-            foreach (var qr in Report.QuestionReply)
-            {            
-                if (qr.QuestionReplyId != 0) _context.Attach(qr).State = EntityState.Modified;
-            }
             try
             {
                 await _context.SaveChangesAsync();

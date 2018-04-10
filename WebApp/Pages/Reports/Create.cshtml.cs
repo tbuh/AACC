@@ -61,9 +61,7 @@ namespace WebApp.Pages.Reports
             Report.ReportDate = DateTime.Now;
             Report.QuestionReply = QuestionReplyList.Values;
 
-            _context.Reports.Add(Report);
-            await _context.UpdateReport(Report);
-            await _context.SaveChangesAsync();
+            await _context.SaveReport(Report);
 
             return RedirectToPage("./Index");
         }

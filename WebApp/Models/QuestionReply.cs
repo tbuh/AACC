@@ -11,6 +11,7 @@ namespace WebApp.Models
         public int QuestionReplyId { get; set; }
         [Required]
         public int QuestionId { get; set; }
+        public Question Question { get; set; }
         public bool Response { get; set; }
         public string Notes { get; set; }
         [Required]

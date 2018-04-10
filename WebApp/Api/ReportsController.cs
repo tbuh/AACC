@@ -82,7 +82,7 @@ namespace WebApp.Api
             {
                 return BadRequest();
             }
-            await _context.UpdateReport(report);
+            await _context.UpdateCompletionStatus(report);
             if (report.QuestionReply != null)
             {
                 foreach (var item in report.QuestionReply)
