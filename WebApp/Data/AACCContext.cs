@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Linq;
-
+using System.Collections.Generic;
 namespace WebApp.Models
 {
     public class AACCContext : DbContext
@@ -34,7 +34,13 @@ namespace WebApp.Models
 
         public async System.Threading.Tasks.Task SaveReport(Report report)
         {
-            Reports.Add(report);
+            Reports.Add(report).State = EntityState.Added;
+            foreach (var item in report.QuestionReply)
+            {
+                QuestionReplies.Add(item).State = EntityState.Added;
+                if (item.Question != null) Questions.Add(item.Question).State = EntityState.Unchanged;
+            }
+
             await UpdateCompletionStatus(report);
             await SaveChangesAsync();
         }

@@ -72,12 +72,14 @@ namespace WebApp.Api
                     Question = q
                 })).ToList();
                 model.NewReport = report;
-                model.ReportList.ForEach(r => r.QuestionReply.Select((qr, i) => qr.QuestionNumber = $"{qr.Question.AccreditationStandartId}.{i + 1}").ToList());
+                model.ReportList
+                    .ForEach(r => r.QuestionReply.GroupBy(qr=>qr.Question.AccreditationStandartId)
+                                                 .SelectMany(g=> g.Select((qr, i) => qr.QuestionNumber = $"{qr.Question.AccreditationStandartId}.{i + 1}"))
+                                                 .ToList());
             }
             catch (Exception ex)
             {
-
-                throw;
+                model.Error = ex.Message;
             }
             return CreatedAtAction("Sync", model);
         }
@@ -90,5 +92,6 @@ namespace WebApp.Api
         public List<Report> ReportList { get; set; }
         public List<AccreditationStandart> AccreditationStandartList { get; set; }
         public Report NewReport { get; set; }
+        public string Error { get; set; }
     }
 }
