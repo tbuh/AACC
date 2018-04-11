@@ -10,6 +10,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Swashbuckle.AspNetCore.Swagger;
 using WebApp.Models;
+using NLog.Web;
+using Microsoft.Extensions.Logging;
+using NLog.Extensions.Logging;
 
 namespace WebApp
 {
@@ -62,8 +65,10 @@ namespace WebApp
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+            env.ConfigureNLog("nlog.config");
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -84,12 +89,15 @@ namespace WebApp
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
             });
 
+            
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
                     name: "default",
                     template: "{controller}/{action=Index}/{id?}");
             });
+
+            loggerFactory.AddNLog();
         }
     }
 }

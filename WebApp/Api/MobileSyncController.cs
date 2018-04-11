@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using WebApp.Models;
 
 namespace WebApp.Api
@@ -15,15 +16,18 @@ namespace WebApp.Api
     public class MobileSyncController : Controller
     {
         private readonly AACCContext _context;
+        private ILogger<MobileSyncController> _logger;
 
-        public MobileSyncController(AACCContext context)
+        public MobileSyncController(AACCContext context, ILogger<MobileSyncController> logger)
         {
+            _logger = logger;
             _context = context;
         }
 
         [HttpPost]
         public async Task<IActionResult> Sync([FromBody] List<Report> reports)
         {
+            _logger.LogInformation("sync...");
             var model = new SyncModel();
             StringBuilder sb = new StringBuilder();
             try
@@ -57,6 +61,7 @@ namespace WebApp.Api
                 }
                 catch (Exception ex)
                 {
+                    _logger.LogError(ex, "MobileSync");
                     sb.AppendLine(ex.Message);
                 }
 
@@ -88,6 +93,7 @@ namespace WebApp.Api
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, "MobileSync");
                 sb.AppendLine(ex.Message);
             }
             finally
