@@ -23,5 +23,7 @@ namespace WebApp.Models
         [NotMapped]
         public bool IsChanged { get; set; }
         public byte[] ReportImage { get; set; }
+        [NotMapped]
+        public bool IsNew { get; set; }
     }
 }

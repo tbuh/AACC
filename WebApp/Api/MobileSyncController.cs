@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -23,61 +24,78 @@ namespace WebApp.Api
         [HttpPost]
         public async Task<IActionResult> Sync([FromBody] List<Report> reports)
         {
-            foreach (var report in reports)
-            {
-                if (report.AgedCareCenterId == -1 || report.AssessorId == -1) continue;
-
-                if (report.IsDeleted)
-                {
-                    if (report.QuestionReply != null)
-                        foreach (var reply in report.QuestionReply)
-                        {
-                            if (reply.QuestionReplyId != 0)
-                                _context.Remove(reply);
-                        }
-                    _context.Remove(report);
-                }
-                else if (report.IsChanged)
-                {
-                    await _context.UpdateReport(report);
-                }
-                else
-                {
-                    await _context.SaveReport(report);
-                }
-                await _context.SaveChangesAsync();
-            }
-
             var model = new SyncModel();
+            StringBuilder sb = new StringBuilder();
             try
             {
+                try
+                {
+                    foreach (var report in reports)
+                    {
+                        if (report.AgedCareCenterId == -1 || report.AssessorId == -1) continue;
+
+                        if (report.IsDeleted)
+                        {
+                            if (report.QuestionReply != null)
+                                foreach (var reply in report.QuestionReply)
+                                {
+                                    if (reply.QuestionReplyId != 0)
+                                        _context.Remove(reply);
+                                }
+                            _context.Remove(report);
+                            await _context.SaveChangesAsync();
+                        }
+                        else if (report.IsNew)
+                        {
+                            await _context.SaveReport(report);
+                        }
+                        else if (report.IsChanged)
+                        {
+                            await _context.UpdateReport(report);
+                        }                        
+                    }
+                }
+                catch (Exception ex)
+                {
+                    sb.AppendLine(ex.Message);
+                }
+
                 model.AgedCareCenterList = await _context.AgedCareCenters.ToListAsync();
                 model.AssessorList = await _context.Assessors.ToListAsync();
                 var Questions = await _context.Questions.GroupBy(q => q.AccreditationStandartId).ToListAsync();
                 model.ReportList = await _context.Reports.Include(r => r.QuestionReply).ToListAsync();
 
-                var report = new Report
+                var newReport = new Report
                 {
                     AgedCareCenterId = -1,
                     AssessorId = -1,
                     ReportDate = DateTime.Now,
+                    IsNew = true
                 };
 
-                report.QuestionReply = Questions.SelectMany(g => g.Select((q, index) => new QuestionReply
+                newReport.QuestionReply = Questions.SelectMany(g => g.Select((q, index) => new QuestionReply
                 {
                     QuestionId = q.QuestionId,
                     QuestionNumber = $"{g.Key}.{index + 1}",
                     Response = false,
                     Question = q
                 })).ToList();
-                model.NewReport = report;
-                model.ReportList.ForEach(r => r.QuestionReply.Select((qr, i) => qr.QuestionNumber = $"{qr.Question.AccreditationStandartId}.{i + 1}").ToList());
+                model.NewReport = newReport;
+                model.ReportList
+                    .ForEach(r => r.QuestionReply.GroupBy(qr => qr.Question.AccreditationStandartId)
+                                                 .SelectMany(g => g.Select((qr, i) => qr.QuestionNumber = $"{qr.Question.AccreditationStandartId}.{i + 1}"))
+                                                 .ToList());
             }
             catch (Exception ex)
             {
-
-                throw;
+                sb.AppendLine(ex.Message);
             }
+            finally
+            {
+                var message = sb.ToString();
+                model.Error = message;
+            }
+
             return CreatedAtAction("Sync", model);
         }
     }
@@ -89,5 +107,6 @@ namespace WebApp.Api
         public List<Report> ReportList { get; set; }
         public List<AccreditationStandart> AccreditationStandartList { get; set; }
         public Report NewReport { get; set; }
+        public string Error { get; set; }
     }
 }
