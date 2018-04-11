@@ -19,7 +19,7 @@ namespace WebApp.Api
         {
             _context = context;
             //Db Initializer
-            // _context.Database.EnsureCreated();
+            _context.Database.EnsureCreated();
         }
 
         // GET: api/Assessors

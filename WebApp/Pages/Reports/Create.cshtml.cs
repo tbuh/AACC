@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using WebApp.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Http;
+using System.IO;
 
 namespace WebApp.Pages.Reports
 {
@@ -22,6 +24,7 @@ namespace WebApp.Pages.Reports
         public List<AccreditationStandart> AccreditationStandarts { get; set; }
         public IEnumerable<SelectListItem> AgedCareCenters { get; set; }
         public IEnumerable<SelectListItem> Assessors { get; set; }
+        public IFormFile ReportImage { get; set; }
 
         public IActionResult OnGet()
         {
@@ -51,19 +54,30 @@ namespace WebApp.Pages.Reports
         [BindProperty]
         public Report Report { get; set; }
 
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsync(IFormFile reportImage)
         {
             if (!ModelState.IsValid)
             {
                 InitModel(false);
                 return Page();
             }
+            if (reportImage != null)
+            {
+                using (var memoryStream = new MemoryStream())
+                {
+                    await reportImage.CopyToAsync(memoryStream);
+                    Report.ReportImage = memoryStream.ToArray();
+                }
+            }
+
             Report.ReportDate = DateTime.Now;
             Report.QuestionReply = QuestionReplyList.Values;
+
 
             await _context.SaveReport(Report);
 
             return RedirectToPage("./Index");
         }
     }
+
 }

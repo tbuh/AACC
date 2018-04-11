@@ -6,34 +6,42 @@
     Layout = "~/Pages/_Layout.cshtml";
 }
 
-    <h4>Report Details</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            Aged Care Center Id
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Report.AgedCareCenterId)
-        </dd>
-        <dt>
-           Report Date
-        </dt>
-        <dd>
-            @Model.Report.ReportDate.ToLongDateString()
-        </dd>
-        <dt>
-            Completion Status,%
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Report.CompletionStatus)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Report.Notes)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Report.Notes)
-        </dd>
-    </dl>
+<h4>Report Details</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <address style="font-size:18px;padding:15px;">
+            Made by <strong>@(Model.Assessor.Name)</strong><br>
+            On date @(Model.Report.ReportDate.ToLongDateString())<br>
+            For<strong> @(Model.AgedCareCenter.Name)</strong><br>
+            Completion Status:
+            @(Model.Report.CompletionStatus)%
+
+
+        </address>
+    </div>
+    <div class="col-md-8">
+        @{ if (Model.Report.ReportImage != null)
+            {
+                <img src="data:image;base64,@System.Convert.ToBase64String(Model.Report.ReportImage)" style="width:85%;height:85%;padding:15px;">
+            }
+            else
+            {
+                <img alt="No image" style="width:85%;height:85%;padding:15px;">
+            }
+
+        }
+
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <label style="font-size:18px;padding-top:15px;padding-left:15px;padding-right:15px;"><strong>Notes:</strong></label>
+        <p style="padding-left:15px;padding-right:15px;">@Model.Report.Notes</p>
+    </div>
+
+</div>
+
 
 <div>
     <a asp-page="./Edit" asp-route-id="@Model.Report.ReportId">Edit</a> |

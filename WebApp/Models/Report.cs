@@ -22,5 +22,6 @@ namespace WebApp.Models
         public bool IsDeleted { get; set; }
         [NotMapped]
         public bool IsChanged { get; set; }
+        public byte[] ReportImage { get; set; }
     }
 }

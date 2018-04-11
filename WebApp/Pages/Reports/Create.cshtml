@@ -11,19 +11,27 @@
 <h4>Report Create</h4>
 <hr />
 <div class="row">
-    <div class="col-md-10">
-        <form method="post">
+    <div class="col-md-12">
+        <form method="post" enctype="multipart/form-data">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group" style="max-width:360px;">
+                        <label asp-for="Report.AgedCareCenterId" class="control-label">Aged Care Center</label>
+                        <select asp-for="Report.AgedCareCenterId" class="form-control" asp-items="@Model.AgedCareCenters"></select>
+                        <span asp-validation-for="Report.AgedCareCenterId" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group" style="max-width:360px;">
+                        <label asp-for="Report.AssessorId" class="control-label">Assessor</label>
+                        <select asp-for="Report.AssessorId" class="form-control" asp-items="@Model.Assessors"></select>
+                        <span asp-validation-for="Report.AssessorId" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group" style="max-width:360px;">
-                <label asp-for="Report.AgedCareCenterId" class="control-label">Aged Care Center</label>
-                <select asp-for="Report.AgedCareCenterId" class="form-control" asp-items="@Model.AgedCareCenters"></select>
-                <span asp-validation-for="Report.AgedCareCenterId" class="text-danger"></span>
-            </div>
-            <div class="form-group" style="max-width:360px;">
-                <label asp-for="Report.AssessorId" class="control-label">Assessor</label>
-                <select asp-for="Report.AssessorId" class="form-control" asp-items="@Model.Assessors"></select>
-                <span asp-validation-for="Report.AssessorId" class="text-danger"></span>
-            </div>
+
+
             <div class="form-group">
                 <label asp-for="Report.Notes" class="control-label"></label>
                 <textarea asp-for="Report.Notes" class="form-control" style="resize:vertical;min-height:150px;max-height:250px;"></textarea>
@@ -62,12 +70,15 @@
                                     <input asp-for="@Model.QuestionReplyList[q.QuestionId].Notes" class="form-control" />
                                     <span asp-validation-for="@Model.QuestionReplyList[q.QuestionId].Notes" class="text-danger"></span>
 
+
                                 }
                             </div>
                         </div>
                     </div>
 
                 }
+
+                <input type="file" name="reportImage" multiple style="margin-top:15px;" />
             </div>
 
             <div class="form-group">

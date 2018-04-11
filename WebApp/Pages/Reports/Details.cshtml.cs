@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -19,6 +20,8 @@ namespace WebApp.Pages.Reports
         }
 
         public Report Report { get; set; }
+        public Assessor Assessor { get; set; }
+        public AgedCareCenter AgedCareCenter { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -26,8 +29,9 @@ namespace WebApp.Pages.Reports
             {
                 return NotFound();
             }
-
             Report = await _context.Reports.SingleOrDefaultAsync(m => m.ReportId == id);
+            AgedCareCenter = await _context.AgedCareCenters.Where(a => a.AgedCareCenterId == Report.AssessorId).SingleOrDefaultAsync();
+            Assessor = await _context.Assessors.Where(a => a.AssessorId == Report.AgedCareCenterId).SingleOrDefaultAsync();
 
             if (Report == null)
             {

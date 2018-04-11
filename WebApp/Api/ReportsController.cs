@@ -24,6 +24,7 @@ namespace WebApp.Api
         [HttpGet]
         public IEnumerable<Report> GetReports()
         {
+
             return _context.Reports.Include(r => r.QuestionReply);
         }
 
@@ -58,10 +59,10 @@ namespace WebApp.Api
             {
                 AgedCareCenterId = agedCareCenterId,
                 AssessorId = assessorId,
-                ReportDate = DateTime.Now,                
+                ReportDate = DateTime.Now,
             };
 
-            report.QuestionReply = _context.Questions.Select(q=>new QuestionReply { QuestionId = q.QuestionId, Response = false}).ToList();
+            report.QuestionReply = _context.Questions.Select(q => new QuestionReply { QuestionId = q.QuestionId, Response = false }).ToList();
 
             _context.Reports.Add(report);
             await _context.SaveChangesAsync();
