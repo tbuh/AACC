@@ -43,16 +43,16 @@ namespace WebApp.Api
                                         _context.Remove(reply);
                                 }
                             _context.Remove(report);
-                        }
-                        else if (report.IsChanged)
-                        {
-                            await _context.UpdateReport(report);
+                            await _context.SaveChangesAsync();
                         }
                         else if (report.IsNew)
                         {
                             await _context.SaveReport(report);
                         }
-                        await _context.SaveChangesAsync();
+                        else if (report.IsChanged)
+                        {
+                            await _context.UpdateReport(report);
+                        }                        
                     }
                 }
                 catch (Exception ex)

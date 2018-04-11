@@ -59,12 +59,11 @@ namespace WebApp.Pages.Reports
             {
                 return Page();
             }
-
-            Report.QuestionReply = QuestionReplyList.Values.Select(rvm => rvm.Reply).ToList();
-            await _context.UpdateReport(Report);
+            
             try
             {
-                await _context.SaveChangesAsync();
+                Report.QuestionReply = QuestionReplyList.Values.Select(rvm => rvm.Reply).ToList();
+                await _context.UpdateReport(Report);
             }
             catch (DbUpdateConcurrencyException)
             {

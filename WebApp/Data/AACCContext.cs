@@ -54,6 +54,8 @@ namespace WebApp.Models
             {
                 if (qr.QuestionReplyId != 0) Attach(qr).State = EntityState.Modified;
             }
+
+            await SaveChangesAsync();
         }
     }
 }
