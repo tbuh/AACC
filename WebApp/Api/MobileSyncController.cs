@@ -56,7 +56,7 @@ namespace WebApp.Api
                         else if (report.IsChanged)
                         {
                             await _context.UpdateReport(report);
-                        }                        
+                        }
                     }
                 }
                 catch (Exception ex)
@@ -87,9 +87,20 @@ namespace WebApp.Api
                 })).ToList();
                 model.NewReport = newReport;
                 model.ReportList
-                    .ForEach(r => r.QuestionReply.GroupBy(qr => qr.Question.AccreditationStandartId)
-                                                 .SelectMany(g => g.Select((qr, i) => qr.QuestionNumber = $"{qr.Question.AccreditationStandartId}.{i + 1}"))
-                                                 .ToList());
+                    .ForEach(r =>
+                    {
+                        var questionNumberOrderBy = 0;
+                        r.QuestionReply.GroupBy(qr => qr.Question.AccreditationStandartId)
+                                                     .SelectMany(g => g.OrderBy(q => q.QuestionId).Select((qr, i) =>
+                                                       {
+                                                           questionNumberOrderBy++;
+                                                           qr.QuestionNumberOrderBy = questionNumberOrderBy;
+                                                           qr.QuestionNumber = $"{g.Key}.{i + 1}";
+                                                           return qr.QuestionNumber;
+                                                       }))
+                                                     .ToList();
+                        r.QuestionReply = r.QuestionReply.OrderBy(qr => qr.QuestionNumberOrderBy).ToList();
+                    });
             }
             catch (Exception ex)
             {

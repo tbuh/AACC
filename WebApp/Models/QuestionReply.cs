@@ -19,5 +19,8 @@ namespace WebApp.Models
         public int ReportId { get; set; }
         [NotMapped]
         public string QuestionNumber { get; set; }
+        [NotMapped]
+        [Newtonsoft.Json.JsonIgnore]
+        public int QuestionNumberOrderBy { get; set; }
     }
 }
