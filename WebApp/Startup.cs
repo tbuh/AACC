@@ -38,10 +38,18 @@ namespace WebApp
                 
                 options.Conventions.AuthorizeFolder("/Teams", "SuperAdminOnly");
                 options.Conventions.AuthorizeFolder("/Reports");
-                options.Conventions.AuthorizeFolder("/Questions", "AdminOnly");
+
                 options.Conventions.AuthorizeFolder("/Assessors", "AdminOnly");
                 options.Conventions.AuthorizeFolder("/AgedCareCenters", "AdminOnly");
-                options.Conventions.AuthorizeFolder("/AccreditationStandarts", "AdminOnly");
+
+                options.Conventions.AuthorizePage("/Questions/Create", "AdminOnly");
+                options.Conventions.AuthorizePage("/Questions/Delete", "AdminOnly");
+                options.Conventions.AuthorizePage("/Questions/Edit", "AdminOnly");
+
+                options.Conventions.AuthorizePage("/AccreditationStandarts/Create", "AdminOnly");
+                options.Conventions.AuthorizePage("/AccreditationStandarts/Delete", "AdminOnly");
+                options.Conventions.AuthorizePage("/AccreditationStandarts/Edit", "AdminOnly");
+
                 options.Conventions.AllowAnonymousToPage("/Reports/Index");
 
             });
