@@ -35,7 +35,7 @@ namespace WebApp.Pages.Reports
             var superadmin = HttpContext.User.Claims.FirstOrDefault(x => x.Type == "SuperAdmin")?.Value;
 
             IsSuperAdmin = !string.IsNullOrEmpty(superadmin);
-            Report = await _context.Reports.ToListAsync();
+            Report = await _context.Reports.Include(r => r.AgedCareCenter).ToListAsync();
 
             if (!string.IsNullOrEmpty(userId) && userId != "0")
             {

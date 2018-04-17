@@ -12,6 +12,8 @@ namespace WebApp.Models
         public int ReportId { get; set; }
         [Required]
         public int AgedCareCenterId { get; set; }
+        [Newtonsoft.Json.JsonIgnore]
+        public AgedCareCenter AgedCareCenter { get; set; }
         [Required]
         public int AssessorId { get; set; }
         public DateTime ReportDate { get; set; }

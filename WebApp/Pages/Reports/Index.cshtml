@@ -10,12 +10,13 @@
     <div style="margin-top:10px;margin-bottom:10px;">
 
         <a class="btn btn-success" asp-page="./Create">Create new Report</a>
-        <a asp-controller="api/Reports">pdf</a>
     </div>
 </p>
 <table class="table">
     <thead>
         <tr>
+            <th>
+            </th>
             <th>
                 Aged Care Center
             </th>
@@ -26,37 +27,40 @@
                 Completion Status, %
             </th>
             @*<th>
-                    Notes
-                </th>*@
+            Notes
+        </th>*@
             <th></th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model.Report)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.AgedCareCenterId)
-                </td>
-                <td>
-                    @item.ReportDate.ToLongDateString()
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CompletionStatus)
-                </td>
-                @*<td>
-                        @Html.DisplayFor(modelItem => item.Notes)
-                    </td>*@
-                <td>
-                    <a class="btn btn-info btn-xs" asp-page="./Export" asp-route-id="@item.ReportId">Export</a>
-                    <a class="btn btn-info btn-xs" asp-page="./Details" asp-route-id="@item.ReportId">Details</a>
-                    @if (Model.CanModify(item))
-    {
-                <a class="btn btn-success btn-xs" asp-page="./Edit" asp-route-id="@item.ReportId">Edit</a>
-                <a class="btn btn-danger btn-xs" asp-page="./Delete" asp-route-id="@item.ReportId">Delete</a>
+        <tr>
+            <td>
+                @("Report #" + item.ReportId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AgedCareCenter.Name)
+            </td>
+            <td>
+                @item.ReportDate.ToLongDateString()
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CompletionStatus)
+            </td>
+            @*<td>
+            @Html.DisplayFor(modelItem => item.Notes)
+        </td>*@
+            <td>
+                <a class="btn btn-info btn-xs" asp-page="./Export" asp-route-id="@item.ReportId">Export</a>
+                <a class="btn btn-info btn-xs" asp-page="./Details" asp-route-id="@item.ReportId">Details</a>
+                @if (Model.CanModify(item))
+        {
+            <a class="btn btn-success btn-xs" asp-page="./Edit" asp-route-id="@item.ReportId">Edit</a>
+            <a class="btn btn-danger btn-xs" asp-page="./Delete" asp-route-id="@item.ReportId">Delete</a>
 }
-                </td>
-            </tr>
+            </td>
+        </tr>
         }
     </tbody>
 </table>
