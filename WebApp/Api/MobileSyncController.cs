@@ -43,7 +43,7 @@ namespace WebApp.Api
             _context = context;
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("/login")]
         public async Task<LoginResult> Login([FromBody] string info)
         {
