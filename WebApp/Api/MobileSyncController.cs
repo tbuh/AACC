@@ -43,7 +43,8 @@ namespace WebApp.Api
             _context = context;
         }
 
-        [HttpPost]
+        [HttpGet]
+        [Route("/login")]
         public async Task<LoginResult> Login([FromBody] string info)
         {
             var error = new LoginResult { Info = "Login Error" };
