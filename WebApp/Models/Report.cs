@@ -14,6 +14,8 @@ namespace WebApp.Models
         public int AgedCareCenterId { get; set; }
         [Newtonsoft.Json.JsonIgnore]
         public AgedCareCenter AgedCareCenter { get; set; }
+        [Newtonsoft.Json.JsonIgnore]
+        public Assessor Assessor { get; set; }
         [Required]
         public int AssessorId { get; set; }
         public DateTime ReportDate { get; set; }
@@ -24,7 +26,6 @@ namespace WebApp.Models
         public bool IsDeleted { get; set; }
         [NotMapped]
         public bool IsChanged { get; set; }
-        public byte[] ReportImage { get; set; }
         [NotMapped]
         public bool IsNew { get; set; }
     }

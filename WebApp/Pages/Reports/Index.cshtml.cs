@@ -18,7 +18,7 @@ namespace WebApp.Pages.Reports
             _context = context;
         }
 
-        public IList<Report> Report { get; set; }
+        public IList<Report> Reports { get; set; }
         public bool CanModify(Report r)
         {
             if (!IsSuperAdmin && ReportsToModify == null) return false;
@@ -35,7 +35,7 @@ namespace WebApp.Pages.Reports
             var superadmin = HttpContext.User.Claims.FirstOrDefault(x => x.Type == "SuperAdmin")?.Value;
 
             IsSuperAdmin = !string.IsNullOrEmpty(superadmin);
-            Report = await _context.Reports.Include(r => r.AgedCareCenter).ToListAsync();
+            Reports = await _context.Reports.Include(r => r.AgedCareCenter).Include(r => r.Assessor).ToListAsync();
 
             if (!string.IsNullOrEmpty(userId) && userId != "0")
             {

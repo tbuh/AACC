@@ -22,5 +22,6 @@ namespace WebApp.Models
         [NotMapped]
         [Newtonsoft.Json.JsonIgnore]
         public int QuestionNumberOrderBy { get; set; }
+        public byte[] ReportImage { get; set; }
     }
 }

@@ -54,21 +54,32 @@ namespace WebApp.Pages.Reports
         [BindProperty]
         public Report Report { get; set; }
 
-        public async Task<IActionResult> OnPostAsync(IFormFile reportImage)
+        public async Task<IActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid)
             {
                 InitModel(false);
                 return Page();
             }
-            if (reportImage != null)
+
+            var files = HttpContext.Request.Form.Files;
+
+            var qrList = QuestionReplyList.Values.ToList();
+            foreach (var item in files)
             {
+                if (item.Length == 0)
+                {
+                    continue;
+                }
                 using (var memoryStream = new MemoryStream())
                 {
-                    await reportImage.CopyToAsync(memoryStream);
-                    Report.ReportImage = memoryStream.ToArray();
+                    await item.CopyToAsync(memoryStream);
+
+                    qrList[int.Parse(item.Name)].ReportImage = memoryStream.ToArray();
                 }
             }
+
+
 
             Report.ReportDate = DateTime.Now;
             Report.QuestionReply = QuestionReplyList.Values;
