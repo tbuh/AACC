@@ -26,5 +26,6 @@ namespace WebApp.Models
         public int AccreditationStandartId { get; set; }
         [NotMapped]
         public int QuestionText { get; set; }
+        public byte[] ReportImage { get; set; }
     }
 }
