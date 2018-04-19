@@ -7,10 +7,29 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using WebApp.Models;
 
 namespace WebApp.Api
 {
+    public class UserInfo
+    {
+        public int UserId { get; set; }
+        public string UserName { get; set; }
+    }
+
+    public class LoginRequest
+    {
+        public string UserName { get; set; }
+        public string Password { get; set; }
+    }
+
+    public class LoginResult
+    {
+        public string Info { get; set; }
+        public string Data { get; set; }
+    }
+
     [Produces("application/json")]
     [Route("api/MobileSync")]
     public class MobileSyncController : Controller
@@ -22,6 +41,25 @@ namespace WebApp.Api
         {
             _logger = logger;
             _context = context;
+        }
+
+        [HttpPost]
+        [Route("/login")]
+        public async Task<LoginResult> Login([FromBody] string info)
+        {
+            var error = new LoginResult { Info = "Login Error" };
+            try
+            {
+                var login = JsonConvert.DeserializeObject<LoginRequest>(Security.Decrypt(info));
+                var user = await _context.Assessors.SingleOrDefaultAsync(a => a.Login == login.UserName && a.Password == login.Password);
+                if (user == null) return error;
+                var userInfo = new UserInfo { UserId = user.AssessorId, UserName = user.Name };
+                return new LoginResult { Data = Security.Crypt(JsonConvert.SerializeObject(userInfo)) };
+            }
+            catch (Exception)
+            {
+                return error;
+            }
         }
 
         [HttpPost]
