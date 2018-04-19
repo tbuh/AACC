@@ -51,10 +51,9 @@ namespace WebApp.Api
             try
             {
                 _logger.LogInformation("User trying to login");
-
+                _logger.LogInformation($"info '{info}'");
                 var login = JsonConvert.DeserializeObject<LoginRequest>(Security.Decrypt(info));
-
-                _logger.LogInformation($"Debug info '{info}'");
+                
                 _logger.LogInformation($"User name {login.UserName} Password {login.Password}");
                 var user = await _context.Assessors.SingleOrDefaultAsync(a => a.Login == login.UserName && a.Password == login.Password);
                 if (user == null) return error;
