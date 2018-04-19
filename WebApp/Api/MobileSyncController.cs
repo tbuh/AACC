@@ -45,17 +45,17 @@ namespace WebApp.Api
 
         [HttpPost]
         [Route("/api/MobileSync/login")]
-        public async Task<LoginResult> Login([FromBody] string info)
+        public async Task<LoginResult> Login([FromBody] LoginRequest request)
         {
             var error = new LoginResult { Info = "Login Error" };
             try
             {
                 _logger.LogInformation("User trying to login");
-                _logger.LogInformation($"info '{info}'");
-                var login = JsonConvert.DeserializeObject<LoginRequest>(Security.Decrypt(info));
-                
-                _logger.LogInformation($"User name {login.UserName} Password {login.Password}");
-                var user = await _context.Assessors.SingleOrDefaultAsync(a => a.Login == login.UserName && a.Password == login.Password);
+                var userName = Security.Decrypt(request.UserName);
+                var password = Security.Decrypt(request.Password);
+
+                _logger.LogInformation($"User name {userName} Password {password}");
+                var user = await _context.Assessors.SingleOrDefaultAsync(a => a.Login == userName && a.Password == password);
                 if (user == null) return error;
                 var userInfo = new UserInfo { UserId = user.AssessorId, UserName = user.Name };
                 return new LoginResult { Data = Security.Crypt(JsonConvert.SerializeObject(userInfo)) };
