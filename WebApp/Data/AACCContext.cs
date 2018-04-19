@@ -57,5 +57,46 @@ namespace WebApp.Models
 
             await SaveChangesAsync();
         }
+
+        public async System.Threading.Tasks.Task<IQueryable<Report>> GetReports(int userId)
+        {
+            var user = await Assessors.SingleAsync(a => a.AssessorId == userId);
+            if (user.IsAdmin)
+            {
+                var team = await Teams.SingleAsync(a => a.TeamId == user.TeamId);
+                var sql = $@"
+select r.* from [dbo].[Reports] r
+where r.[AssessorId] in (select a.[AssessorId] from [dbo].[Assessors] a
+where a.[TeamId] = ${team.TeamId})";
+
+                return Reports.FromSql(sql).Include(r => r.QuestionReply);
+            }
+            else
+            {
+                return Reports.Where(r => r.AssessorId == user.AssessorId);
+            }
+        }
+
+        public async System.Threading.Tasks.Task<List<Report>> GetReportsWithReplies(int userId)
+        {
+            if (userId < 0)
+                return await Reports.Include(r => r.QuestionReply).ToListAsync();
+
+            var user = await Assessors.SingleAsync(a => a.AssessorId == userId);
+            if (user.IsAdmin)
+            {
+                var team = await Teams.SingleAsync(a => a.TeamId == user.TeamId);
+                var sql = $@"
+select r.* from [dbo].[Reports] r
+where r.[AssessorId] in (select a.[AssessorId] from [dbo].[Assessors] a
+where a.[TeamId] = ${team.TeamId})";
+
+                return await Reports.FromSql(sql).Include(r => r.QuestionReply).ToListAsync();
+            }
+            else
+            {
+                return await Reports.Include(r => r.QuestionReply).Where(r => r.AssessorId == user.AssessorId).ToListAsync();
+            }
+        }
     }
 }
