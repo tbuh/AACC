@@ -1,11 +1,29 @@
 ﻿@page
 @model WebApp.Pages.AgedCareCenters.EditModel
 
+<style>
+    input[type="file"] {
+        display: none;
+    }
+
+    .custom-file-upload {
+        padding: 6px 12px;
+        cursor: pointer;
+        color: #fff;
+        background-color: #5cb85c;
+        border-color: #4cae4c;
+        border: 1px solid transparent;
+        border-radius: 4px;
+        font-size: 14px;
+        font-weight: normal;
+    }
+</style>
+
 <h4>Aged Care Center Edit</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form method="post">
+        <form method="post" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="AgedCareCenter.AgedCareCenterId" />
             <div class="form-group">
@@ -17,11 +35,6 @@
                 <label asp-for="AgedCareCenter.Location" class="control-label"></label>
                 <input asp-for="AgedCareCenter.Location" class="form-control" />
                 <span asp-validation-for="AgedCareCenter.Location" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="AgedCareCenter.Logo" class="control-label"></label>
-                <input asp-for="AgedCareCenter.Logo" class="form-control" />
-                <span asp-validation-for="AgedCareCenter.Logo" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="AgedCareCenter.ContactPerson1" class="control-label"></label>
@@ -73,6 +86,11 @@
                 <input asp-for="AgedCareCenter.ContactEmail5" class="form-control" />
                 <span asp-validation-for="AgedCareCenter.ContactEmail5" class="text-danger"></span>
             </div>
+            <label for="file-upload" class="custom-file-upload" style="margin-top:15px;">
+                <i class="fa fa-cloud-upload"></i> Attach logo
+            </label>
+            <input id="file-upload" type="file" name="file-upload" accept=".png, .jpg, .jpeg" onchange="loadFile(event)" />
+            <img style="height: 70px;" id="output" />
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-success" />
             </div>
@@ -87,3 +105,11 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+<script>
+
+    var loadFile = function (event) {
+        var output = document.getElementById('output');
+        output.src = URL.createObjectURL(event.target.files[0]);
+
+    };
+</script>

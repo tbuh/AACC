@@ -10,7 +10,7 @@ namespace WebApp.Models
         public int AgedCareCenterId { get; set; }
         public string Name { get; set; }
         public string Location { get; set; }
-        public string Logo { get; set; }
+        public byte[] Logo { get; set; }
         public string ContactPerson1 { get; set; }
         public string ContactEmail1 { get; set; }
         public string ContactPerson2 { get; set; }

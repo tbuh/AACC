@@ -6,6 +6,7 @@
     Layout = "~/Pages/_Layout.cshtml";
 }
 
+
 <h4>Report Edit</h4>
 <hr />
 <div class="row">
@@ -55,7 +56,6 @@
                                 @foreach (var question in item.Questions)
                                 {
                                     <label class="control-label">@question.Title</label> <br />
-
                                     <label class="control-label" style="font-weight:400;">@question.Notes</label>
 
                                     <input type="checkbox" asp-for="@Model.QuestionReplyList[question.QuestionId].Reply.Response" style="display:block;margin-bottom:5px;" />
@@ -68,7 +68,6 @@
 
                             </div>
                         </div>
-
                     </div>
                 }
             </div>
