@@ -92,7 +92,7 @@ namespace WebApp.Api
             try
             {
                 var userInfo = Security.Decrypt(info);
-                return int.Parse(userInfo.Split("|")[1]);
+                return int.Parse(userInfo.Split('|')[1]);
             }
             catch (Exception ex)
             {
@@ -104,6 +104,11 @@ namespace WebApp.Api
         public async Task<IActionResult> Sync([FromBody] SyncRequest request)
         {
             _logger.LogInformation("sync...");
+            if (request == null)
+                _logger.LogInformation("sync...request is null");
+            else
+                _logger.LogInformation($"sync...request '{request.Info}'");
+
             var model = new SyncModel();
             StringBuilder sb = new StringBuilder();
             try
