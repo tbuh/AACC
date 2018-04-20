@@ -101,7 +101,7 @@ namespace WebApp.Api
         }
 
         [HttpPost]
-        public async Task<IActionResult> Sync([FromBody] SyncRequest request)
+        public async Task<IActionResult> Sync(SyncRequest request)
         {
             _logger.LogInformation("sync...");
             if (request == null)
