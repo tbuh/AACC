@@ -104,16 +104,19 @@ namespace WebApp.Api
         public async Task<IActionResult> Sync(SyncRequest request)
         {
             _logger.LogInformation("sync...");
+            var CryptInfo = this.HttpContext.Request.Headers["CryptInfo"];
+            if(CryptInfo.Count == 0) throw new Exception("Login failed...");
+
             if (request == null)
                 _logger.LogInformation("sync...request is null");
             else
-                _logger.LogInformation($"sync...request '{request.Info}'");
+                _logger.LogInformation($"sync...request '{CryptInfo[0]}'");
 
             var model = new SyncModel();
             StringBuilder sb = new StringBuilder();
             try
             {
-                var userId = CheckUser(request.Info);
+                var userId = CheckUser(CryptInfo[0]);
 
                 try
                 {
