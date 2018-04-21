@@ -106,17 +106,20 @@ namespace WebApp.Api
             if (!ModelState.IsValid)
             {
                 var errorsModel = new StringBuilder();
-                foreach (var state in ModelState)
+                foreach (var modelState in ModelState.Values)
                 {
-                    foreach (var error in state.Value.Errors)
+                    foreach (var error in modelState.Errors)
                     {
-                        errorsModel.AppendLine(error.ErrorMessage);
+                        if (error.Exception != null)
+                            errorsModel.AppendLine(error.Exception.Message);
+                        else if (error.ErrorMessage != null)
+                            errorsModel.AppendLine(error.ErrorMessage);
                     }
                 }
                 var res = new SyncModel() { Error = errorsModel.ToString() };
                 return CreatedAtAction("Sync", res);
             }
-            
+
             var CryptInfo = this.HttpContext.Request.Headers["CryptInfo"];
             if (CryptInfo.Count == 0)
             {
