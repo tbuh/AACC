@@ -53,6 +53,21 @@ namespace WebApp.Pages.AccreditationStandarts
                                Value = ((int)WebApp.Models.StandartType.L4).ToString(),
                                Text = "L4"
                            }
+                           ,                           new SelectListItem()
+                           {
+                               Value = ((int)WebApp.Models.StandartType.L5).ToString(),
+                               Text = "L5"
+                           }
+                           ,                           new SelectListItem()
+                           {
+                               Value = ((int)WebApp.Models.StandartType.L6).ToString(),
+                               Text = "L6"
+                           }
+                           ,                           new SelectListItem()
+                           {
+                               Value = ((int)WebApp.Models.StandartType.L7).ToString(),
+                               Text = "L7"
+                           }
             };
             if (AccreditationStandart == null)
             {
