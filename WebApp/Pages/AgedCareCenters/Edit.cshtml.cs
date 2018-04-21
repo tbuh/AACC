@@ -58,6 +58,8 @@ namespace WebApp.Pages.AgedCareCenters
             }
 
             _context.Attach(AgedCareCenter).State = EntityState.Modified;
+            if (AgedCareCenter.Logo == null || AgedCareCenter.Logo.Length == 0)
+                _context.Attach(AgedCareCenter).Property(acc => acc.Logo).IsModified = false;
 
             try
             {
