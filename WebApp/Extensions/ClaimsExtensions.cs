@@ -18,5 +18,10 @@ namespace WebApp
         {
             return principal?.Claims?.FirstOrDefault(x => x.Type == "SuperAdmin") != null;
         }
+
+        public static int GetUserId(this ClaimsPrincipal user)
+        {
+            return int.Parse(user?.Claims?.FirstOrDefault(x => x.Type == "UserId").Value);
+        }
     }
 }

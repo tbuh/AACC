@@ -40,11 +40,22 @@
                     </div>
                 </div>
                 <div class="col-md-6">
-                    <div class="form-group" style="max-width:360px;">
-                        <label asp-for="Report.AssessorId" class="control-label">Assessor</label>
-                        <select asp-for="Report.AssessorId" class="form-control" asp-items="@Model.Assessors"></select>
-                        <span asp-validation-for="Report.AssessorId" class="text-danger"></span>
-                    </div>
+                    @if (HttpContext.User.IsAdmin())
+                    {
+                        <div class="form-group" style="max-width:360px;">
+                            <label asp-for="Report.AssessorId" class="control-label">Assessor</label>
+                            <select asp-for="Report.AssessorId" class="form-control" asp-items="@Model.Assessors"></select>
+                            <span asp-validation-for="Report.AssessorId" class="text-danger"></span>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="form-group" style="max-width:360px;">
+                            <label asp-for="Report.AssessorId" class="control-label">Assessor</label>
+                            <input class="form-control" value="@Model.Assessor.Name" disabled />
+                            <input class="form-control" asp-for="Report.AssessorId" type="hidden" />
+                        </div>
+                    }
                 </div>
             </div>
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>

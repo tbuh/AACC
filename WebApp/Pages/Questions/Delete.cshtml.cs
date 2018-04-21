@@ -52,7 +52,7 @@ namespace WebApp.Pages.Questions
                 await _context.SaveChangesAsync();
             }
 
-            return RedirectToPage("./Index");
+            return RedirectToPage("./Details", new { id = Question.AccreditationStandartId });
         }
     }
 }

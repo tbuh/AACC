@@ -50,10 +50,10 @@ namespace WebApp.Models
             await UpdateCompletionStatus(report);
             Attach(report).State = EntityState.Modified;
 
-            //foreach (var qr in report.QuestionReply)
-            //{
-            //    if (qr.QuestionReplyId != 0) Attach(qr).State = EntityState.Modified;
-            //}
+            foreach (var qr in report.QuestionReply)
+            {
+                if (qr.QuestionReplyId != 0) Attach(qr).State = EntityState.Modified;
+            }
 
             await SaveChangesAsync();
         }

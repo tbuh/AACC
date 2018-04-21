@@ -41,8 +41,8 @@
                         @Html.DisplayFor(modelItem => item.Notes)
                     </td>
                     <td>
-                        <a asp-page="./Edit" asp-route-id="@item.QuestionId">Edit</a> |
-                        <a asp-page="./Delete" asp-route-id="@item.QuestionId">Delete</a>
+                        <a class="btn btn-success btn-xs" asp-page="./Edit" asp-route-id="@item.QuestionId">Edit</a>
+                        <a class="btn btn-danger btn-xs" asp-page="./Delete" asp-route-id="@item.QuestionId">Delete</a>
                     </td>
                 </tr>
             }

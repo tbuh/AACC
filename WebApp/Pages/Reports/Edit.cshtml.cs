@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -23,7 +24,7 @@ namespace WebApp.Pages.Reports
         public Report Report { get; set; }
         public List<AccreditationStandart> AccreditationStandarts { get; set; }
         public IEnumerable<SelectListItem> AgedCareCenters { get; set; }
-        public IEnumerable<SelectListItem> Assessors { get; set; }
+        public Assessor Assessor { get; set; }
         [BindProperty]
         public Dictionary<int, ReplyVM> QuestionReplyList { get; set; }
 
@@ -39,7 +40,7 @@ namespace WebApp.Pages.Reports
                 return NotFound();
             }
 
-            Assessors = _context.Assessors.Select(a => new SelectListItem { Text = a.Name, Value = a.AssessorId.ToString() });
+            Assessor = _context.Assessors.FirstOrDefault(a => a.AssessorId == User.GetUserId());
             AgedCareCenters = _context.AgedCareCenters.Select(a => new SelectListItem { Text = a.Name, Value = a.AgedCareCenterId.ToString() });
             AccreditationStandarts = _context.AccreditationStandarts.Include(acs => acs.Questions).OrderBy(acs => acs.AccreditationStandartId).ToList();
 
@@ -58,6 +59,25 @@ namespace WebApp.Pages.Reports
             if (!ModelState.IsValid)
             {
                 return Page();
+            }
+
+            var files = HttpContext.Request.Form.Files;
+            var qrList = QuestionReplyList.Values.ToList();
+
+            foreach (var item in files)
+            {
+                int i = 0;
+                if (item.Length == 0)
+                {
+                    continue;
+                }
+                using (var memoryStream = new MemoryStream())
+                {
+                    await item.CopyToAsync(memoryStream);
+
+                    qrList[i].Reply.ReportImage = memoryStream.ToArray();
+                    i++;
+                }
             }
 
             try

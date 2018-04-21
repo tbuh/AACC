@@ -9,6 +9,8 @@ using WebApp.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Http;
 using System.IO;
+using WebApp.Pages.Account;
+using Microsoft.AspNetCore.Identity;
 
 namespace WebApp.Pages.Reports
 {
@@ -20,10 +22,10 @@ namespace WebApp.Pages.Reports
         {
             _context = context;
         }
-
         public List<AccreditationStandart> AccreditationStandarts { get; set; }
         public IEnumerable<SelectListItem> AgedCareCenters { get; set; }
         public IEnumerable<SelectListItem> Assessors { get; set; }
+        public Assessor Assessor { get; set; }
         public IFormFile ReportImage { get; set; }
 
         public IActionResult OnGet()
@@ -33,8 +35,18 @@ namespace WebApp.Pages.Reports
         }
 
         private void InitModel(bool isNew = true)
-        {
-            Assessors = _context.Assessors.Select(a => new SelectListItem { Text = a.Name, Value = a.AssessorId.ToString() });
+        {            
+            if (HttpContext.User.IsSuperAdmin())
+            {
+                Assessors = _context.Assessors.Select(a => new SelectListItem { Text = a.Name, Value = a.AssessorId.ToString() });
+            }
+            else
+            {
+                var assessorId = User.GetUserId();
+                Assessor = _context.Assessors.FirstOrDefault(a => a.AssessorId == assessorId);
+                Report = new Report();
+                Report.AssessorId = assessorId;
+            }
             AgedCareCenters = _context.AgedCareCenters.Select(a => new SelectListItem { Text = a.Name, Value = a.AgedCareCenterId.ToString() });
             AccreditationStandarts = _context.AccreditationStandarts.Include(ass => ass.Questions).ToList();
             if (isNew)
@@ -67,6 +79,7 @@ namespace WebApp.Pages.Reports
             var qrList = QuestionReplyList.Values.ToList();
             foreach (var item in files)
             {
+                int i = 0;
                 if (item.Length == 0)
                 {
                     continue;
@@ -75,7 +88,8 @@ namespace WebApp.Pages.Reports
                 {
                     await item.CopyToAsync(memoryStream);
 
-                    qrList[int.Parse(item.Name)].ReportImage = memoryStream.ToArray();
+                    qrList[i].ReportImage = memoryStream.ToArray();
+                    i++;
                 }
             }
 
@@ -83,7 +97,6 @@ namespace WebApp.Pages.Reports
 
             Report.ReportDate = DateTime.Now;
             Report.QuestionReply = QuestionReplyList.Values;
-
 
             await _context.SaveReport(Report);
 
