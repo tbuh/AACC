@@ -18,12 +18,6 @@
             @Html.DisplayFor(model => model.AgedCareCenter.Location)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.AgedCareCenter.Logo)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.AgedCareCenter.Logo)
-        </dd>
-        <dt>
             @Html.DisplayNameFor(model => model.AgedCareCenter.ContactPerson1)
         </dt>
         <dd>
@@ -87,7 +81,7 @@
 
     <form method="post">
         <input type="hidden" asp-for="AgedCareCenter.AgedCareCenterId" />
-        <input type="submit" value="Delete" class="btn btn-success" /> |
-        <a asp-page="./Index">Back to List</a>
+        <input type="submit" value="Delete" class="btn btn-success" />
+        <a class="btn btn-success" asp-page="./Index">Back to List</a>
     </form>
 </div>

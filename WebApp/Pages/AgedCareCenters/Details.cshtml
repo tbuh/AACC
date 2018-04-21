@@ -1,91 +1,95 @@
 ﻿@page
 @model WebApp.Pages.AgedCareCenters.DetailsModel
 
-<div>
+<div class="row">
     <h4>Aged Care Center Details</h4>
     <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.AgedCareCenter.Name)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.AgedCareCenter.Name)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.AgedCareCenter.Location)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.AgedCareCenter.Location)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.AgedCareCenter.Logo)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.AgedCareCenter.Logo)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.AgedCareCenter.ContactPerson1)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.AgedCareCenter.ContactPerson1)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.AgedCareCenter.ContactEmail1)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.AgedCareCenter.ContactEmail1)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.AgedCareCenter.ContactPerson2)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.AgedCareCenter.ContactPerson2)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.AgedCareCenter.ContactEmail2)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.AgedCareCenter.ContactEmail2)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.AgedCareCenter.ContactPerson3)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.AgedCareCenter.ContactPerson3)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.AgedCareCenter.ContactEmail3)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.AgedCareCenter.ContactEmail3)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.AgedCareCenter.ContactPerson4)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.AgedCareCenter.ContactPerson4)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.AgedCareCenter.ContactEmail4)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.AgedCareCenter.ContactEmail4)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.AgedCareCenter.ContactPerson5)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.AgedCareCenter.ContactPerson5)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.AgedCareCenter.ContactEmail5)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.AgedCareCenter.ContactEmail5)
-        </dd>
-    </dl>
+    <div class="col-md-6">
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.AgedCareCenter.Name)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.AgedCareCenter.Name)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.AgedCareCenter.Location)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.AgedCareCenter.Location)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.AgedCareCenter.ContactPerson1)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.AgedCareCenter.ContactPerson1)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.AgedCareCenter.ContactEmail1)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.AgedCareCenter.ContactEmail1)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.AgedCareCenter.ContactPerson2)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.AgedCareCenter.ContactPerson2)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.AgedCareCenter.ContactEmail2)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.AgedCareCenter.ContactEmail2)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.AgedCareCenter.ContactPerson3)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.AgedCareCenter.ContactPerson3)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.AgedCareCenter.ContactEmail3)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.AgedCareCenter.ContactEmail3)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.AgedCareCenter.ContactPerson4)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.AgedCareCenter.ContactPerson4)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.AgedCareCenter.ContactEmail4)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.AgedCareCenter.ContactEmail4)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.AgedCareCenter.ContactPerson5)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.AgedCareCenter.ContactPerson5)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.AgedCareCenter.ContactEmail5)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.AgedCareCenter.ContactEmail5)
+            </dd>
+        </dl>
+    </div>
+    <div class="col-md-6">
+        @if (Model.AgedCareCenter.Logo.Length != 0)
+        {
+            <img style='width:300px; height:200px;' src="data:image/jpeg;base64,@(Convert.ToBase64String(Model.AgedCareCenter.Logo))" />
+        }
+    </div>
+
+
 </div>
-<div>
-    <a asp-page="./Edit" asp-route-id="@Model.AgedCareCenter.AgedCareCenterId">Edit</a> |
-    <a asp-page="./Index">Back to List</a>
+<div class="row">
+    <a class="btn btn-success" asp-page="./Edit" asp-route-id="@Model.AgedCareCenter.AgedCareCenterId">Edit</a>
+    <a class="btn btn-success" asp-page="./Index">Back to List</a>
 </div>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -43,6 +44,17 @@ namespace WebApp.Pages.AgedCareCenters
             if (!ModelState.IsValid)
             {
                 return Page();
+            }
+
+            var file = HttpContext.Request.Form.Files;
+            if (file != null)
+            {
+                using (var memoryStream = new MemoryStream())
+                {
+                    await file[0].CopyToAsync(memoryStream);
+
+                    AgedCareCenter.Logo = memoryStream.ToArray();
+                }
             }
 
             _context.Attach(AgedCareCenter).State = EntityState.Modified;
