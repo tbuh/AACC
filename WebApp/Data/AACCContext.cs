@@ -52,7 +52,12 @@ namespace WebApp.Models
 
             foreach (var qr in report.QuestionReply)
             {
-                if (qr.QuestionReplyId != 0) Attach(qr).State = EntityState.Modified;
+                if (qr.QuestionReplyId != 0)
+                {
+                    Attach(qr).State = EntityState.Modified;
+                    if (qr.ReportImage == null || qr.ReportImage.Length == 0)
+                        Attach(qr).Property(x => x.ReportImage).IsModified = false;
+                }
             }
 
             await SaveChangesAsync();
