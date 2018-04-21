@@ -30,8 +30,8 @@ namespace WebApp.Pages.Reports
                 return NotFound();
             }
             Report = await _context.Reports.SingleOrDefaultAsync(m => m.ReportId == id);
-            AgedCareCenter = await _context.AgedCareCenters.Where(a => a.AgedCareCenterId == Report.AssessorId).SingleOrDefaultAsync();
-            Assessor = await _context.Assessors.Where(a => a.AssessorId == Report.AgedCareCenterId).SingleOrDefaultAsync();
+            AgedCareCenter = await _context.AgedCareCenters.Where(a => a.AgedCareCenterId == Report.AgedCareCenterId).SingleOrDefaultAsync();
+            Assessor = await _context.Assessors.Where(a => a.AssessorId == Report.AssessorId).SingleOrDefaultAsync();
 
             if (Report == null)
             {

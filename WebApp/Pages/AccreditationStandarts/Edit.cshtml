@@ -6,7 +6,7 @@
     Layout = "~/Pages/_Layout.cshtml";
 }
 
-<h4>Team Edit</h4>
+<h4>Edit Standart Type @Model.AccreditationStandart.StandartType</h4>
 <hr />
 <div class="row">
     <div class="col-md-10">
@@ -23,9 +23,9 @@
                 <textarea asp-for="AccreditationStandart.Description" class="form-control" style="resize:vertical;min-height:150px;max-height:250px;"></textarea>
                 <span asp-validation-for="AccreditationStandart.Description" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group" hidden>
                 <label asp-for="AccreditationStandart.StandartType" class="control-label"></label>
-                <select asp-for="AccreditationStandart.StandartType" asp-items="@Model.StandartType" class="form-control" style="max-width:150px;"></select>
+                <input asp-for="AccreditationStandart.StandartType" class="form-control" style="max-width:150px;" hidden/>
                 <span asp-validation-for="AccreditationStandart.StandartType" class="text-danger"></span>
             </div>
             <div class="form-group">

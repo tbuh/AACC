@@ -26,7 +26,7 @@
 <hr />
 <div class="row">
     <div class="col-md-10">
-        <form method="post">
+        <form method="post" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Report.ReportId" />
             <div class="form-group" style="max-width:360px;">
@@ -35,9 +35,9 @@
                 <span asp-validation-for="Report.AgedCareCenterId" class="text-danger"></span>
             </div>
             <div class="form-group" style="max-width:360px;">
-                <label asp-for="Report.AssessorId" class="control-label">Assessor</label>
-                <select asp-for="Report.AssessorId" class="form-control" asp-items="@Model.Assessors"></select>
-                <span asp-validation-for="Report.AssessorId" class="text-danger"></span>
+                <label asp-for="@Model.Report.Assessor.Name" class="control-label">Assessor</label>
+                <input asp-for="Report.AssessorId" class="form-control" type="hidden" />
+                <input asp-for="Assessor.Name" class="form-control" disabled />
             </div>
             <div class="form-group" style="max-width:360px;">
                 <label asp-for="Report.ReportDate" class="control-label">Report Date</label>
@@ -83,7 +83,15 @@
                                         <i class="fa fa-cloud-upload"></i> Attach image
                                     </label>
                                     <input id="file-upload@(Model.QuestionReplyList[question.QuestionId].Reply.QuestionReplyId)" type="file" name="@(Model.QuestionReplyList[question.QuestionId].Reply.QuestionReplyId)" accept=".png, .jpg, .jpeg" onchange="loadFile(event,'@(Model.QuestionReplyList[question.QuestionId].Reply.QuestionReplyId)')" />
-                                    <img style="height: 70px;" id="output@(Model.QuestionReplyList[question.QuestionId].Reply.QuestionReplyId)" />
+                                    if (Model.QuestionReplyList[question.QuestionId].Reply.ReportImage != null)
+                                    {
+                                        <img style="height: 70px;" id="output@(Model.QuestionReplyList[question.QuestionId].Reply.QuestionReplyId)" src="data:image/jpeg;base64,@(Convert.ToBase64String(Model.QuestionReplyList[question.QuestionId].Reply.ReportImage))" />
+                                    }
+                                    else
+                                    {
+                                        <img style="height: 70px;" id="output@(Model.QuestionReplyList[question.QuestionId].Reply.QuestionReplyId)" />
+                                    }
+
                                     <hr />
                                 }
 
