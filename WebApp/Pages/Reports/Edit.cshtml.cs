@@ -40,7 +40,7 @@ namespace WebApp.Pages.Reports
                 return NotFound();
             }
 
-            Assessor = _context.Assessors.FirstOrDefault(a => a.AssessorId == User.GetUserId());
+            Assessor = _context.Assessors.FirstOrDefault(a => a.AssessorId == Report.AssessorId);
             AgedCareCenters = _context.AgedCareCenters.Select(a => new SelectListItem { Text = a.Name, Value = a.AgedCareCenterId.ToString() });
             AccreditationStandarts = _context.AccreditationStandarts.Include(acs => acs.Questions).OrderBy(acs => acs.AccreditationStandartId).ToList();
 
