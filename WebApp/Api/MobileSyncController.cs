@@ -105,15 +105,26 @@ namespace WebApp.Api
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                var errorsModel = new StringBuilder();
+                foreach (var state in ModelState)
+                {
+                    foreach (var error in state.Value.Errors)
+                    {
+                        errorsModel.AppendLine(error.ErrorMessage);
+                    }
+                }
+                var res = new SyncModel() { Error = errorsModel.ToString() };
+                return CreatedAtAction("Sync", res);
             }
-
-            _logger.LogInformation("sync...");
+            
             var CryptInfo = this.HttpContext.Request.Headers["CryptInfo"];
             if (CryptInfo.Count == 0)
             {
-                return BadRequest("Login failed.");
+                var res = new SyncModel() { Error = "Login failed." };
+                return CreatedAtAction("Sync", res);
             }
+
+            _logger.LogInformation("sync...");
 
             if (reports == null)
                 _logger.LogInformation("sync...request is null");
