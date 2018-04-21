@@ -22,10 +22,6 @@ namespace WebApp.Models
         [NotMapped]
         [Newtonsoft.Json.JsonIgnore]
         public int QuestionNumberOrderBy { get; set; }
-        [NotMapped]
-        public int AccreditationStandartId { get; set; }
-        [NotMapped]
-        public int QuestionText { get; set; }
         public byte[] ReportImage { get; set; }
     }
 }
