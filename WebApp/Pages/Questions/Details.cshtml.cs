@@ -25,11 +25,14 @@ namespace WebApp.Pages.Questions
         {
             StandartId = id;
 
-            Questions = await _context.Questions.Where(m => m.AccreditationStandartId == id).ToListAsync();
-
+            Questions = await _context.Questions.Where(m => m.AccreditationStandartId == id).OrderBy(q => q.QuestionId).ToListAsync();
             if (Questions == null)
             {
                 return NotFound();
+            }
+            for (int i = 0; i < Questions.Count; i++)
+            {
+                Questions[i].QuestionNumber = i + 1;
             }
             return Page();
         }

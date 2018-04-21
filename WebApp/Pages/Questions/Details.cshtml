@@ -20,6 +20,7 @@
 
         <thead>
             <tr>
+                <th></th>
                 <th>
                     @Html.DisplayNameFor(model => model.Questions[0].Title)
                 </th>
@@ -33,18 +34,21 @@
         <tbody>
             @foreach (var item in Model.Questions)
             {
-                <tr>
-                    <td width="30%;">
-                        @Html.DisplayFor(modelItem => item.Title)
-                    </td>
-                    <td width="50%;">
-                        @Html.DisplayFor(modelItem => item.Notes)
-                    </td>
-                    <td>
-                        <a class="btn btn-success btn-xs" asp-page="./Edit" asp-route-id="@item.QuestionId">Edit</a>
-                        <a class="btn btn-danger btn-xs" asp-page="./Delete" asp-route-id="@item.QuestionId">Delete</a>
-                    </td>
-                </tr>
+            <tr>
+                <td width="5%;">
+                    @Html.DisplayFor(modelItem => item.QuestionNumber)
+                </td>
+                <td width="25%;">
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td width="50%;">
+                    @Html.DisplayFor(modelItem => item.Notes)
+                </td>
+                <td>
+                    <a class="btn btn-success btn-xs" asp-page="./Edit" asp-route-id="@item.QuestionId">Edit</a>
+                    <a class="btn btn-danger btn-xs" asp-page="./Delete" asp-route-id="@item.QuestionId">Delete</a>
+                </td>
+            </tr>
             }
         </tbody>
     </table>

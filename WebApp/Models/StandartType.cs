@@ -10,6 +10,9 @@ namespace WebApp.Models
         L1 = 1,
         L2,
         L3,
-        L4
+        L4,
+        L5,
+        L6,
+        L7,
     }
 }
