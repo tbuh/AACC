@@ -5,51 +5,53 @@
     ViewData["Title"] = "Index";
     Layout = "~/Pages/_Layout.cshtml";
 }
-<p>
-    <div style="margin-top:10px;margin-bottom:10px;">
+<div class="row">
+    <div class="col-md-10 col-md-offset-1">
+        <div style="margin-top:10px;">
+            <a class="btn btn-success" asp-page="./Create">Create new Accreditation Standart</a>
+        </div>
 
-        <a class="btn btn-success" asp-page="./Create">Create new Accreditation Standart</a>
+        <table class="table">
 
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayName("Standart Type")
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.AccreditationStandart[0].Title)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.AccreditationStandart[0].Description)
+                    </th>
+
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.AccreditationStandart)
+                {
+                    <tr>
+
+                        <td width="15%">
+                            @Html.DisplayFor(modelItem => item.StandartType)
+                        </td>
+                        <td width="20%">
+                            @Html.DisplayFor(modelItem => item.Title)
+                        </td>
+                        <td width="40%;">
+                            @Html.DisplayFor(modelItem => item.Description)
+                        </td>
+
+                        <td width="20%">
+                            <a class="btn btn-success btn-xs" asp-page="./Edit" asp-route-id="@item.AccreditationStandartId">Edit</a>
+                            <a class="btn btn-info btn-xs" asp-page="./Delete" asp-route-id="@item.AccreditationStandartId">Delete</a>
+                            <a class="btn btn-danger btn-xs" asp-page="/Questions/Details" asp-route-id="@item.AccreditationStandartId">Questions List</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
     </div>
-</p>
-<table class="table">
+</div>
 
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.AccreditationStandart[0].StandartType)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.AccreditationStandart[0].Title)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.AccreditationStandart[0].Description)
-            </th>
-
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.AccreditationStandart)
-        {
-            <tr>
-
-                <td width="5%">
-                    @Html.DisplayFor(modelItem => item.StandartType)
-                </td>
-                <td width="33%">
-                    @Html.DisplayFor(modelItem => item.Title)
-                </td>
-                <td width="40%;">
-                    @Html.DisplayFor(modelItem => item.Description)
-                </td>
-
-                <td>
-                    <a class="btn btn-success btn-xs" asp-page="./Edit" asp-route-id="@item.AccreditationStandartId">Edit</a>
-                    <a class="btn btn-info btn-xs" asp-page="./Delete" asp-route-id="@item.AccreditationStandartId">Delete</a>
-                    <a class="btn btn-danger btn-xs" asp-page="/Questions/Details" asp-route-id="@item.AccreditationStandartId">Questions List</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>

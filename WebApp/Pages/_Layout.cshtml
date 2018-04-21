@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - WebApp</title>
+    <title>@ViewData["Title"] - AuditApp</title>
 
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
@@ -30,13 +30,14 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a href="/Reports/Index">Reports</a></li>
-                    <li><a href="/AccreditationStandarts">Accreditation Standarts</a></li>
-                    <li><a href="/AgedCareCenters">Facilities</a></li>
-                    <li><a href="/Assessors">Assessors</a></li>
-                    <li><a href="/Teams">Teams</a></li>
                     @if (Context.User.IsAdmin())
                     {
+                        <li><a href="/Reports/Index">Reports</a></li>
+                        <li><a href="/AccreditationStandarts">Accreditation Standarts</a></li>
+                        <li><a href="/AgedCareCenters">Facilities</a></li>
+                        <li><a href="/Assessors">Assessors</a></li>
+                        <li><a href="/Teams">Teams</a></li>
+
                         <li><a target="_blank" href="/swagger/">API</a></li>
                     }
 

@@ -14,7 +14,7 @@ namespace WebApp.Pages.Account
                 return RedirectToPage("/Reports/Index");
             }
 
-            return Page();
+            return RedirectToPage("/Reports/Index");
         }
     }
 }

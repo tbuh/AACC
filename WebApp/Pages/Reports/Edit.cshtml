@@ -5,8 +5,23 @@
     ViewData["Title"] = "Edit";
     Layout = "~/Pages/_Layout.cshtml";
 }
+<style>
+    input[type="file"] {
+        display: none;
+    }
 
-
+    .custom-file-upload {
+        padding: 6px 12px;
+        cursor: pointer;
+        color: #fff;
+        background-color: #5cb85c;
+        border-color: #4cae4c;
+        border: 1px solid transparent;
+        border-radius: 4px;
+        font-size: 14px;
+        font-weight: normal;
+    }
+</style>
 <h4>Report Edit</h4>
 <hr />
 <div class="row">
@@ -27,7 +42,6 @@
             <div class="form-group" style="max-width:360px;">
                 <label asp-for="Report.ReportDate" class="control-label">Report Date</label>
                 <input id="date" type="date" asp-for="Report.ReportDate" class="form-control" disabled />
-                <span asp-validation-for="Report.ReportDate" class="text-danger"></span>
             </div>
             <div class="form-group" style="max-width:360px;">
                 <label asp-for="Report.Notes" class="control-label"></label>
@@ -58,11 +72,19 @@
                                     <label class="control-label">@question.Title</label> <br />
                                     <label class="control-label" style="font-weight:400;">@question.Notes</label>
 
-                                    <input type="checkbox" asp-for="@Model.QuestionReplyList[question.QuestionId].Reply.Response" style="display:block;margin-bottom:5px;" />
+
                                     <input asp-for="@Model.QuestionReplyList[question.QuestionId].Reply.Notes" class="form-control" />
+                                    <input type="checkbox" asp-for="@Model.QuestionReplyList[question.QuestionId].Reply.Response" style="display:block;margin-bottom:5px;" />
                                     <input asp-for="@Model.QuestionReplyList[question.QuestionId].Reply.QuestionId" class="form-control" type="hidden" />
                                     <input asp-for="@Model.QuestionReplyList[question.QuestionId].Reply.QuestionReplyId" class="form-control" type="hidden" />
                                     <input asp-for="@Model.QuestionReplyList[question.QuestionId].Reply.ReportId" class="form-control" type="hidden" />
+
+                                    <label for="file-upload@(Model.QuestionReplyList[question.QuestionId].Reply.QuestionReplyId)" class="custom-file-upload" style="margin-top:15px;">
+                                        <i class="fa fa-cloud-upload"></i> Attach image
+                                    </label>
+                                    <input id="file-upload@(Model.QuestionReplyList[question.QuestionId].Reply.QuestionReplyId)" type="file" name="@(Model.QuestionReplyList[question.QuestionId].Reply.QuestionReplyId)" accept=".png, .jpg, .jpeg" onchange="loadFile(event,'@(Model.QuestionReplyList[question.QuestionId].Reply.QuestionReplyId)')" />
+                                    <img style="height: 70px;" id="output@(Model.QuestionReplyList[question.QuestionId].Reply.QuestionReplyId)" />
+                                    <hr />
                                 }
 
 
@@ -86,3 +108,12 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+
+<script>
+
+    var loadFile = function (event, id) {
+        var output = document.getElementById('output' + id);
+        output.src = URL.createObjectURL(event.target.files[0]);
+
+    };
+</script>

@@ -21,6 +21,11 @@
                 </div>
             </div>
             <div class="form-group">
+                <label asp-for="Assessor.Company" class="control-label"></label>
+                <input asp-for="Assessor.Company" class="form-control" />
+                <span asp-validation-for="Assessor.Company" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label asp-for="Assessor.TeamId" class="control-label">Team</label>
                 <select asp-for="Assessor.TeamId" class="form-control" asp-items="@Model.Teams"></select>
             </div>
@@ -39,11 +44,7 @@
                 <input asp-for="Assessor.Password" class="form-control" />
                 <span asp-validation-for="Assessor.Password" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Assessor.Company" class="control-label"></label>
-                <input asp-for="Assessor.Company" class="form-control" />
-                <span asp-validation-for="Assessor.Company" class="text-danger"></span>
-            </div>
+
             <div class="form-group">
                 <label asp-for="Assessor.Position" class="control-label"></label>
                 <input asp-for="Assessor.Position" class="form-control" />

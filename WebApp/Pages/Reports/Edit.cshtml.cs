@@ -59,9 +59,10 @@ namespace WebApp.Pages.Reports
             {
                 return Page();
             }
-            
+
             try
             {
+                Report.ReportDate = DateTime.Now;
                 Report.QuestionReply = QuestionReplyList.Values.Select(rvm => rvm.Reply).ToList();
                 await _context.UpdateReport(Report);
             }

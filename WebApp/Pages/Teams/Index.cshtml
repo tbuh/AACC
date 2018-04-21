@@ -5,33 +5,37 @@
     ViewData["Title"] = "Index";
     Layout = "~/Pages/_Layout.cshtml";
 }
+<div class="row">
+    <div class="col-md-10 col-md-offset-1">
+        <div style="margin-top:10px;margin-bottom:10px;">
 
-<div style="margin-top:10px;margin-bottom:10px;">
-
-    <a asp-page="Create" class="btn btn-success">Create new Team</a>
-</div>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Team[0].Name)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.Team)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    <a class="btn btn-success btn-xs" asp-page="./Edit" asp-route-id="@item.TeamId">Edit</a>
-                    <a class="btn btn-info btn-xs" asp-page="./Details" asp-route-id="@item.TeamId">Details</a>
-                    <a class="btn btn-danger btn-xs" asp-page="./Delete" asp-route-id="@item.TeamId">Delete</a>
-                </td>
-            </tr>
+            <a asp-page="Create" class="btn btn-success">Create new Team</a>
+        </div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Team[0].Name)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Team)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td width="20%">
+                        <a class="btn btn-success btn-xs" asp-page="./Edit" asp-route-id="@item.TeamId">Edit</a>
+                        <a class="btn btn-info btn-xs" asp-page="./Details" asp-route-id="@item.TeamId">Details</a>
+                        <a class="btn btn-danger btn-xs" asp-page="./Delete" asp-route-id="@item.TeamId">Delete</a>
+                    </td>
+                </tr>
         }
-    </tbody>
-</table>
+            </tbody>
+        </table>
+    </div>
+</div>
+

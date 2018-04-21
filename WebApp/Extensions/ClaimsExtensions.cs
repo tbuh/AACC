@@ -13,5 +13,10 @@ namespace WebApp
         {
             return principal?.Claims?.FirstOrDefault(x => x.Type == "Admin") != null;
         }
+
+        public static bool IsSuperAdmin(this ClaimsPrincipal principal)
+        {
+            return principal?.Claims?.FirstOrDefault(x => x.Type == "SuperAdmin") != null;
+        }
     }
 }

@@ -20,9 +20,10 @@ namespace WebApp.Pages.Questions
 
         public List<Question> Question { get; set; }
 
-        public async Task OnGetAsync()
+        public async Task<IActionResult> OnGetAsync()
         {
-            Question = await _context.Questions.ToListAsync();
+            //Question = await _context.Questions.ToListAsync();
+            return NotFound();
         }
     }
 }
