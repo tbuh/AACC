@@ -103,9 +103,17 @@ namespace WebApp.Api
         [HttpPost]
         public async Task<IActionResult> Sync([FromBody]List<Report> reports)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             _logger.LogInformation("sync...");
             var CryptInfo = this.HttpContext.Request.Headers["CryptInfo"];
-            if (CryptInfo.Count == 0) throw new Exception("Login failed...");
+            if (CryptInfo.Count == 0)
+            {
+                return BadRequest("Login failed.");
+            }
 
             if (reports == null)
                 _logger.LogInformation("sync...request is null");
