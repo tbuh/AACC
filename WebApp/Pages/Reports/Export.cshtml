@@ -43,7 +43,7 @@
 </head>
 <body style="text-align:center;">
     <page size="A4">
-        @if (Model.AgedCareCenter.Logo.Length != 0)
+        @if (Model.AgedCareCenter.Logo != null && Model.AgedCareCenter.Logo.Length != 0)
         {
             <img style='width:300px; height:200px;' src="data:image/jpeg;base64,@(Convert.ToBase64String(Model.AgedCareCenter.Logo))" />
         }
@@ -115,7 +115,10 @@
     <page size="A4">
         <div style="display: inline-block;   margin: 0 auto;  text-align: left;">
             <div style="text-align: center;">
-                <img src="~/images/AACCLogo.jpg" />
+                @if (Model.AgedCareCenter.Logo != null && Model.AgedCareCenter.Logo.Length != 0)
+                {
+                    <img style='width:300px; height:200px;' src="data:image/jpeg;base64,@(Convert.ToBase64String(Model.AgedCareCenter.Logo))" />
+                }
                 <h2>
                     Audit Report
                 </h2>
