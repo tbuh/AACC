@@ -64,25 +64,22 @@ namespace WebApp.Pages.Reports
             var files = HttpContext.Request.Form.Files;
             var qrList = QuestionReplyList.Values.ToList();
 
-            foreach (var item in files)
+            for (int i = 0; i < files.Count; i++)
             {
-                int i = 0;
-                if (item.Length == 0)
+                if (files[i] == null || files[i].Length == 0)
                 {
                     continue;
                 }
                 using (var memoryStream = new MemoryStream())
                 {
-                    await item.CopyToAsync(memoryStream);
+                    await files[i].CopyToAsync(memoryStream);
 
                     qrList[i].Reply.ReportImage = memoryStream.ToArray();
-                    i++;
                 }
             }
-
             try
             {
-                Report.ReportDate = DateTime.Now;
+                //Report.ReportDate = DateTime.Now;
                 Report.QuestionReply = QuestionReplyList.Values.Select(rvm => rvm.Reply).ToList();
                 await _context.UpdateReport(Report);
             }
