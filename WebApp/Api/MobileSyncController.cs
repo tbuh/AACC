@@ -101,7 +101,7 @@ namespace WebApp.Api
         }
 
         [HttpPost]
-        public async Task<IActionResult> Sync(SyncRequest request)
+        public async Task<IActionResult> Sync([FromBody]SyncRequest request)
         {
             _logger.LogInformation("sync...");
             var CryptInfo = this.HttpContext.Request.Headers["CryptInfo"];
@@ -133,15 +133,18 @@ namespace WebApp.Api
                                     if (reply.QuestionReplyId != 0)
                                         _context.Remove(reply);
                                 }
+                            _logger.LogInformation($"INFO Delete...report #'{report.ReportId}'");
                             _context.Remove(report);
                             await _context.SaveChangesAsync();
                         }
                         else if (report.IsNew)
                         {
+                            _logger.LogInformation($"INFO Inser new...report'{report.ReportDate}'");
                             await _context.SaveReport(report);
                         }
                         else if (report.IsChanged)
                         {
+                            _logger.LogInformation($"INFO Update...report #'{report.ReportId}'");
                             await _context.UpdateReport(report);
                         }
                     }

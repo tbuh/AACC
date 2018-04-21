@@ -16,8 +16,10 @@ namespace WebApp.Models
         [Required]
         public string Name { get; set; }
         [Required]
+        [JsonIgnore]
         public string Login { get; set; }
         [Required]
+        [JsonIgnore]
         public string Password { get; set; }
         public string Company { get; set; }
         public string Position { get; set; }
