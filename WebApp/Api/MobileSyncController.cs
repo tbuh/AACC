@@ -101,13 +101,13 @@ namespace WebApp.Api
         }
 
         [HttpPost]
-        public async Task<IActionResult> Sync([FromBody]SyncRequest request)
+        public async Task<IActionResult> Sync([FromBody]List<Report> reports)
         {
             _logger.LogInformation("sync...");
             var CryptInfo = this.HttpContext.Request.Headers["CryptInfo"];
-            if(CryptInfo.Count == 0) throw new Exception("Login failed...");
+            if (CryptInfo.Count == 0) throw new Exception("Login failed...");
 
-            if (request == null)
+            if (reports == null)
                 _logger.LogInformation("sync...request is null");
             else
                 _logger.LogInformation($"sync...request '{CryptInfo[0]}'");
@@ -120,34 +120,34 @@ namespace WebApp.Api
 
                 try
                 {
-                    var reports = request.Reports ?? new List<Report>();
-                    foreach (var report in reports)
-                    {
-                        if (report.AgedCareCenterId == -1 || report.AssessorId == -1) continue;
+                    if (reports != null)
+                        foreach (var report in reports)
+                        {
+                            if (report.AgedCareCenterId == -1 || report.AssessorId == -1) continue;
 
-                        if (report.IsDeleted)
-                        {
-                            if (report.QuestionReply != null)
-                                foreach (var reply in report.QuestionReply)
-                                {
-                                    if (reply.QuestionReplyId != 0)
-                                        _context.Remove(reply);
-                                }
-                            _logger.LogInformation($"INFO Delete...report #'{report.ReportId}'");
-                            _context.Remove(report);
-                            await _context.SaveChangesAsync();
+                            if (report.IsDeleted)
+                            {
+                                if (report.QuestionReply != null)
+                                    foreach (var reply in report.QuestionReply)
+                                    {
+                                        if (reply.QuestionReplyId != 0)
+                                            _context.Remove(reply);
+                                    }
+                                _logger.LogInformation($"INFO Delete...report #'{report.ReportId}'");
+                                _context.Remove(report);
+                                await _context.SaveChangesAsync();
+                            }
+                            else if (report.IsNew)
+                            {
+                                _logger.LogInformation($"INFO Inser new...report'{report.ReportDate}'");
+                                await _context.SaveReport(report);
+                            }
+                            else if (report.IsChanged)
+                            {
+                                _logger.LogInformation($"INFO Update...report #'{report.ReportId}'");
+                                await _context.UpdateReport(report);
+                            }
                         }
-                        else if (report.IsNew)
-                        {
-                            _logger.LogInformation($"INFO Inser new...report'{report.ReportDate}'");
-                            await _context.SaveReport(report);
-                        }
-                        else if (report.IsChanged)
-                        {
-                            _logger.LogInformation($"INFO Update...report #'{report.ReportId}'");
-                            await _context.UpdateReport(report);
-                        }
-                    }
                 }
                 catch (Exception ex)
                 {
