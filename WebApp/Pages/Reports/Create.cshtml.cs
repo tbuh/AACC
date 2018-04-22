@@ -50,15 +50,21 @@ namespace WebApp.Pages.Reports
             AgedCareCenters = _context.AgedCareCenters.Select(a => new SelectListItem { Text = a.Name, Value = a.AgedCareCenterId.ToString() });
             AccreditationStandarts = _context.AccreditationStandarts.Include(ass => ass.Questions).ToList();
             if (isNew)
+            {
                 QuestionReplyList = (
                     from asst in AccreditationStandarts
                     from q in asst.Questions
                     select new QuestionReply
                     {
+                        Question = q,
                         QuestionId = q.QuestionId
                     }).ToDictionary(qr => qr.QuestionId);
 
-
+                foreach (var item in QuestionReplyList)
+                {
+                    item.Value.Load();
+                }
+            }
         }
 
         [BindProperty]
@@ -92,6 +98,10 @@ namespace WebApp.Pages.Reports
             }
             Report.ReportDate = DateTime.Now;
             Report.QuestionReply = QuestionReplyList.Values;
+            foreach (var item in Report.QuestionReply)
+            {
+                item.Update();
+            }
 
             await _context.SaveReport(Report);
 

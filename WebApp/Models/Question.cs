@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -22,5 +23,8 @@ namespace WebApp.Models
         public string Title { get; set; }
         public int Id { get; set; }
         public bool IsMet { get; set; }
+        [NotMapped]
+        [JsonIgnore]
+        public int Number { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -24,5 +25,32 @@ namespace WebApp.Models
         public int QuestionNumberOrderBy { get; set; }
         public byte[] ReportImage { get; set; }
         public string SubQuestionReply { get; set; }
+
+        [JsonIgnore]
+        [NotMapped]
+        public List<SubQuestion> SubQuestionList { get; set; }
+
+        public void Update()
+        {
+            if (SubQuestionList != null)
+                SubQuestionReply = JsonConvert.SerializeObject(SubQuestionList);
+        }
+
+        public void Load()
+        {
+            if (SubQuestionList != null) return;
+
+            if (string.IsNullOrEmpty(SubQuestionReply))
+            {
+                if (!string.IsNullOrEmpty(Question.SubQuestions))
+                    SubQuestionList = JsonConvert.DeserializeObject<List<SubQuestion>>(Question.SubQuestions);
+                else
+                    SubQuestionList = new List<SubQuestion>();
+            }
+            else
+            {
+                SubQuestionList = JsonConvert.DeserializeObject<List<SubQuestion>>(SubQuestionReply);
+            }
+        }
     }
 }

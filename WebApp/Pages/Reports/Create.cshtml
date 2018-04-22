@@ -70,7 +70,7 @@
             <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
                 @foreach (var astd in Model.AccreditationStandarts)
                 {
-
+                    int j = 0;
 
                     var classname = "collapse";
                     @if (astd.AccreditationStandartId == 1)
@@ -92,14 +92,26 @@
 
                                 @foreach (var q in astd.Questions)
                                 {
-
-                                    <label class="control-label">@q.Title</label> <br />
+                                    j++;
+                                    var idText = j.ToString() + ". ";
+                                    <label class="control-label">@(idText + q.Title)</label> <br />
                                     <label class="control-label" style="font-weight:400;">@q.Notes</label>
                                     <input asp-for="@Model.QuestionReplyList[q.QuestionId].Notes" class="form-control" />
                                     <span asp-validation-for="@Model.QuestionReplyList[q.QuestionId].Notes" class="text-danger"></span>
-                                    <div style="display:block;margin-top:5px;">
-                                        <input type="checkbox" asp-for="@Model.QuestionReplyList[q.QuestionId].Response" data-toggle="toggle" data-onstyle="success" data-offstyle="danger" data-on="Yes" data-off="No" />
-                                    </div>
+                                    for (int i = 0; i < Model.QuestionReplyList[q.QuestionId].SubQuestionList.Count; i++)
+                                    {
+                                        var idText2 = idText + (i + 1).ToString() + ". ";
+                                        <div class="row" style="margin-top:5px;">
+                                            <div class="col-md-5" style="margin-left:10px;">
+                                                <label class="control-label">@(idText2 + Model.QuestionReplyList[q.QuestionId].SubQuestionList[i].Title)</label> <br />
+                                            </div>
+                                            <div class="col-md-5">
+                                                <input asp-for="@Model.QuestionReplyList[q.QuestionId].SubQuestionList[i].Title" class="form-control" type="hidden" />
+                                                <input asp-for="@Model.QuestionReplyList[q.QuestionId].SubQuestionList[i].Id" class="form-control" type="hidden" />
+                                                <input type="checkbox" asp-for="@Model.QuestionReplyList[q.QuestionId].SubQuestionList[i].IsMet" data-toggle="toggle" data-onstyle="success" data-offstyle="danger" data-on="Yes" data-off="No" />
+                                            </div>
+                                        </div>
+                                    }
 
                                     @*<input type="file" name="@(q.QuestionId-1)" style="margin-top:15px; " accept=".png, .jpg, .jpeg" />*@
 

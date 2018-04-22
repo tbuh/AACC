@@ -54,9 +54,14 @@ namespace WebApp.Models
             {
                 if (qr.QuestionReplyId != 0)
                 {
-                    Attach(qr).State = EntityState.Modified;
-                    if (qr.ReportImage == null || qr.ReportImage.Length == 0)
-                        Attach(qr).Property(x => x.ReportImage).IsModified = false;
+                    var attached = Attach(qr);
+                    if (qr.ReportImage == null)
+                        attached.Property(x => x.ReportImage).IsModified = false;
+                    else
+                        attached.Property(x => x.ReportImage).IsModified = true;
+
+                    attached.Property(x => x.Notes).IsModified = true;
+                    attached.Property(x => x.SubQuestionReply).IsModified = true;
                 }
             }
 
