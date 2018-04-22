@@ -41,7 +41,7 @@
             </div>
             <div class="form-group" style="max-width:360px;">
                 <label asp-for="Report.ReportDate" class="control-label">Report Date</label>
-                <input id="date" type="date" asp-for="Report.ReportDate" class="form-control" disabled />
+                <input id="date" type="date" asp-for="Report.ReportDate" class="form-control" />
             </div>
             <div class="form-group" style="max-width:360px;">
                 <label asp-for="Report.Notes" class="control-label"></label>
@@ -83,7 +83,7 @@
                                         <i class="fa fa-cloud-upload"></i> Attach image
                                     </label>
                                     <input id="file-upload@(Model.QuestionReplyList[question.QuestionId].Reply.QuestionReplyId)" type="file" name="@(Model.QuestionReplyList[question.QuestionId].Reply.QuestionReplyId)" accept=".png, .jpg, .jpeg" onchange="loadFile(event,'@(Model.QuestionReplyList[question.QuestionId].Reply.QuestionReplyId)')" />
-                                    if (Model.QuestionReplyList[question.QuestionId].Reply.ReportImage != null)
+                                    if (Model.QuestionReplyList[question.QuestionId].Reply.ReportImage != null && Model.QuestionReplyList[question.QuestionId].Reply.ReportImage.Length != 0)
                                     {
                                         <img style="height: 70px;" id="output@(Model.QuestionReplyList[question.QuestionId].Reply.QuestionReplyId)" src="data:image/jpeg;base64,@(Convert.ToBase64String(Model.QuestionReplyList[question.QuestionId].Reply.ReportImage))" />
                                     }

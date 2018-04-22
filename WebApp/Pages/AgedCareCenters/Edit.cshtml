@@ -22,7 +22,7 @@
 <h4>Aged Care Center Edit</h4>
 <hr />
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-6">
         <form method="post" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="AgedCareCenter.AgedCareCenterId" />
@@ -89,8 +89,16 @@
             <label for="file-upload" class="custom-file-upload" style="margin-top:15px;">
                 <i class="fa fa-cloud-upload"></i> Attach logo
             </label>
-            <input id="file-upload" type="file" name="file-upload" accept=".png, .jpg, .jpeg" onchange="loadFile(event)" />
+            <input id="file-upload" type="file" name="file-upload" accept=".png, .jpg, .jpeg" onchange="loadFile(event,@(Model.AgedCareCenter.AgedCareCenterId))" />
             <img style="height: 70px;" id="output" />
+            @if (Model.AgedCareCenter.Logo != null && Model.AgedCareCenter.Logo.Length != 0)
+            {
+                <img style="height: 70px;" id="output@(Model.AgedCareCenter.AgedCareCenterId)" src="data:image/jpeg;base64,@(Convert.ToBase64String(Model.AgedCareCenter.Logo))" />
+            }
+            else
+            {
+                <img style="height: 70px;" id="output@(Model.AgedCareCenter.AgedCareCenterId)" />
+            }
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-success" />
             </div>
@@ -107,8 +115,8 @@
 }
 <script>
 
-    var loadFile = function (event) {
-        var output = document.getElementById('output');
+    var loadFile = function (event, id) {
+        var output = document.getElementById('output' + id);
         output.src = URL.createObjectURL(event.target.files[0]);
 
     };
