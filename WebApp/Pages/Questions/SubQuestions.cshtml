@@ -1,0 +1,55 @@
+﻿@page
+@model WebApp.Pages.Questions.SubQuestionsModel
+@{
+    ViewData["Title"] = "SubQuestions";
+    Layout = "~/Pages/_Layout.cshtml";
+}
+
+<h4>Sub questions</h4>
+
+<div>
+
+    <div style="margin-top:10px;margin-bottom:10px;">
+
+        @*<a class="btn btn-success" asp-page="./Create" asp-route-id="@Model.StandartId">Add new Question</a>*@
+
+    </div>
+    <form method="post" enctype="multipart/form-data">
+        <table class="table">
+
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>
+                        Title
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (int i = 0; i < Model.SubQuestions.Count; i++)
+                {
+                    var item = Model.SubQuestions[i];
+                    <tr>
+                        <td width="5%;">
+                            @item.Id
+                        </td>
+                        <td width="70%;">
+                            <div class="form-group">
+                                <input asp-for="@Model.SubQuestions[i].Title" class="form-control" style="resize:vertical;" />
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <div class="form-group">
+            <input type="submit" value="Update" class="btn btn-success" />
+        </div>
+    </form>
+</div>
+<div>
+    <a asp-page="./Details" asp-route-id="@Model.Question.AccreditationStandartId">Back to List</a>
+</div>
+
+

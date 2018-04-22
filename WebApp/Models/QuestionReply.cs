@@ -23,5 +23,6 @@ namespace WebApp.Models
         [Newtonsoft.Json.JsonIgnore]
         public int QuestionNumberOrderBy { get; set; }
         public byte[] ReportImage { get; set; }
+        public string SubQuestionReply { get; set; }
     }
 }

@@ -14,5 +14,13 @@ namespace WebApp.Models
         [NotMapped]
         public int QuestionNumber { get; set; }
         public int AccreditationStandartId { get; set; }
+        public string SubQuestions { get; set; }
+    }
+
+    public class SubQuestion
+    {
+        public string Title { get; set; }
+        public int Id { get; set; }
+        public bool IsMet { get; set; }
     }
 }
