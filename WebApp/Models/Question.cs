@@ -16,6 +16,8 @@ namespace WebApp.Models
         public int QuestionNumber { get; set; }
         public int? AccreditationStandartId { get; set; }
         public int? ParentId { get; set; }
+        public Question Parent { get; set; }
+
         public string SubQuestions { get; set; }
         [ForeignKey("ParentId")]
         public ICollection<Question> Questions { get; set; }

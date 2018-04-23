@@ -120,25 +120,25 @@ namespace WebApp.Api
                 return CreatedAtAction("Sync", res);
             }
 
-            var CryptInfo = this.HttpContext.Request.Headers["CryptInfo"];
-            if (CryptInfo.Count == 0)
-            {
-                var res = new SyncModel() { Error = "Login failed." };
-                return CreatedAtAction("Sync", res);
-            }
+            //var CryptInfo = this.HttpContext.Request.Headers["CryptInfo"];
+            //if (CryptInfo.Count == 0)
+            //{
+            //    var res = new SyncModel() { Error = "Login failed." };
+            //    return CreatedAtAction("Sync", res);
+            //}
 
-            _logger.LogInformation("sync...");
+            //_logger.LogInformation("sync...");
 
-            if (reports == null)
-                _logger.LogInformation("sync...request is null");
-            else
-                _logger.LogInformation($"sync...request '{CryptInfo[0]}'");
+            //if (reports == null)
+            //    _logger.LogInformation("sync...request is null");
+            //else
+            //    _logger.LogInformation($"sync...request '{CryptInfo[0]}'");
 
             var model = new SyncModel();
             StringBuilder sb = new StringBuilder();
             try
             {
-                var userId = CheckUser(CryptInfo[0]);
+                var userId = -1;// CheckUser(CryptInfo[0]);
 
                 try
                 {
@@ -177,9 +177,10 @@ namespace WebApp.Api
                     sb.AppendLine(ex.Message);
                 }
 
+                model.AccreditationStandartList = await _context.AccreditationStandarts.Include(acc => acc.Questions).ToListAsync();
                 model.AgedCareCenterList = await _context.AgedCareCenters.ToListAsync();
                 model.AssessorList = await _context.Assessors.ToListAsync();
-                var Questions = await _context.Questions.GroupBy(q => q.AccreditationStandartId).ToListAsync();
+                var Questions = await _context.Questions.Include(q => q.Questions).GroupBy(q => q.AccreditationStandartId).ToListAsync();
                 model.ReportList = await _context.GetReportsWithReplies(userId);
 
                 var newReport = new Report
@@ -189,29 +190,39 @@ namespace WebApp.Api
                     ReportDate = DateTime.Now,
                     IsNew = true
                 };
+                var questionReplyList =
+                    from asst in model.AccreditationStandartList
+                    from q in asst.Questions
+                    select new QuestionReply(q);
 
-                newReport.QuestionReply = Questions.SelectMany(g => g.Select((q, index) => new QuestionReply
-                {
-                    QuestionId = q.QuestionId,
-                    QuestionNumber = $"{g.Key}.{index + 1}",
-                    Response = false,
-                    Question = q
-                })).ToList();
+                newReport.QuestionReply = questionReplyList.SelectMany(q => q.SubQuestionList).ToList();
                 model.NewReport = newReport;
                 model.ReportList
                     .ForEach(r =>
                     {
+                        foreach (var item in r.QuestionReply)
+                        {
+                            var q = item.Question;
+                            if (item.Question.ParentId.HasValue)
+                            {
+                                item.QuestionParentId = item.Question.ParentId.Value;
+                                q = item.Question.Parent;
+                            }
+                            item.AccreditationStandartId = q.AccreditationStandartId.Value;
+                        }
                         var questionNumberOrderBy = 0;
-                        r.QuestionReply.GroupBy(qr => qr.Question.AccreditationStandartId)
-                                                     .SelectMany(g => g.OrderBy(q => q.QuestionId).Select((qr, i) =>
-                                                       {
-                                                           questionNumberOrderBy++;
-                                                           qr.QuestionNumberOrderBy = questionNumberOrderBy;
-                                                           qr.QuestionNumber = $"{g.Key}.{i + 1}";
-                                                           return qr.QuestionNumber;
-                                                       }))
-                                                     .ToList();
-                        r.QuestionReply = r.QuestionReply.OrderBy(qr => qr.QuestionNumberOrderBy).ToList();
+                        //r.QuestionReply.GroupBy(qr => qr.Question.AccreditationStandartId)
+                        //                .SelectMany(g => g.OrderBy(q => q.QuestionId)
+                        //                .GroupBy(qr2 => qr2.QuestionParentId)
+                        //                .SelectMany(g2 => g2.OrderBy(q => q.QuestionId)
+                        //                .Select((qr, i) =>
+                        //                               {
+                        //                                   questionNumberOrderBy++;
+                        //                                   qr.QuestionNumber = $"{g.Key}.{i + 1}";
+                        //                                   return qr.QuestionNumber;
+                        //                               }))
+                        //                             .ToList();
+                        //r.QuestionReply = r.QuestionReply.OrderBy(qr => qr.AccreditationStandartId).ToList();
                     });
             }
             catch (Exception ex)

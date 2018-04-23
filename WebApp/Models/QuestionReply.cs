@@ -20,12 +20,13 @@ namespace WebApp.Models
         public int ReportId { get; set; }
         [NotMapped]
         public string QuestionNumber { get; set; }
-        [NotMapped]
-        [Newtonsoft.Json.JsonIgnore]
-        public int QuestionNumberOrderBy { get; set; }
         public byte[] ReportImage { get; set; }
         [NotMapped]
         public string SubQuestionReply { get; set; }
+        [NotMapped]
+        public int AccreditationStandartId { get; set; }
+        [NotMapped]
+        public int? QuestionParentId { get; set; }
 
         [JsonIgnore]
         [NotMapped]
@@ -46,21 +47,29 @@ namespace WebApp.Models
 
         public QuestionReply(Question q)
         {
+            SubQuestionList = new List<QuestionReply>();
+            AccreditationStandartId = q.AccreditationStandartId.Value;
             Question = q;
             QuestionId = q.QuestionId;
             Title = q.Title;
-            Load(q.Questions?.Count != 0 ? q.Questions : new List<Question>() { q });
+            Load(q.Questions?.Count != 0 ? q.Questions.ToList() : new List<Question>() { q });
         }
 
-        private void Load(IEnumerable<Question> question)
+        private void Load(List<Question> question)
         {
-            SubQuestionList = (from q2 in question
-                               select new QuestionReply
-                               {
-                                   Title = q2.Title,
-                                   Question = q2,
-                                   QuestionId = q2.QuestionId
-                               }).ToList();
+            for (int i = 0; i < question.Count(); i++)
+            {
+                var q2 = question[i];
+                SubQuestionList.Add(new QuestionReply
+                {
+                    QuestionParentId = Question.QuestionId,
+                    Title = q2.Title,
+                    Question = q2,
+                    QuestionId = q2.QuestionId,
+                    AccreditationStandartId = AccreditationStandartId,
+                    QuestionNumber = (i + 1).ToString()
+                });
+            }
         }
     }
 }
