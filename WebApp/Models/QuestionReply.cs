@@ -24,6 +24,7 @@ namespace WebApp.Models
         [Newtonsoft.Json.JsonIgnore]
         public int QuestionNumberOrderBy { get; set; }
         public byte[] ReportImage { get; set; }
+        [NotMapped]
         public string SubQuestionReply { get; set; }
 
         [JsonIgnore]
@@ -34,10 +35,7 @@ namespace WebApp.Models
         [NotMapped]
         public string Title
         {
-            get
-            {
-                return Question.Title;
-            }
+            get; set;
         }
 
         public QuestionReply()
@@ -50,6 +48,7 @@ namespace WebApp.Models
         {
             Question = q;
             QuestionId = q.QuestionId;
+            Title = q.Title;
             Load(q.Questions?.Count != 0 ? q.Questions : new List<Question>() { q });
         }
 
@@ -58,6 +57,7 @@ namespace WebApp.Models
             SubQuestionList = (from q2 in question
                                select new QuestionReply
                                {
+                                   Title = q2.Title,
                                    Question = q2,
                                    QuestionId = q2.QuestionId
                                }).ToList();
