@@ -81,10 +81,6 @@ namespace WebApp.Pages.Reports
             {
                 //Report.ReportDate = DateTime.Now;
                 Report.QuestionReply = QuestionReplyList.Values.Select(rvm => rvm.Reply).ToList();
-                foreach (var item in Report.QuestionReply)
-                {
-                    item.Update();
-                }
                 await _context.UpdateReport(Report);
             }
             catch (DbUpdateConcurrencyException)
@@ -117,7 +113,6 @@ namespace WebApp.Pages.Reports
         public ReplyVM(Question q, QuestionReply qr, Report r)
         {
             Question = q; Reply = qr ?? new QuestionReply { Question = q, QuestionId = q.QuestionId, ReportId = r.ReportId };
-            Reply.Load();
         }
         public Question Question { get; set; }
         public QuestionReply Reply { get; set; }

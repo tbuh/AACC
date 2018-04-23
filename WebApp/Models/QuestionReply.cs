@@ -28,29 +28,39 @@ namespace WebApp.Models
 
         [JsonIgnore]
         [NotMapped]
-        public List<SubQuestion> SubQuestionList { get; set; }
+        public List<QuestionReply> SubQuestionList { get; set; }
 
-        public void Update()
+        [JsonIgnore]
+        [NotMapped]
+        public string Title
         {
-            if (SubQuestionList != null)
-                SubQuestionReply = JsonConvert.SerializeObject(SubQuestionList);
+            get
+            {
+                return Question.Title;
+            }
         }
 
-        public void Load()
+        public QuestionReply()
         {
-            if (SubQuestionList != null) return;
 
-            if (string.IsNullOrEmpty(SubQuestionReply))
-            {
-                if (!string.IsNullOrEmpty(Question.SubQuestions))
-                    SubQuestionList = JsonConvert.DeserializeObject<List<SubQuestion>>(Question.SubQuestions);
-                else
-                    SubQuestionList = new List<SubQuestion>();
-            }
-            else
-            {
-                SubQuestionList = JsonConvert.DeserializeObject<List<SubQuestion>>(SubQuestionReply);
-            }
+        }
+
+
+        public QuestionReply(Question q)
+        {
+            Question = q;
+            QuestionId = q.QuestionId;
+            Load(q.Questions?.Count != 0 ? q.Questions : new List<Question>() { q });
+        }
+
+        private void Load(IEnumerable<Question> question)
+        {
+            SubQuestionList = (from q2 in question
+                               select new QuestionReply
+                               {
+                                   Question = q2,
+                                   QuestionId = q2.QuestionId
+                               }).ToList();
         }
     }
 }

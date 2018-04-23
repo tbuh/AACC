@@ -14,8 +14,11 @@ namespace WebApp.Models
         public string Notes { get; set; }
         [NotMapped]
         public int QuestionNumber { get; set; }
-        public int AccreditationStandartId { get; set; }
+        public int? AccreditationStandartId { get; set; }
+        public int? ParentId { get; set; }
         public string SubQuestions { get; set; }
+        [ForeignKey("ParentId")]
+        public ICollection<Question> Questions { get; set; }
     }
 
     public class SubQuestion

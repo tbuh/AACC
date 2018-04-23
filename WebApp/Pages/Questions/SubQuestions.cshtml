@@ -31,11 +31,11 @@
                     var item = Model.SubQuestions[i];
                     <tr>
                         <td width="5%;">
-                            @item.Id
+                            @((i+1).ToString())
                         </td>
                         <td width="70%;">
                             <div class="form-group">
-                                <input asp-for="@Model.SubQuestions[i].Id" class="form-control" style="resize:vertical;" type="hidden" />
+                                <input asp-for="@Model.SubQuestions[i].QuestionId" class="form-control" style="resize:vertical;" type="hidden" />
                                 <input asp-for="@Model.SubQuestions[i].Title" class="form-control" style="resize:vertical;" />
                             </div>
                         </td>

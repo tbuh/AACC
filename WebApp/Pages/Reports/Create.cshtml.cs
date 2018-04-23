@@ -35,7 +35,7 @@ namespace WebApp.Pages.Reports
         }
 
         private void InitModel(bool isNew = true)
-        {            
+        {
             if (HttpContext.User.IsSuperAdmin())
             {
                 Assessors = _context.Assessors.Select(a => new SelectListItem { Text = a.Name, Value = a.AssessorId.ToString() });
@@ -48,22 +48,15 @@ namespace WebApp.Pages.Reports
                 Report.AssessorId = assessorId;
             }
             AgedCareCenters = _context.AgedCareCenters.Select(a => new SelectListItem { Text = a.Name, Value = a.AgedCareCenterId.ToString() });
-            AccreditationStandarts = _context.AccreditationStandarts.Include(ass => ass.Questions).ToList();
+            AccreditationStandarts = _context.AccreditationStandarts
+                .Include(ass => ass.Questions)
+                .ThenInclude(q => q.Questions).ToList();
             if (isNew)
             {
                 QuestionReplyList = (
                     from asst in AccreditationStandarts
                     from q in asst.Questions
-                    select new QuestionReply
-                    {
-                        Question = q,
-                        QuestionId = q.QuestionId
-                    }).ToDictionary(qr => qr.QuestionId);
-
-                foreach (var item in QuestionReplyList)
-                {
-                    item.Value.Load();
-                }
+                    select new QuestionReply(q)).ToDictionary(qr => qr.QuestionId);
             }
         }
 
@@ -82,7 +75,7 @@ namespace WebApp.Pages.Reports
 
             var files = HttpContext.Request.Form.Files;
 
-            var qrList = QuestionReplyList.Values.ToList();
+            var qrList = QuestionReplyList.Values.SelectMany(qr => qr.SubQuestionList).ToList();
             for (int i = 0; i < files.Count; i++)
             {
                 if (files[i] == null || files[i].Length == 0)
@@ -97,11 +90,7 @@ namespace WebApp.Pages.Reports
                 }
             }
             Report.ReportDate = DateTime.Now;
-            Report.QuestionReply = QuestionReplyList.Values;
-            foreach (var item in Report.QuestionReply)
-            {
-                item.Update();
-            }
+            Report.QuestionReply = qrList;
 
             await _context.SaveReport(Report);
 

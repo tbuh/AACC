@@ -68,10 +68,10 @@
             </div>
 
             <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                @{var id = 0;}
                 @foreach (var astd in Model.AccreditationStandarts)
                 {
                     int j = 0;
-
                     var classname = "collapse";
                     @if (astd.AccreditationStandartId == 1)
                     {
@@ -96,31 +96,70 @@
                                     var idText = j.ToString() + ". ";
                                     <label class="control-label">@(idText + q.Title)</label> <br />
                                     <label class="control-label" style="font-weight:400;">@q.Notes</label>
-                                    <input asp-for="@Model.QuestionReplyList[q.QuestionId].Notes" class="form-control" />
-                                    <span asp-validation-for="@Model.QuestionReplyList[q.QuestionId].Notes" class="text-danger"></span>
-                                    for (int i = 0; i < Model.QuestionReplyList[q.QuestionId].SubQuestionList.Count; i++)
+                                    var hasSubQuestions = true;
+                                    string imgId = "";
+                                    if (Model.QuestionReplyList[q.QuestionId].SubQuestionList.Count == 1)
                                     {
-                                        var idText2 = idText + (i + 1).ToString() + ". ";
+                                        var qr = Model.QuestionReplyList[q.QuestionId].SubQuestionList[0];
+                                        hasSubQuestions = qr.QuestionId != q.QuestionId;
+                                    }
+
+                                    if (hasSubQuestions)
+                                    {
+                                        for (int i = 0; i < Model.QuestionReplyList[q.QuestionId].SubQuestionList.Count; i++)
+                                        {
+                                            id++;
+                                            var idText2 = idText + (i + 1).ToString() + ". ";
+                                            imgId = id.ToString();
+                                            <div class="row" style="margin-top:5px;">
+                                                <div style="margin-left:10px;">
+                                                    <label class="control-label">@(idText2 + Model.QuestionReplyList[q.QuestionId].SubQuestionList[i].Title)</label> <br />
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <input asp-for="@Model.QuestionReplyList[q.QuestionId].SubQuestionList[i].Notes" class="form-control" />
+                                                    <span asp-validation-for="@Model.QuestionReplyList[q.QuestionId].SubQuestionList[i].Notes" class="text-danger"></span>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <input asp-for="@Model.QuestionReplyList[q.QuestionId].SubQuestionList[i].Title" class="form-control" type="hidden" />
+                                                    <input asp-for="@Model.QuestionReplyList[q.QuestionId].SubQuestionList[i].QuestionId" class="form-control" type="hidden" />
+                                                    <input type="checkbox" asp-for="@Model.QuestionReplyList[q.QuestionId].SubQuestionList[i].Response" data-toggle="toggle" data-onstyle="success" data-offstyle="danger" data-on="Yes" data-off="No" />
+                                                </div>
+                                                <div class="col-md-5">
+                                                    <input asp-for="@Model.QuestionReplyList[q.QuestionId].QuestionId" class="form-control" type="hidden" />
+                                                    <label for="file-upload@(imgId)" class="custom-file-upload" style="margin-top:15px;">
+                                                        <i class="fa fa-cloud-upload"></i> Attach image
+                                                    </label>
+                                                    <input id="file-upload@(imgId)" type="file" name="@(imgId)" accept=".png, .jpg, .jpeg" onchange="loadFile(event,'@(imgId)')" />
+                                                    <img style="height: 70px;" id="output@(imgId)" />
+                                                </div>
+                                            </div>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        id++;
                                         <div class="row" style="margin-top:5px;">
-                                            <div class="col-md-5" style="margin-left:10px;">
-                                                <label class="control-label">@(idText2 + Model.QuestionReplyList[q.QuestionId].SubQuestionList[i].Title)</label> <br />
+                                            <div>
+                                                <input asp-for="@Model.QuestionReplyList[q.QuestionId].SubQuestionList[0].Notes" class="form-control" />
+                                                <span asp-validation-for="@Model.QuestionReplyList[q.QuestionId].SubQuestionList[0].Notes" class="text-danger"></span>
                                             </div>
                                             <div class="col-md-5">
-                                                <input asp-for="@Model.QuestionReplyList[q.QuestionId].SubQuestionList[i].Title" class="form-control" type="hidden" />
-                                                <input asp-for="@Model.QuestionReplyList[q.QuestionId].SubQuestionList[i].Id" class="form-control" type="hidden" />
-                                                <input type="checkbox" asp-for="@Model.QuestionReplyList[q.QuestionId].SubQuestionList[i].IsMet" data-toggle="toggle" data-onstyle="success" data-offstyle="danger" data-on="Yes" data-off="No" />
+                                                <input asp-for="@Model.QuestionReplyList[q.QuestionId].SubQuestionList[0].QuestionId" class="form-control" type="hidden" />
+                                                <input type="checkbox" asp-for="@Model.QuestionReplyList[q.QuestionId].SubQuestionList[0].Response" data-toggle="toggle" data-onstyle="success" data-offstyle="danger" data-on="Yes" data-off="No" />
+                                            </div>
+                                            <div class="col-md-5">
+                                                <input asp-for="@Model.QuestionReplyList[q.QuestionId].QuestionId" class="form-control" type="hidden" />
+                                                <label for="file-upload@(imgId)" class="custom-file-upload" style="margin-top:15px;">
+                                                    <i class="fa fa-cloud-upload"></i> Attach image
+                                                </label>
+                                                <input id="file-upload@(imgId)" type="file" name="@(imgId)" accept=".png, .jpg, .jpeg" onchange="loadFile(event,'@(imgId)')" />
+                                                <img style="height: 70px;" id="output@(imgId)" />
                                             </div>
                                         </div>
                                     }
-
                                     @*<input type="file" name="@(q.QuestionId-1)" style="margin-top:15px; " accept=".png, .jpg, .jpeg" />*@
 
-                                    <input asp-for="@Model.QuestionReplyList[q.QuestionId].QuestionId" class="form-control" type="hidden" />
-                                    <label for="file-upload@(q.QuestionId-1)" class="custom-file-upload" style="margin-top:15px;">
-                                        <i class="fa fa-cloud-upload"></i> Attach image
-                                    </label>
-                                    <input id="file-upload@(q.QuestionId-1)" type="file" name="@(q.QuestionId-1)" accept=".png, .jpg, .jpeg" onchange="loadFile(event,'@(q.QuestionId-1)')" />
-                                    <img style="height: 70px;" id="output@(q.QuestionId-1)" />
+
 
                                     <hr />
 

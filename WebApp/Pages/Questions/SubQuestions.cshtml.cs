@@ -22,7 +22,7 @@ namespace WebApp.Pages.Questions
 
         public Question Question { get; set; }
         [BindProperty]
-        public List<SubQuestion> SubQuestions { get; set; }
+        public List<Question> SubQuestions { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -31,24 +31,24 @@ namespace WebApp.Pages.Questions
                 return NotFound();
             }
 
-            Question = await _context.Questions.SingleOrDefaultAsync(m => m.QuestionId == id);
+            Question = await _context.Questions.Include(q => q.Questions).SingleOrDefaultAsync(m => m.QuestionId == id);
             if (Question == null)
             {
                 return NotFound();
             }
 
-            if (string.IsNullOrEmpty(Question.SubQuestions))
+            if (Question.Questions == null || Question.Questions.Count == 0)
             {
-                SubQuestions = new List<SubQuestion>
+                SubQuestions = new List<Question>
                 {
-                    new SubQuestion{ Id = 1},
-                    new SubQuestion{ Id = 2},
-                    new SubQuestion{ Id = 3},
-                    new SubQuestion{ Id = 4}
+                    new Question{ ParentId = id},
+                    new Question{ ParentId = id},
+                    new Question{ ParentId = id},
+                    new Question{ ParentId = id}
                 };
             }
             else
-                SubQuestions = JsonConvert.DeserializeObject<List<SubQuestion>>(Question.SubQuestions);
+                SubQuestions = Question.Questions.ToList();
             return Page();
         }
 
@@ -64,7 +64,17 @@ namespace WebApp.Pages.Questions
             {
                 return NotFound();
             }
-            Question.SubQuestions = JsonConvert.SerializeObject(SubQuestions);
+            Question.Questions = SubQuestions;
+
+            if (SubQuestions[0].QuestionId == 0)
+            {
+                await _context.Questions.AddRangeAsync(SubQuestions);
+            }
+            else
+            {
+                _context.AttachRange(SubQuestions);
+            }
+
             _context.Attach(Question).State = EntityState.Modified;
 
             try
