@@ -24,11 +24,13 @@ namespace WebApp.Models
 
         public async System.Threading.Tasks.Task UpdateCompletionStatus(Report report)
         {
-            int cntQ = await Questions.CountAsync();
+            int cntQ = 1;
             int cntR = 0;
             if (report.QuestionReply != null)
+            {
+                cntQ = report.QuestionReply.Count();
                 cntR = report.QuestionReply.Count(qr => qr.Response && qr.ReportId == report.ReportId);
-
+            }
             report.CompletionStatus = System.Math.Round((double)100 * cntR / cntQ);
         }
 
@@ -52,7 +54,7 @@ namespace WebApp.Models
 
             foreach (var qr in report.QuestionReply)
             {
-                if (qr.QuestionReplyId != 0)
+                if (qr.QuestionReplyId > 0)
                 {
                     var attached = Attach(qr);
                     if (qr.ReportImage == null)
@@ -60,7 +62,17 @@ namespace WebApp.Models
                     else
                         attached.Property(x => x.ReportImage).IsModified = true;
 
+                    attached.Property(x => x.QuestionReplyId).IsModified = false;
                     attached.Property(x => x.Notes).IsModified = true;
+                    attached.Property(x => x.Response).IsModified = true;
+                    if (qr.Question != null) Attach(qr.Question).State = EntityState.Unchanged;
+                }
+                else
+                {
+                    foreach (var item in report.QuestionReply)
+                    {                        
+                        QuestionReplies.Add(item).State = EntityState.Added;
+                    }
                 }
             }
 

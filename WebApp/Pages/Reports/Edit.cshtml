@@ -82,9 +82,16 @@
 
                                     if (question.Questions.Count == 0)
                                     {
+                                    <div class="input-group">
+                                        <span class="input-group-btn">
+                                            <input type="checkbox" asp-for="@Model.QuestionReplyList[question.QuestionId].Reply.Response" data-toggle="toggle" data-onstyle="success" data-offstyle="danger" data-on="Yes" data-off="No" />
+                                        </span>
                                         <input asp-for="@Model.QuestionReplyList[question.QuestionId].Reply.Notes" class="form-control" />
                                         <input asp-for="@Model.QuestionReplyList[question.QuestionId].Reply.ReportId" class="form-control" type="hidden" />
-                                        <input type="checkbox" asp-for="@Model.QuestionReplyList[question.QuestionId].Reply.Response" data-toggle="toggle" data-onstyle="success" data-offstyle="danger" data-on="Yes" data-off="No" />
+                                        <input asp-for="@Model.QuestionReplyList[question.QuestionId].Reply.QuestionReplyId" class="form-control" type="hidden" />                                      
+                                    </div>
+
+
                                         <label for="file-upload@(Model.QuestionReplyList[question.QuestionId].Reply.QuestionReplyId)" class="custom-file-upload" style="margin-top:15px;">
                                             <i class="fa fa-cloud-upload"></i> Attach image
                                         </label>
@@ -109,31 +116,43 @@
 
                                             var subQ = qList[i];
                                             var idText2 = idText + (i + 1).ToString() + ". ";
-                                            <div class="row" style="margin-top:5px;">
-                                                <div class="col-md-5" style="margin-left:10px;">
+                                            <div class="row" style="margin-top:5px;margin-left:10px;">
+                                                <div class="col-md-8">
                                                     <label class="control-l abel">@(idText2 + Model.QuestionReplyList[subQ.QuestionId].Reply.Title)</label> <br />
+
+                                                    <div class="input-group">
+                                                        <span class="input-group-btn">
+                                                            <input type="checkbox" asp-for="@Model.QuestionReplyList[subQ.QuestionId].Reply.Response" data-toggle="toggle" data-onstyle="success" data-offstyle="danger" data-on="Yes" data-off="No" />
+                                                        </span>
+                                                        <input type="text" asp-for="@Model.QuestionReplyList[subQ.QuestionId].Reply.Notes" class="form-control" />
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-8">
+                                                            <input asp-for="@Model.QuestionReplyList[subQ.QuestionId].Reply.QuestionId" class="form-control" type="hidden" />
+                                                            <input asp-for="@Model.QuestionReplyList[subQ.QuestionId].Reply.QuestionReplyId" class="form-control" type="hidden" />
+                                                            <input asp-for="@Model.QuestionReplyList[subQ.QuestionId].Reply.ReportId" class="form-control" type="hidden" />
+                                                            <label for="file-upload@(Model.QuestionReplyList[subQ.QuestionId].Reply.QuestionReplyId)" class="custom-file-upload" style="margin-top:15px;">
+                                                                <i class="fa fa-cloud-upload"></i> Attach image
+                                                            </label>
+                                                            <input id="file-upload@(Model.QuestionReplyList[subQ.QuestionId].Reply.QuestionReplyId)" type="file" name="@(Model.QuestionReplyList[subQ.QuestionId].Reply.QuestionReplyId)" accept=".png, .jpg, .jpeg" onchange="loadFile(event,'@(Model.QuestionReplyList[subQ.QuestionId].Reply.QuestionReplyId)')" />
+                                                            @if (Model.QuestionReplyList[subQ.QuestionId].Reply.ReportImage != null && Model.QuestionReplyList[subQ.QuestionId].Reply.ReportImage.Length != 0)
+    {
+                                                        <img style="height: 70px;" id="output@(Model.QuestionReplyList[subQ.QuestionId].Reply.QuestionReplyId)" src="data:image/jpeg;base64,@(Convert.ToBase64String(Model.QuestionReplyList[subQ.QuestionId].Reply.ReportImage))" />
+}
+else
+{
+                                                        <img style="height: 70px;" id="output@(Model.QuestionReplyList[subQ.QuestionId].Reply.QuestionReplyId)" />
+}
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                                <div class="col-md-5">
-                                                    <input type="checkbox" asp-for="@Model.QuestionReplyList[subQ.QuestionId].Reply.Response" data-toggle="toggle" data-onstyle="success" data-offstyle="danger" data-on="Yes" data-off="No" />
-                                                </div>
+
+
                                             </div>
 
 
-                                            <input asp-for="@Model.QuestionReplyList[subQ.QuestionId].Reply.QuestionId" class="form-control" type="hidden" />
-                                            <input asp-for="@Model.QuestionReplyList[subQ.QuestionId].Reply.QuestionReplyId" class="form-control" type="hidden" />
 
-                                            <label for="file-upload@(Model.QuestionReplyList[subQ.QuestionId].Reply.QuestionReplyId)" class="custom-file-upload" style="margin-top:15px;">
-                                                <i class="fa fa-cloud-upload"></i> Attach image
-                                            </label>
-                                            <input id="file-upload@(Model.QuestionReplyList[subQ.QuestionId].Reply.QuestionReplyId)" type="file" name="@(Model.QuestionReplyList[subQ.QuestionId].Reply.QuestionReplyId)" accept=".png, .jpg, .jpeg" onchange="loadFile(event,'@(Model.QuestionReplyList[subQ.QuestionId].Reply.QuestionReplyId)')" />
-                                            if (Model.QuestionReplyList[subQ.QuestionId].Reply.ReportImage != null && Model.QuestionReplyList[subQ.QuestionId].Reply.ReportImage.Length != 0)
-                                            {
-                                                <img style="height: 70px;" id="output@(Model.QuestionReplyList[subQ.QuestionId].Reply.QuestionReplyId)" src="data:image/jpeg;base64,@(Convert.ToBase64String(Model.QuestionReplyList[subQ.QuestionId].Reply.ReportImage))" />
-                                            }
-                                            else
-                                            {
-                                                <img style="height: 70px;" id="output@(Model.QuestionReplyList[subQ.QuestionId].Reply.QuestionReplyId)" />
-                                            }
+
                                         }
                                     }
                                     <input asp-for="@Model.Report.ReportId" class="form-control" type="hidden" />
