@@ -138,7 +138,7 @@ namespace WebApp.Api
             StringBuilder sb = new StringBuilder();
             try
             {
-                var userId = -1;// CheckUser(CryptInfo[0]);
+                var userId = CheckUser(CryptInfo[0]);
 
                 try
                 {
