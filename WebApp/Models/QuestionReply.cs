@@ -46,6 +46,7 @@ namespace WebApp.Models
 
         public QuestionReply(Question q)
         {
+            SubQuestionList = new List<QuestionReply>();
             Question = q;
             QuestionId = q.QuestionId;
             Title = q.Title;

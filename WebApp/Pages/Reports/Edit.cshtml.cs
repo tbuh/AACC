@@ -41,14 +41,22 @@ namespace WebApp.Pages.Reports
             }
 
             Assessor = _context.Assessors.FirstOrDefault(a => a.AssessorId == Report.AssessorId);
+            var questions = _context.Questions.Include(q => q.Questions).Where(q => !q.ParentId.HasValue);
             AgedCareCenters = _context.AgedCareCenters.Select(a => new SelectListItem { Text = a.Name, Value = a.AgedCareCenterId.ToString() });
-            AccreditationStandarts = _context.AccreditationStandarts.Include(acs => acs.Questions).OrderBy(acs => acs.AccreditationStandartId).ToList();
+            AccreditationStandarts = _context.AccreditationStandarts.Include(acs => acs.Questions).ThenInclude(q => q.Questions).OrderBy(acs => acs.AccreditationStandartId).ToList();
 
             QuestionReplyList =
-            (from acs in AccreditationStandarts
-             from q in acs.Questions
+            (from q in questions
+             from q2 in q.Questions
+             join r in Report.QuestionReply on q2.QuestionId equals r.QuestionId into gj
+             from subr in gj.DefaultIfEmpty()
+             select new ReplyVM(q2, subr, Report)
+
+             ).Union
+            (from q in questions
              join r in Report.QuestionReply on q.QuestionId equals r.QuestionId into gj
              from subr in gj.DefaultIfEmpty()
+             where q.Questions.Count == 0
              select new ReplyVM(q, subr, Report)).ToDictionary(rvm => rvm.Question.QuestionId);
 
             return Page();

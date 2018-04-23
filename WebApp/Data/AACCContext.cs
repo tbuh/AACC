@@ -61,7 +61,6 @@ namespace WebApp.Models
                         attached.Property(x => x.ReportImage).IsModified = true;
 
                     attached.Property(x => x.Notes).IsModified = true;
-                    attached.Property(x => x.SubQuestionReply).IsModified = true;
                 }
             }
 
