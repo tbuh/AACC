@@ -120,25 +120,25 @@ namespace WebApp.Api
                 return CreatedAtAction("Sync", res);
             }
 
-            //var CryptInfo = this.HttpContext.Request.Headers["CryptInfo"];
-            //if (CryptInfo.Count == 0)
-            //{
-            //    var res = new SyncModel() { Error = "Login failed." };
-            //    return CreatedAtAction("Sync", res);
-            //}
+            var CryptInfo = this.HttpContext.Request.Headers["CryptInfo"];
+            if (CryptInfo.Count == 0)
+            {
+                var res = new SyncModel() { Error = "Login failed." };
+                return CreatedAtAction("Sync", res);
+            }
 
-            //_logger.LogInformation("sync...");
+            _logger.LogInformation("sync...");
 
-            //if (reports == null)
-            //    _logger.LogInformation("sync...request is null");
-            //else
-            //    _logger.LogInformation($"sync...request '{CryptInfo[0]}'");
+            if (reports == null)
+                _logger.LogInformation("sync...request is null");
+            else
+                _logger.LogInformation($"sync...request '{CryptInfo[0]}'");
 
             var model = new SyncModel();
             StringBuilder sb = new StringBuilder();
             try
             {
-                var userId = -1;// CheckUser(CryptInfo[0]);
+                var userId = CheckUser(CryptInfo[0]);
 
                 try
                 {

@@ -29,26 +29,18 @@ namespace WebApp.Pages.Questions
             if (id == null)
             {
                 return NotFound();
-            }
-
+            }            
             Question = await _context.Questions.Include(q => q.Questions).SingleOrDefaultAsync(m => m.QuestionId == id);
             if (Question == null)
             {
                 return NotFound();
             }
 
-            if (Question.Questions == null || Question.Questions.Count == 0)
+            SubQuestions = Question.Questions.ToList();
+            for (int i = 0; i < 4 - Question.Questions.Count; i++)
             {
-                SubQuestions = new List<Question>
-                {
-                    new Question{ ParentId = id},
-                    new Question{ ParentId = id},
-                    new Question{ ParentId = id},
-                    new Question{ ParentId = id}
-                };
+                SubQuestions.Add(new Question { ParentId = id });
             }
-            else
-                SubQuestions = Question.Questions.ToList();
             return Page();
         }
 
@@ -64,15 +56,16 @@ namespace WebApp.Pages.Questions
             {
                 return NotFound();
             }
-            Question.Questions = SubQuestions;
 
-            if (SubQuestions[0].QuestionId == 0)
+            Question.Questions = new List<Question>();
+            foreach (var item in SubQuestions)
             {
-                await _context.Questions.AddRangeAsync(SubQuestions);
-            }
-            else
-            {
-                _context.AttachRange(SubQuestions);
+                if (string.IsNullOrEmpty(item.Title)) continue;
+                Question.Questions.Add(item);
+                if (item.QuestionId == 0)
+                    _context.Questions.Add(item);
+                else
+                    _context.Attach(item).State = EntityState.Modified;
             }
 
             _context.Attach(Question).State = EntityState.Modified;
