@@ -67,13 +67,13 @@ namespace WebApp.Models
                     attached.Property(x => x.Response).IsModified = true;
                     if (qr.Question != null) Attach(qr.Question).State = EntityState.Unchanged;
                 }
-                else
-                {
-                    foreach (var item in report.QuestionReply)
-                    {                        
-                        QuestionReplies.Add(item).State = EntityState.Added;
-                    }
-                }
+                //else
+                //{
+                //    foreach (var item in report.QuestionReply)
+                //    {                        
+                //        QuestionReplies.Add(item).State = EntityState.Added;
+                //    }
+                //}
             }
 
             await SaveChangesAsync();
