@@ -21,6 +21,15 @@ namespace WebApp.Models
         public DbSet<AgedCareCenter> AgedCareCenters { get; set; }
         public DbSet<AccreditationStandart> AccreditationStandarts { get; set; }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<QuestionReply>()
+                .HasOne(p => p.Question)
+                .WithMany(q => q.QuestionReplies)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Cascade);
+        }
 
         public async System.Threading.Tasks.Task UpdateCompletionStatus(Report report)
         {
@@ -70,7 +79,7 @@ namespace WebApp.Models
                 else
                 {
                     foreach (var item in report.QuestionReply)
-                    {                        
+                    {
                         QuestionReplies.Add(item).State = EntityState.Added;
                     }
                 }

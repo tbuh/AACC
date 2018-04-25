@@ -1,0 +1,36 @@
+﻿@page
+@model WebApp.Pages.Questions.CreateSubQuestionModel
+
+@{
+    ViewData["Title"] = "Create Sub Question";
+    Layout = "~/Pages/_Layout.cshtml";
+}
+
+<h2>Create</h2>
+
+<h4>Sub Question</h4>
+<hr />
+<div class="row">
+    <div class="col-md-10">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <input type="hidden" asp-for="Question.ParentId" />
+                <label asp-for="Question.Title" class="control-label"></label>
+                <input asp-for="Question.Title" class="form-control" />
+                <span asp-validation-for="Question.Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-success" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="./SubQuestions" asp-route-id="@Model.Question.ParentId">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -23,6 +23,8 @@ namespace WebApp.Models
         [ForeignKey("ParentId")]
         [JsonIgnore]
         public ICollection<Question> Questions { get; set; }
+        [ForeignKey("QuestionId")]
+        public ICollection<QuestionReply> QuestionReplies { get; set; }
     }
 
     public class SubQuestion

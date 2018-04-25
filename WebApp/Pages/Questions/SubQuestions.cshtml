@@ -1,57 +1,49 @@
 ﻿@page
+
 @model WebApp.Pages.Questions.SubQuestionsModel
+
 @{
-    ViewData["Title"] = "SubQuestions";
+    ViewData["Title"] = "Sub questions";
     Layout = "~/Pages/_Layout.cshtml";
 }
 
-<h4>Sub questions for "@Model.Question.Title"</h4>
+<h2>Sub questions for "@Model.Question.Title"</h2>
+
+<p>
+    <a class="btn btn-success" asp-page="./CreateSubQuestion" asp-route-id="@Model.ParentId">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+            </th>
+            <th>
+                Title
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @{ int i = 0;}
+        @foreach (var item in Model.SubQuestions)
+        {
+            i++;
+            <tr>
+                <td>
+                    @i
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    <a class="btn btn-success btn-xs" asp-page="./EditSubQuestion" asp-route-id="@item.QuestionId">Edit</a> 
+                    <a class="btn btn-danger btn-xs" asp-page="./DeleteSubQuestion" asp-route-id="@item.QuestionId">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
 
 <div>
-
-    <div style="margin-top:10px;margin-bottom:10px;">
-
-        @*<a class="btn btn-success" asp-page="./Create" asp-route-id="@Model.StandartId">Add new Question</a>*@
-
-    </div>
-    <form method="post" enctype="multipart/form-data">
-        <table class="table">
-
-            <thead>
-                <tr>
-                    <th></th>
-                    <th>
-                        Title
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                @for (int i = 0; i < Model.SubQuestions.Count; i++)
-                {
-                    var item = Model.SubQuestions[i];
-                    <tr>
-                        <td width="5%;">
-                            @((i+1).ToString())
-                        </td>
-                        <td width="70%;">
-                            <div class="form-group">
-                                <input asp-for="@Model.SubQuestions[i].ParentId" class="form-control" style="resize:vertical;" type="hidden" />
-                                <input asp-for="@Model.SubQuestions[i].QuestionId" class="form-control" style="resize:vertical;" type="hidden" />
-                                <input asp-for="@Model.SubQuestions[i].Title" class="form-control" style="resize:vertical;" />
-                            </div>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-
-        <div class="form-group">
-            <input type="submit" value="Update" class="btn btn-success" />
-        </div>
-    </form>
+    <a class="btn btn-success" asp-page="./Details" asp-route-id="@Model.Question.AccreditationStandartId">Back to Questions</a>
 </div>
-<div>
-    <a asp-page="./Details" asp-route-id="@Model.Question.AccreditationStandartId">Back to List</a>
-</div>
-
-

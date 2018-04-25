@@ -4,16 +4,17 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using WebApp.Models;
 
 namespace WebApp.Pages.Questions
 {
-    public class DeleteModel : PageModel
+    public class EditSubQuestion : PageModel
     {
         private readonly WebApp.Models.AACCContext _context;
 
-        public DeleteModel(WebApp.Models.AACCContext context)
+        public EditSubQuestion(WebApp.Models.AACCContext context)
         {
             _context = context;
         }
@@ -39,20 +40,35 @@ namespace WebApp.Pages.Questions
 
         public async Task<IActionResult> OnPostAsync(int? id)
         {
-            if (id == null)
+            if (!ModelState.IsValid)
             {
-                return NotFound();
+                return Page();
             }
 
-            Question = await _context.Questions.Include(q => q.QuestionReplies).SingleOrDefaultAsync(q => q.QuestionId == id);
+            _context.Attach(Question).State = EntityState.Modified;
 
-            if (Question != null)
+            try
             {
-                _context.Questions.Remove(Question);
                 await _context.SaveChangesAsync();
             }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!QuestionExists(Question.QuestionId))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
 
-            return RedirectToPage("./Details", new { id = Question.AccreditationStandartId });
+            return RedirectToPage("SubQuestions", new { id = Question.ParentId });
+        }
+
+        private bool QuestionExists(int id)
+        {
+            return _context.Questions.Any(e => e.QuestionId == id);
         }
     }
 }

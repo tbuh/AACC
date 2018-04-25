@@ -9,11 +9,11 @@ using WebApp.Models;
 
 namespace WebApp.Pages.Questions
 {
-    public class DeleteModel : PageModel
+    public class DeleteSubQuestion : PageModel
     {
         private readonly WebApp.Models.AACCContext _context;
 
-        public DeleteModel(WebApp.Models.AACCContext context)
+        public DeleteSubQuestion(WebApp.Models.AACCContext context)
         {
             _context = context;
         }
@@ -52,7 +52,7 @@ namespace WebApp.Pages.Questions
                 await _context.SaveChangesAsync();
             }
 
-            return RedirectToPage("./Details", new { id = Question.AccreditationStandartId });
+            return RedirectToPage("SubQuestions", new { id = Question.ParentId });
         }
     }
 }
