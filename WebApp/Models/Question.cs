@@ -24,6 +24,7 @@ namespace WebApp.Models
         [JsonIgnore]
         public ICollection<Question> Questions { get; set; }
         [ForeignKey("QuestionId")]
+        [JsonIgnore]
         public ICollection<QuestionReply> QuestionReplies { get; set; }
     }
 
