@@ -188,17 +188,56 @@
                 @for (int j = 0; j < questions.Count; j++)
                 {
                     var q = questions.ToList()[j];
+
                     <h3>
-                        @string.Format("{0}.{1} {2}", i + 1, j + 1, q.Title)
+                        @($"{i + 1}.{j + 1} {q.Title}")
                     </h3>
                     <h3><i>Team’s findings</i></h3>
-                    <div>
-                        @Model.GetNotes(q)
-                    </div>
+                    if (q.Questions.Count == 0)
+                    {
+                        <div>
+                            @Model.GetNotes(q)
+                        </div>
+                    }
+                    else
+                    {
+                        for (int k = 0; k < q.Questions.Count; k++)
+                        {
+                            var subQ = q.Questions.ToList()[k];
+                            var qr = Model.GetReply(subQ);
+                            <h4>
+                                @($"{i + 1}.{j + 1}.{k + 1} {subQ.Title}")
+                            </h4>
+                            <div>
+                                @Model.GetNotes(subQ)
+                            </div>
+                            if (qr?.ReportImage?.Length != null)
+                            {
+                                var imId = $"output{qr.QuestionReplyId}";
+                                <div>
+                                    <img style="height: 100px;" id="@imId" src="data:image/jpeg;base64,@(Convert.ToBase64String(qr.ReportImage))" />
+                                </div>
+                            }
+                        }
+                    }
                 }
             }
 
         </div>
     </page>
+    <script>
+
+        var loadFile = function (event, id) {
+            var output = document.getElementById(id);
+            output.src = URL.createObjectURL(event.target.files[0]);
+
+        };
+
+        var loadFile2 = function (file, id) {
+            var output = document.getElementById(id);
+            output.src = URL.createObjectURL(file);
+
+        };
+    </script>
 </body>
 </html>

@@ -28,8 +28,27 @@ namespace WebApp.Pages.Reports
         public string GetAnswer(Question q)
         {
             if (Report.QuestionReply == null) return "";
-            var reply = Report.QuestionReply.FirstOrDefault(r => r.QuestionId == q.QuestionId);
-            return reply != null && reply.Response ? "Met" : "";
+            if (!q.ParentId.HasValue)
+            {
+                var reply = Report.QuestionReply.FirstOrDefault(r => r.QuestionId == q.QuestionId);
+                if (reply != null)
+                    return reply.Response ? "Met" : "";
+                else
+                {
+                    int cnt = 0;
+                    foreach (var subQ in q.Questions)
+                    {
+                        reply = Report.QuestionReply.FirstOrDefault(r => r.QuestionId == subQ.QuestionId);
+                        if (reply.Response) cnt++;
+                    }
+                    return q.Questions.Count == cnt ? "Met" : "";
+                }
+            }
+            else
+            {
+                var reply = Report.QuestionReply.FirstOrDefault(r => r.QuestionId == q.QuestionId);
+                return reply != null && reply.Response ? "Met" : "";
+            }
         }
 
         public string GetNotes(Question q)
@@ -37,6 +56,12 @@ namespace WebApp.Pages.Reports
             if (Report.QuestionReply == null) return "";
             var reply = Report.QuestionReply.FirstOrDefault(r => r.QuestionId == q.QuestionId);
             return reply != null ? reply.Notes : "";
+        }
+
+        public QuestionReply GetReply(Question q)
+        {
+            if (Report.QuestionReply == null) return null;
+            return Report.QuestionReply.FirstOrDefault(r => r.QuestionId == q.QuestionId);
         }
 
         public async Task<IActionResult> OnGet(int id)
@@ -55,7 +80,7 @@ namespace WebApp.Pages.Reports
 
             AgedCareCenter = await _context.AgedCareCenters.SingleAsync(a => a.AgedCareCenterId == Report.AgedCareCenterId);
             Assessor = await _context.Assessors.SingleAsync(a => a.AssessorId == Report.AssessorId);
-            AccreditationStandartList = await _context.AccreditationStandarts.Include(acs => acs.Questions).OrderBy(acs => acs.StandartType).ToListAsync();
+            AccreditationStandartList = await _context.AccreditationStandarts.Include(acs => acs.Questions).ThenInclude(q => q.Questions).OrderBy(acs => acs.StandartType).ToListAsync();
 
             return Page();
         }

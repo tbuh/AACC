@@ -19,7 +19,6 @@ namespace WebApp.Models
         [JsonIgnore]
         public Question Parent { get; set; }
 
-        public string SubQuestions { get; set; }
         [ForeignKey("ParentId")]
         [JsonIgnore]
         public ICollection<Question> Questions { get; set; }
